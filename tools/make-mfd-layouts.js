@@ -1,7 +1,7 @@
 // Builds layouts/mfd-left.json and layouts/mfd-right.json from the HUD layout: one tablet
 // per MFD. The left half opens on that screen's own panel, laid out like the screen in the
 // cockpit: its switch column on the side the game puts it, the pages where the display is,
-// the four-way moves under them and the page arrows (« ») in the bottom corners. The HUD's
+// the four-way moves under them, and the half's bottom arrows paging the game's screen (« »). The HUD's
 // left panels follow; the right half is the HUD's.
 //
 //   node tools/make-mfd-layouts.js      (after editing layouts/hud.json)
@@ -94,10 +94,14 @@ function mfdLayout(side) {
     // Moves as a cross under the display, the page arrows in its bottom corners as in the game.
     move("up", "chev-up", [x0 + 2, 4]), move("left", "chev-left", [x0 + 1, 5]),
     move("right", "chev-right", [x0 + 3, 5]), move("down", "chev-down", [x0 + 2, 6]),
-    onScreen("tab-back", "Prev tab", "chev-left", { keys: "lalt+q", scAction: "v_mfd_interact_cycle_backwards_short" }, { span: [1, 1], labels: "hide", at: [x0, 7] }),
-    onScreen("tab-fwd", "Next tab", "chev-right", { keys: "lalt+e", scAction: "v_mfd_interact_cycle_forwards_short" }, { span: [1, 1], labels: "hide", at: [x0 + 4, 7] }),
   ];
-  const panels = { [tag]: { title: side === "left" ? "Left MFD" : "Right MFD", cols: 6, elements } };
+  // The page arrows (« ») are the half's own bottom arrows on this panel, in the same corners
+  // as on the game's screen; the deck's panels still page with a two-finger swipe.
+  const pager = {
+    prev: onScreen("tab-back", "Prev tab", "chev-left", { keys: "lalt+q", scAction: "v_mfd_interact_cycle_backwards_short" }),
+    next: onScreen("tab-fwd", "Next tab", "chev-right", { keys: "lalt+e", scAction: "v_mfd_interact_cycle_forwards_short" }),
+  };
+  const panels = { [tag]: { title: side === "left" ? "Left MFD" : "Right MFD", cols: 6, elements, pager } };
   for (const [id, panel] of Object.entries(hud.panels)) if (id !== "mfd") panels[id] = panel;
   return {
     name: side === "left" ? "Left MFD" : "Right MFD",

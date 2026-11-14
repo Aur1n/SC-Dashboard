@@ -338,6 +338,8 @@ Button fields:
 | `whenOn` | `{ "keys": "u", "scAction": "v_power_toggle" }`: pressed instead of `keys` while the button's `state` group is on (Flight Ready, once lit, powers the ship down) |
 | `state` | makes the button light up while something is on: `{ "group": "doors" }` flips the group on each press, `"set": true` / `false` turns it on or off (Open/Close Doors), `"on"` / `"off"` replace the words shown while lit or not (default `ON` / `OFF`), and `"with": { "on": { "shield-power": true }, "off": {...} }` sets other groups once this one turns on or off (PWR takes weapons and shields with it). Buttons in the same group share the state; the server keeps it (see "Lit buttons" in the README) |
 
+A panel's `pager`: `{ "prev": {button}, "next": {button} }` makes its half's bottom arrows press those buttons instead of paging the deck (an MFD panel's « » page the game's screen); two-finger swipes still page.
+
 Key names: `a`-`z`, `0`-`9`, `f1`-`f24`, `np_0`-`np_9`, `np_period`, `np_add`,
 `np_subtract`, `np_multiply`, `np_divide`, `np_enter`, `lalt`, `ralt`, `lctrl`,
 `rctrl`, `lshift`, `rshift`, `space`, `tab`, `enter`, `escape`, `backspace`,

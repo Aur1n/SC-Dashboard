@@ -1049,8 +1049,17 @@
          <button type="button" class="hud-btn s-pg next" aria-label="${tr("Next panel")}">${D.deckIcon("chev-right")}</button>`);
       text(pager, ".title span", panel.title || "");
       pager.querySelector(".dots").innerHTML = ids.map((_, i) => `<i class="${i === idx ? "on" : ""}"></i>`).join("");
-      pager.querySelector(".prev").onclick = () => page(region.id, -1);
-      pager.querySelector(".next").onclick = () => page(region.id, 1);
+      // A panel's own "pager": { prev, next } buttons take the arrows over, so an MFD panel's
+      // bottom corners page the game's screen (« ») as in the cockpit. Swipes still page the deck.
+      const keys = panel.pager && typeof panel.pager === "object" ? panel.pager : null;
+      for (const [cls2, d] of [["prev", -1], ["next", 1]]) {
+        const arrow = pager.querySelector(`.${cls2}`), btn = keys && keys[cls2];
+        if (btn && typeof btn.id === "string") {
+          arrow.setAttribute("aria-label", tr(btn.label || ""));
+          arrow.classList.add("sends-keys");
+          arrow.onclick = () => D.tapStep(btn);
+        } else arrow.onclick = () => page(region.id, d);
+      }
       if (toggle) {
         const one = f.mode === "halves";
         const b = make("button", "hud-btn s-pg mode", D.deckIcon(one ? "view-one" : "view-two"));

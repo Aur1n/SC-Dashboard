@@ -626,8 +626,10 @@
             2,
             6
           ]
-        },
-        {
+        }
+      ],
+      "pager": {
+        "prev": {
           "type": "button",
           "id": "left-mfd-tab-back",
           "icon": "chev-left",
@@ -642,17 +644,9 @@
             }
           ],
           "mode": "tap",
-          "labels": "hide",
-          "span": [
-            1,
-            1
-          ],
-          "at": [
-            0,
-            7
-          ]
+          "labels": "show"
         },
-        {
+        "next": {
           "type": "button",
           "id": "left-mfd-tab-fwd",
           "icon": "chev-right",
@@ -667,17 +661,9 @@
             }
           ],
           "mode": "tap",
-          "labels": "hide",
-          "span": [
-            1,
-            1
-          ],
-          "at": [
-            4,
-            7
-          ]
+          "labels": "show"
         }
-      ]
+      }
     },
     "power-landing": {
       "title": "Power/Landing",

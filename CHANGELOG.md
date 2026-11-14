@@ -5,6 +5,13 @@ section becomes the notes of its
 [GitHub release](https://github.com/xattribution/SpoolUp/releases), so add one
 before tagging a release.
 
+## 2.2.1-hu.13 (2026-11-14)
+
+- **Az MFD-panelen az alsó sáv két nyila a játék MFD-jét lapozza** (« »), mint a
+  pilótafülkében, a „Bal MFD" / „Jobb MFD" felirat két oldalán. A tablet
+  paneljei között két ujjal oldalra húzva lehet lapozni; a többi panelen az
+  alsó nyilak a megszokott módon a tablet paneljeit váltják.
+
 ## 2.2.1-hu.12 (2026-11-14)
 
 - **Az MFD-panel úgy néz ki, mint a játékban.** A kapcsolósor azon az oldalon
