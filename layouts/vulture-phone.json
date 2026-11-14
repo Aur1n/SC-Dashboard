@@ -3778,6 +3778,48 @@
           "labels": "show"
         },
         {
+          "type": "button",
+          "id": "mfd1-tab-back",
+          "icon": "chev-left",
+          "label": "◀ Tab",
+          "voice": false,
+          "keys": "rctrl+1",
+          "scAction": "v_mfd_soft_select_mfd_1_short",
+          "then": [
+            {
+              "keys": "lalt+q",
+              "scAction": "v_mfd_interact_cycle_backwards_short"
+            }
+          ],
+          "mode": "tap",
+          "span": [
+            3,
+            1
+          ],
+          "labels": "show"
+        },
+        {
+          "type": "button",
+          "id": "mfd1-tab-fwd",
+          "icon": "chev-right",
+          "label": "Tab ▶",
+          "voice": false,
+          "keys": "rctrl+1",
+          "scAction": "v_mfd_soft_select_mfd_1_short",
+          "then": [
+            {
+              "keys": "lalt+e",
+              "scAction": "v_mfd_interact_cycle_forwards_short"
+            }
+          ],
+          "mode": "tap",
+          "span": [
+            3,
+            1
+          ],
+          "labels": "show"
+        },
+        {
           "type": "header",
           "text": "Right MFD",
           "id": "mfd-head-2"
@@ -3849,18 +3891,19 @@
           "labels": "show"
         },
         {
-          "type": "header",
-          "text": "MFD",
-          "id": "mfd-head-3"
-        },
-        {
           "type": "button",
-          "id": "mfd-page-back",
+          "id": "mfd2-tab-back",
           "icon": "chev-left",
-          "label": "MFD ◀",
+          "label": "◀ Tab",
           "voice": false,
-          "keys": "lalt+q",
-          "scAction": "v_mfd_interact_cycle_backwards_short",
+          "keys": "rctrl+2",
+          "scAction": "v_mfd_soft_select_mfd_2_short",
+          "then": [
+            {
+              "keys": "lalt+q",
+              "scAction": "v_mfd_interact_cycle_backwards_short"
+            }
+          ],
           "mode": "tap",
           "span": [
             3,
@@ -3870,12 +3913,18 @@
         },
         {
           "type": "button",
-          "id": "mfd-page-fwd",
+          "id": "mfd2-tab-fwd",
           "icon": "chev-right",
-          "label": "MFD ▶",
+          "label": "Tab ▶",
           "voice": false,
-          "keys": "lalt+e",
-          "scAction": "v_mfd_interact_cycle_forwards_short",
+          "keys": "rctrl+2",
+          "scAction": "v_mfd_soft_select_mfd_2_short",
+          "then": [
+            {
+              "keys": "lalt+e",
+              "scAction": "v_mfd_interact_cycle_forwards_short"
+            }
+          ],
           "mode": "tap",
           "span": [
             3,
