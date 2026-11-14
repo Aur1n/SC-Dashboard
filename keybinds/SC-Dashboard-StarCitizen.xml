@@ -376,9 +376,6 @@
   <action name="v_mfd_select_view_diagnostics_short">
    <rebind input="kb1_rctrl+0"/>
   </action>
-  <action name="v_mfd_select_view_ifcs_short">
-   <rebind input="kb1_rctrl+period"/>
-  </action>
   <action name="v_mfd_select_view_resource_network_short">
    <rebind input="kb1_rctrl+3"/>
   </action>

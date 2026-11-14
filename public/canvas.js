@@ -1049,15 +1049,21 @@
          <button type="button" class="hud-btn s-pg next" aria-label="${tr("Next panel")}">${D.deckIcon("chev-right")}</button>`);
       text(pager, ".title span", panel.title || "");
       pager.querySelector(".dots").innerHTML = ids.map((_, i) => `<i class="${i === idx ? "on" : ""}"></i>`).join("");
-      // A panel's own "pager": { prev, next } buttons take the arrows over, so an MFD panel's
-      // bottom corners page the game's screen (« ») as in the cockpit. Swipes still page the deck.
+      // A panel's own "pager": { prev, next } buttons make the arrows page the game too: the
+      // half moves to the next panel and the game's screen follows, with that panel's "enter"
+      // button when it has one (a direct page select, which can't drift), else prev / next
+      // (« »). An MFD's pages on the tablet thus stay the pages on the screen in the cockpit.
       const keys = panel.pager && typeof panel.pager === "object" ? panel.pager : null;
       for (const [cls2, d] of [["prev", -1], ["next", 1]]) {
         const arrow = pager.querySelector(`.${cls2}`), btn = keys && keys[cls2];
         if (btn && typeof btn.id === "string") {
-          arrow.setAttribute("aria-label", tr(btn.label || ""));
           arrow.classList.add("sends-keys");
-          arrow.onclick = () => D.tapStep(btn);
+          arrow.onclick = () => {
+            const to = layout.panels[ids[(idx + d + ids.length) % ids.length]];
+            const enter = to && to.enter && typeof to.enter.id === "string" ? to.enter : null;
+            if (!D.tapStep(enter || btn)) return;
+            if (ids.length > 1) page(region.id, d);
+          };
         } else arrow.onclick = () => page(region.id, d);
       }
       if (toggle) {

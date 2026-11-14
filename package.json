@@ -1,6 +1,6 @@
 {
   "name": "sc-dashboard",
-  "version": "2.2.1-hu.14",
+  "version": "2.2.1-hu.15",
   "private": true,
   "description": "Magyar nyelvű érintőképernyős műszerfal Star Citizenhez tableten vagy telefonon. A SpoolUp forkja. Rajongói projekt, nem a Cloud Imperium Games terméke.",
   "license": "MIT",

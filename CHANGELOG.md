@@ -5,6 +5,19 @@ section becomes the notes of its
 [GitHub release](https://github.com/xattribution/SpoolUp/releases), so add one
 before tagging a release.
 
+## 2.2.1-hu.15 (2026-11-14)
+
+- **A tablet bal fele az MFD oldalanként, a játékkal együtt lapozva.** A Bal
+  MFD és a Jobb MFD elrendezésben a bal fél a játék oldalait mutatja a játék
+  sorrendjében: Power management, Weapon config, Shields, Self status, Target
+  status, Communications, Configuration, Diagnostics, Scanning. Az alsó
+  nyilakkal lapozva a tablet és a játék MFD-je együtt lép. Ahol a játéknak van
+  közvetlen oldalváltója, oda közvetlenül vált (így nem csúszhat el), a Weapon
+  configra és a Shieldsre « / » lép.
+- Minden oldalon: a kapcsolósor a játékbeli oldalon, mellette a lépkedés, a
+  kiválasztás és a javítás, középen az adott oldal gombjai.
+- A megszokott panelek a jobb félen vannak.
+
 ## 2.2.1-hu.14 (2026-11-14)
 
 - **A bal fél csak az MFD.** A Bal MFD és a Jobb MFD elrendezésben a bal félen
