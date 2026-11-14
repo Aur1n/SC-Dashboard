@@ -485,7 +485,7 @@ Stream Deck keys and scenes that use it.
 `android/` and `ios/` are thin native apps around the same deck: they find the
 PC (`discovery.js`), take its QR code or address (home network addresses),
 keep the screen on and add haptics. The deck talks to them through
-`window.SC-DashboardApp`, which exists inside an app:
+`window.SpoolUpApp`, which exists inside an app:
 
 | call | does |
 |---|---|

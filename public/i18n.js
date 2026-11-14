@@ -998,8 +998,9 @@
     let out = text;
     if (lang !== "en" && typeof text === "string") {
       const row = T[text];
-      if (row) out = row[COLUMN[lang]];
-      else if (text.endsWith(" (iPhone)") && T[text.slice(0, -9)]) out = `${T[text.slice(0, -9)][COLUMN[lang]]} (iPhone)`;
+      // A language with no text for this entry (the Hungarian table is partial) shows English.
+      if (row) out = row[COLUMN[lang]] || text;
+      else if (text.endsWith(" (iPhone)") && T[text.slice(0, -9)]) out = `${T[text.slice(0, -9)][COLUMN[lang]] || text.slice(0, -9)} (iPhone)`;
     }
     return args.length ? String(out).replace("{0}", args[0]) : out;
   }

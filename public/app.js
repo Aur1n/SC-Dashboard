@@ -836,11 +836,11 @@
     }
   }
 
-  // Inside the SC-Dashboard iPhone/iPad and Android apps, window.SC-DashboardApp plays the device's own
+  // Inside the SpoolUp iPhone/iPad and Android apps, window.SpoolUpApp plays the device's own
   // haptics (iOS Safari has no navigator.vibrate). The browser deck never has it.
   const appHaptic = (ms) => (Array.isArray(ms) ? (ms[0] >= 30 ? "error" : "press") : ms >= 30 ? "press" : "tap");
   const buzz = (ms = 12) => {
-    const app = window.SC-DashboardApp;
+    const app = window.SpoolUpApp;
     if (app && typeof app.haptic === "function") { try { app.haptic(appHaptic(ms)); } catch {} return; }
     if (navigator.vibrate) navigator.vibrate(ms);
   };
@@ -1249,13 +1249,13 @@
   }
   $("fs").onclick = toggleFullscreen;
   // Inside the SpoolUp apps, Deck settings gets the way back to the app's list of PCs.
-  if (window.SC-DashboardApp && typeof window.SC-DashboardApp.switchPC === "function") {
+  if (window.SpoolUpApp && typeof window.SpoolUpApp.switchPC === "function") {
     const back = document.createElement("button");
     back.id = "switchPcBtn";
     back.type = "button";
     back.className = "sheet-action";
     back.innerHTML = `<span class="sw-text"><b>Switch PC</b><span>Leaves the deck for the app's list of PCs.</span></span>`;
-    back.onclick = () => window.SC-DashboardApp.switchPC();
+    back.onclick = () => window.SpoolUpApp.switchPC();
     $("langPick").after(back);
   }
 

@@ -5,6 +5,15 @@ section becomes the notes of its
 [GitHub release](https://github.com/xattribution/SpoolUp/releases), so add one
 before tagging a release.
 
+## 2.2.1-hu.3 (2026-11-14)
+
+- **Javítva: a deck nem kapcsolódott a hu.2-ben.** Az átnevezés a SpoolUp
+  mobilappjának hídját (`window.SpoolUpApp`) is átírta, amin a deck betöltése
+  elhasalt, és a tablet (és a PC böngészője is) „connecting"-ben ragadt. A híd
+  neve visszaállt, mert az a SpoolUp appok része, nem a miénk.
+- **Javítva: „undefined" a nyitóképernyőn.** Ha egy szövegnek nincs magyar
+  fordítása (a játékosok szlengje szándékosan angol), az angol marad, nem üres.
+- A nyitóképernyő címe is SC-Dashboard (eddig a HTML-ben „Tablet Deck" maradt).
 ## 2.2.1-hu.2 (2026-11-14)
 
 - **Új név: SC-Dashboard.** A telepítő (`SC-Dashboard-Setup-<verzió>.exe`), a
