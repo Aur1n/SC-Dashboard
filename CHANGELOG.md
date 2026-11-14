@@ -5,6 +5,17 @@ section becomes the notes of its
 [GitHub release](https://github.com/xattribution/SpoolUp/releases), so add one
 before tagging a release.
 
+## 2.2.1-hu.16 (2026-11-14)
+
+- **A tablet magától újratölt, ha új verzió fut a gépen.** Nem kell kézzel
+  frissíteni a böngészőt telepítés után.
+- **Angol feliratok az MFD-oldalakon**, ahogy a játékban (nincs fordítás).
+- **Power management az eredeti csúszkákkal:** Weapons, Thrusters, Shields
+  fel-le húzással, max és min gombokkal, plusz Coolers csúszka. A Life Support
+  és a Quantum Drive állapotjelző: a Life Support a Flight Readyvel, a Quantum
+  Drive a jobb oldali Quantum móddal gyullad ki.
+- A Scanning oldalon kísérleti Radar on/off gomb (jobb Ctrl+/).
+
 ## 2.2.1-hu.15 (2026-11-14)
 
 - **A tablet bal fele az MFD oldalanként, a játékkal együtt lapozva.** A Bal

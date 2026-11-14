@@ -203,6 +203,7 @@ const ACTIONMAPS = {
   // MFD switch columns (layouts/mfd-*.json).
   v_lock_rotation: ["spaceship_movement"],
   v_ifcs_proximity_assist_toggle: ["spaceship_movement"],
+  v_radar_toggle_onoff: ["spaceship_radar"],
   v_toggle_quantum_mode: ["seat_general"],
   v_power_set_on: ["spaceship_power"], v_power_set_off: ["spaceship_power"],
   v_power_set_weapons_on: ["spaceship_power"], v_power_set_weapons_off: ["spaceship_power"],
@@ -313,6 +314,10 @@ const contextOf = (map) => CONTEXTS[map] || "global";
 // The list leaves out the menu map "default", so actions only there are taken on trust.
 const GAME = JSON.parse(fs.readFileSync(path.join(ROOT, "data", "sc-actions-4.10.json"), "utf8"));
 const NOT_IN_GAME_LIST = new Set(["default"]);
+// Actions missing from the 4.10 list but still in the game's own blank layout
+// (Data/Libs/Config/Mappings/layout_all_blank.xml), bound to find out in-game whether they
+// still work. Drop each once it's known.
+const ON_TRIAL = new Set(["v_radar_toggle_onoff"]);
 
 // Star Citizen keyboard key names (the same names server.js sends).
 const KEY_NAMES = new Set([
@@ -408,6 +413,7 @@ function checkAgainstGame(binds) {
   for (const action of Object.keys(ACTIONMAPS).sort()) {
     const maps = ACTIONMAPS[action];
     if (!byName[action]) {
+      if (ON_TRIAL.has(action)) { warnings.push(`${action}: not in the ${GAME.game} list, bound on trial (see ON_TRIAL)`); continue; }
       if (!maps.every((m) => NOT_IN_GAME_LIST.has(m))) errors.push(`${action}: not a Star Citizen ${GAME.game} action (data/sc-actions-${GAME.game}.json)`);
       continue;
     }

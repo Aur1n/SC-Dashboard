@@ -145,7 +145,7 @@
   ],
   "panels": {
     "right-mfd-1": {
-      "title": "Power management",
+      "title": "POWER MANAGEMENT",
       "cols": 6,
       "elements": [
         {
@@ -301,7 +301,7 @@
           "type": "button",
           "id": "right-mfd-1-move-up",
           "icon": "chev-up",
-          "label": "Up",
+          "label": "UP",
           "voice": false,
           "keys": "rctrl+2",
           "scAction": "v_mfd_soft_select_mfd_2_short",
@@ -326,7 +326,7 @@
           "type": "button",
           "id": "right-mfd-1-move-left",
           "icon": "chev-left",
-          "label": "Left",
+          "label": "LEFT",
           "voice": false,
           "keys": "rctrl+2",
           "scAction": "v_mfd_soft_select_mfd_2_short",
@@ -351,7 +351,7 @@
           "type": "button",
           "id": "right-mfd-1-move-right",
           "icon": "chev-right",
-          "label": "Right",
+          "label": "RIGHT",
           "voice": false,
           "keys": "rctrl+2",
           "scAction": "v_mfd_soft_select_mfd_2_short",
@@ -376,7 +376,7 @@
           "type": "button",
           "id": "right-mfd-1-move-down",
           "icon": "chev-down",
-          "label": "Down",
+          "label": "DOWN",
           "voice": false,
           "keys": "rctrl+2",
           "scAction": "v_mfd_soft_select_mfd_2_short",
@@ -401,7 +401,7 @@
           "type": "button",
           "id": "right-mfd-1-select",
           "icon": "target",
-          "label": "Select",
+          "label": "SELECT",
           "voice": false,
           "keys": "rctrl+2",
           "scAction": "v_mfd_soft_select_mfd_2_short",
@@ -421,7 +421,7 @@
           "type": "button",
           "id": "right-mfd-1-repair",
           "icon": "power-reset",
-          "label": "Repair",
+          "label": "REPAIR",
           "voice": false,
           "keys": "rctrl+2",
           "scAction": "v_mfd_soft_select_mfd_2_short",
@@ -444,199 +444,361 @@
           ]
         },
         {
-          "type": "button",
-          "id": "right-mfd-1-1",
-          "icon": "power",
-          "label": "Power on",
-          "voice": false,
-          "keys": "rctrl+c",
-          "scAction": "v_power_set_on",
-          "mode": "tap",
-          "labels": "show",
-          "color": "green",
-          "state": {
-            "group": "power",
-            "set": true,
-            "with": {
-              "on": {
-                "weapons-power": true,
-                "shield-power": true,
-                "thruster-power": true
-              }
-            }
-          },
+          "type": "group",
+          "id": "right-mfd-1-power",
+          "cols": 8,
           "span": [
-            2,
-            1
+            4,
+            6
+          ],
+          "elements": [
+            {
+              "type": "button",
+              "style": "chev",
+              "icon": "chev-max",
+              "id": "right-mfd-1-pw-wep-max",
+              "label": "MAX WEAPONS",
+              "keys": "f5",
+              "scAction": "v_engineering_assignment_weapons_max",
+              "mode": "timed",
+              "ms": 900,
+              "color": "red",
+              "at": [
+                0,
+                0
+              ],
+              "span": [
+                2,
+                1
+              ]
+            },
+            {
+              "type": "button",
+              "style": "chev",
+              "icon": "chev-max",
+              "id": "right-mfd-1-pw-thr-max",
+              "label": "MAX THRUSTERS",
+              "keys": "f6",
+              "scAction": "v_engineering_assignment_engine_max",
+              "mode": "timed",
+              "ms": 900,
+              "color": "blue",
+              "at": [
+                2,
+                0
+              ],
+              "span": [
+                2,
+                1
+              ]
+            },
+            {
+              "type": "button",
+              "style": "chev",
+              "icon": "chev-max",
+              "id": "right-mfd-1-pw-shd-max",
+              "label": "MAX SHIELDS",
+              "keys": "f7",
+              "scAction": "v_engineering_assignment_shields_max",
+              "mode": "timed",
+              "ms": 900,
+              "color": "green",
+              "at": [
+                4,
+                0
+              ],
+              "span": [
+                2,
+                1
+              ]
+            },
+            {
+              "type": "button",
+              "id": "right-mfd-1-life",
+              "icon": "power",
+              "label": "LIFE SUPPORT",
+              "voice": false,
+              "labels": "show",
+              "state": {
+                "group": "life-support"
+              },
+              "at": [
+                6,
+                0
+              ],
+              "span": [
+                2,
+                1
+              ]
+            },
+            {
+              "type": "level",
+              "id": "right-mfd-1-pw-wep-level",
+              "label": "WEAPONS",
+              "icon": "power-weapons",
+              "color": "red",
+              "steps": 5,
+              "follows": {
+                "max": "right-mfd-1-pw-wep-max",
+                "min": "right-mfd-1-pw-wep-min",
+                "center": "right-mfd-1-pw-reset"
+              },
+              "up": {
+                "icon": "chev-up",
+                "id": "right-mfd-1-pw-wep-up",
+                "label": "WEAPONS +",
+                "keys": "f5",
+                "scAction": "v_engineering_assignment_weapons_increase",
+                "mode": "tap",
+                "color": "red"
+              },
+              "down": {
+                "icon": "chev-down",
+                "id": "right-mfd-1-pw-wep-down",
+                "label": "WEAPONS −",
+                "keys": "lalt+f5",
+                "scAction": "v_engineering_assignment_weapons_decrease",
+                "mode": "tap",
+                "color": "red"
+              },
+              "at": [
+                0,
+                1
+              ],
+              "span": [
+                2,
+                3
+              ]
+            },
+            {
+              "type": "level",
+              "id": "right-mfd-1-pw-thr-level",
+              "label": "THRUSTERS",
+              "icon": "power-engines",
+              "color": "blue",
+              "steps": 5,
+              "follows": {
+                "max": "right-mfd-1-pw-thr-max",
+                "min": "right-mfd-1-pw-thr-min",
+                "center": "right-mfd-1-pw-reset"
+              },
+              "up": {
+                "icon": "chev-up",
+                "id": "right-mfd-1-pw-thr-up",
+                "label": "THRUSTERS +",
+                "keys": "f6",
+                "scAction": "v_engineering_assignment_engine_increase",
+                "mode": "tap",
+                "color": "blue"
+              },
+              "down": {
+                "icon": "chev-down",
+                "id": "right-mfd-1-pw-thr-down",
+                "label": "THRUSTERS −",
+                "keys": "lalt+f6",
+                "scAction": "v_engineering_assignment_engine_decrease",
+                "mode": "tap",
+                "color": "blue"
+              },
+              "at": [
+                2,
+                1
+              ],
+              "span": [
+                2,
+                3
+              ]
+            },
+            {
+              "type": "level",
+              "id": "right-mfd-1-pw-shd-level",
+              "label": "SHIELDS",
+              "icon": "power-shields",
+              "color": "green",
+              "steps": 5,
+              "follows": {
+                "max": "right-mfd-1-pw-shd-max",
+                "min": "right-mfd-1-pw-shd-min",
+                "center": "right-mfd-1-pw-reset"
+              },
+              "up": {
+                "icon": "chev-up",
+                "id": "right-mfd-1-pw-shd-up",
+                "label": "SHIELDS +",
+                "keys": "f7",
+                "scAction": "v_engineering_assignment_shields_increase",
+                "mode": "tap",
+                "color": "green"
+              },
+              "down": {
+                "icon": "chev-down",
+                "id": "right-mfd-1-pw-shd-down",
+                "label": "SHIELDS −",
+                "keys": "lalt+f7",
+                "scAction": "v_engineering_assignment_shields_decrease",
+                "mode": "tap",
+                "color": "green"
+              },
+              "at": [
+                4,
+                1
+              ],
+              "span": [
+                2,
+                3
+              ]
+            },
+            {
+              "type": "level",
+              "id": "right-mfd-1-cool-level",
+              "label": "COOLERS",
+              "icon": "power-reset",
+              "color": "blue",
+              "steps": 5,
+              "at": [
+                6,
+                1
+              ],
+              "span": [
+                2,
+                3
+              ],
+              "up": {
+                "icon": "chev-up",
+                "id": "right-mfd-1-cool-up",
+                "label": "COOLERS +",
+                "keys": "rctrl+np_add",
+                "scAction": "v_cooler_throttle_up",
+                "mode": "tap",
+                "color": "blue"
+              },
+              "down": {
+                "icon": "chev-down",
+                "id": "right-mfd-1-cool-down",
+                "label": "COOLERS −",
+                "keys": "rctrl+np_subtract",
+                "scAction": "v_cooler_throttle_down",
+                "mode": "tap",
+                "color": "blue"
+              }
+            },
+            {
+              "type": "button",
+              "style": "chev",
+              "icon": "chev-min",
+              "id": "right-mfd-1-pw-wep-min",
+              "label": "MIN WEAPONS",
+              "keys": "lalt+f5",
+              "scAction": "v_engineering_assignment_weapons_min",
+              "mode": "timed",
+              "ms": 900,
+              "color": "red",
+              "at": [
+                0,
+                4
+              ],
+              "span": [
+                2,
+                1
+              ]
+            },
+            {
+              "type": "button",
+              "style": "chev",
+              "icon": "chev-min",
+              "id": "right-mfd-1-pw-thr-min",
+              "label": "MIN THRUSTERS",
+              "keys": "lalt+f6",
+              "scAction": "v_engineering_assignment_engine_min",
+              "mode": "timed",
+              "ms": 900,
+              "color": "blue",
+              "at": [
+                2,
+                4
+              ],
+              "span": [
+                2,
+                1
+              ]
+            },
+            {
+              "type": "button",
+              "style": "chev",
+              "icon": "chev-min",
+              "id": "right-mfd-1-pw-shd-min",
+              "label": "MIN SHIELDS",
+              "keys": "lalt+f7",
+              "scAction": "v_engineering_assignment_shields_min",
+              "mode": "timed",
+              "ms": 900,
+              "color": "green",
+              "at": [
+                4,
+                4
+              ],
+              "span": [
+                2,
+                1
+              ]
+            },
+            {
+              "type": "button",
+              "id": "right-mfd-1-quantum",
+              "icon": "quantum-mode",
+              "label": "QUANTUM DRIVE",
+              "voice": false,
+              "labels": "show",
+              "state": {
+                "group": "quantum-mode"
+              },
+              "at": [
+                6,
+                4
+              ],
+              "span": [
+                2,
+                1
+              ]
+            },
+            {
+              "type": "button",
+              "style": "wide",
+              "icon": "power-reset",
+              "id": "right-mfd-1-pw-reset",
+              "label": "RESET ALL",
+              "keys": "f8",
+              "scAction": "v_engineering_assignment_reset",
+              "mode": "tap",
+              "at": [
+                0,
+                5
+              ],
+              "span": [
+                4,
+                1
+              ]
+            },
+            {
+              "type": "recenter",
+              "id": "right-mfd-1-pw-center",
+              "label": "CENTER SLIDERS",
+              "at": [
+                4,
+                5
+              ],
+              "span": [
+                4,
+                1
+              ]
+            }
           ]
         },
         {
           "type": "button",
           "id": "right-mfd-1-2",
-          "icon": "power",
-          "label": "Power off",
-          "voice": false,
-          "keys": "rctrl+v",
-          "scAction": "v_power_set_off",
-          "mode": "tap",
-          "labels": "show",
-          "color": "red",
-          "state": {
-            "group": "power",
-            "set": false,
-            "with": {
-              "off": {
-                "weapons-power": false,
-                "shield-power": false,
-                "thruster-power": false
-              }
-            }
-          },
-          "span": [
-            2,
-            1
-          ]
-        },
-        {
-          "type": "button",
-          "id": "right-mfd-1-3",
-          "icon": "power-weapons",
-          "label": "Weapons on",
-          "voice": false,
-          "keys": "rctrl+r",
-          "scAction": "v_power_set_weapons_on",
-          "mode": "tap",
-          "labels": "show",
-          "color": "green",
-          "state": {
-            "group": "weapons-power",
-            "set": true
-          },
-          "span": [
-            2,
-            1
-          ]
-        },
-        {
-          "type": "button",
-          "id": "right-mfd-1-4",
-          "icon": "power-weapons",
-          "label": "Weapons off",
-          "voice": false,
-          "keys": "rctrl+home",
-          "scAction": "v_power_set_weapons_off",
-          "mode": "tap",
-          "labels": "show",
-          "color": "red",
-          "state": {
-            "group": "weapons-power",
-            "set": false
-          },
-          "span": [
-            2,
-            1
-          ]
-        },
-        {
-          "type": "button",
-          "id": "right-mfd-1-5",
-          "icon": "power-engines",
-          "label": "Thrusters on",
-          "voice": false,
-          "keys": "rctrl+insert",
-          "scAction": "v_power_set_thrusters_on",
-          "mode": "tap",
-          "labels": "show",
-          "color": "green",
-          "state": {
-            "group": "thruster-power",
-            "set": true
-          },
-          "span": [
-            2,
-            1
-          ]
-        },
-        {
-          "type": "button",
-          "id": "right-mfd-1-6",
-          "icon": "power-engines",
-          "label": "Thrusters off",
-          "voice": false,
-          "keys": "rctrl+delete",
-          "scAction": "v_power_set_thrusters_off",
-          "mode": "tap",
-          "labels": "show",
-          "color": "red",
-          "state": {
-            "group": "thruster-power",
-            "set": false
-          },
-          "span": [
-            2,
-            1
-          ]
-        },
-        {
-          "type": "button",
-          "id": "right-mfd-1-7",
-          "icon": "power-shields",
-          "label": "Shields on",
-          "voice": false,
-          "keys": "rctrl+pgdn",
-          "scAction": "v_power_set_shields_on",
-          "mode": "tap",
-          "labels": "show",
-          "color": "green",
-          "state": {
-            "group": "shield-power",
-            "set": true
-          },
-          "span": [
-            2,
-            1
-          ]
-        },
-        {
-          "type": "button",
-          "id": "right-mfd-1-8",
-          "icon": "power-shields",
-          "label": "Shields off",
-          "voice": false,
-          "keys": "rctrl+np_0",
-          "scAction": "v_power_set_shields_off",
-          "mode": "tap",
-          "labels": "show",
-          "color": "red",
-          "state": {
-            "group": "shield-power",
-            "set": false
-          },
-          "span": [
-            2,
-            1
-          ]
-        },
-        {
-          "type": "button",
-          "id": "right-mfd-1-9",
-          "icon": "power-up",
-          "label": "Power +",
-          "voice": false,
-          "keys": "f10",
-          "scAction": "v_power_throttle_up",
-          "mode": "tap",
-          "labels": "show",
-          "span": [
-            2,
-            1
-          ]
-        },
-        {
-          "type": "button",
-          "id": "right-mfd-1-10",
           "icon": "power-down",
-          "label": "Power −",
+          "label": "POWER −",
           "voice": false,
           "keys": "f9",
           "scAction": "v_power_throttle_down",
@@ -649,44 +811,12 @@
         },
         {
           "type": "button",
-          "id": "right-mfd-1-11",
-          "icon": "chev-up",
-          "label": "Cooler +",
+          "id": "right-mfd-1-3",
+          "icon": "power-up",
+          "label": "POWER +",
           "voice": false,
-          "keys": "rctrl+np_add",
-          "scAction": "v_cooler_throttle_up",
-          "mode": "tap",
-          "labels": "show",
-          "color": "blue",
-          "span": [
-            2,
-            1
-          ]
-        },
-        {
-          "type": "button",
-          "id": "right-mfd-1-12",
-          "icon": "chev-down",
-          "label": "Cooler −",
-          "voice": false,
-          "keys": "rctrl+np_subtract",
-          "scAction": "v_cooler_throttle_down",
-          "mode": "tap",
-          "labels": "show",
-          "color": "blue",
-          "span": [
-            2,
-            1
-          ]
-        },
-        {
-          "type": "button",
-          "id": "right-mfd-1-13",
-          "icon": "power-reset",
-          "label": "Reset All",
-          "voice": false,
-          "keys": "f8",
-          "scAction": "v_engineering_assignment_reset",
+          "keys": "f10",
+          "scAction": "v_power_throttle_up",
           "mode": "tap",
           "labels": "show",
           "span": [
@@ -700,7 +830,7 @@
           "type": "button",
           "id": "right-mfd-1-tab-back",
           "icon": "chev-left",
-          "label": "Prev tab",
+          "label": "PREV TAB",
           "voice": false,
           "keys": "rctrl+2",
           "scAction": "v_mfd_soft_select_mfd_2_short",
@@ -717,7 +847,7 @@
           "type": "button",
           "id": "right-mfd-1-tab-fwd",
           "icon": "chev-right",
-          "label": "Next tab",
+          "label": "NEXT TAB",
           "voice": false,
           "keys": "rctrl+2",
           "scAction": "v_mfd_soft_select_mfd_2_short",
@@ -735,7 +865,7 @@
         "type": "button",
         "id": "right-mfd-1-enter",
         "icon": "target",
-        "label": "Power management",
+        "label": "POWER MANAGEMENT",
         "voice": false,
         "keys": "rctrl+2",
         "scAction": "v_mfd_soft_select_mfd_2_short",
@@ -750,7 +880,7 @@
       }
     },
     "right-mfd-2": {
-      "title": "Weapon config",
+      "title": "WEAPON CONFIG",
       "cols": 6,
       "elements": [
         {
@@ -906,7 +1036,7 @@
           "type": "button",
           "id": "right-mfd-2-move-up",
           "icon": "chev-up",
-          "label": "Up",
+          "label": "UP",
           "voice": false,
           "keys": "rctrl+2",
           "scAction": "v_mfd_soft_select_mfd_2_short",
@@ -931,7 +1061,7 @@
           "type": "button",
           "id": "right-mfd-2-move-left",
           "icon": "chev-left",
-          "label": "Left",
+          "label": "LEFT",
           "voice": false,
           "keys": "rctrl+2",
           "scAction": "v_mfd_soft_select_mfd_2_short",
@@ -956,7 +1086,7 @@
           "type": "button",
           "id": "right-mfd-2-move-right",
           "icon": "chev-right",
-          "label": "Right",
+          "label": "RIGHT",
           "voice": false,
           "keys": "rctrl+2",
           "scAction": "v_mfd_soft_select_mfd_2_short",
@@ -981,7 +1111,7 @@
           "type": "button",
           "id": "right-mfd-2-move-down",
           "icon": "chev-down",
-          "label": "Down",
+          "label": "DOWN",
           "voice": false,
           "keys": "rctrl+2",
           "scAction": "v_mfd_soft_select_mfd_2_short",
@@ -1006,7 +1136,7 @@
           "type": "button",
           "id": "right-mfd-2-select",
           "icon": "target",
-          "label": "Select",
+          "label": "SELECT",
           "voice": false,
           "keys": "rctrl+2",
           "scAction": "v_mfd_soft_select_mfd_2_short",
@@ -1026,7 +1156,7 @@
           "type": "button",
           "id": "right-mfd-2-repair",
           "icon": "power-reset",
-          "label": "Repair",
+          "label": "REPAIR",
           "voice": false,
           "keys": "rctrl+2",
           "scAction": "v_mfd_soft_select_mfd_2_short",
@@ -1052,7 +1182,7 @@
           "type": "button",
           "id": "right-mfd-2-1",
           "icon": "power-weapons",
-          "label": "Guns",
+          "label": "GUNS",
           "voice": false,
           "keys": "ralt+b",
           "scAction": "v_set_guns_mode",
@@ -1068,7 +1198,7 @@
           "type": "button",
           "id": "right-mfd-2-2",
           "icon": "missile",
-          "label": "Missiles",
+          "label": "MISSILES",
           "voice": false,
           "keys": "ralt+t",
           "scAction": "v_set_missile_mode",
@@ -1084,7 +1214,7 @@
           "type": "button",
           "id": "right-mfd-2-3",
           "icon": "missile",
-          "label": "Launch Missile",
+          "label": "LAUNCH MISSILE",
           "voice": false,
           "keys": "ralt+backslash",
           "scAction": "v_weapon_launch_missile",
@@ -1101,7 +1231,7 @@
           "type": "button",
           "id": "right-mfd-2-4",
           "icon": "power-weapons",
-          "label": "Lead / Lag Pips",
+          "label": "LEAD / LAG PIPS",
           "voice": false,
           "keys": "lalt+np_7",
           "scAction": "v_weapon_pip_toggle_lead_lag",
@@ -1116,7 +1246,7 @@
           "type": "button",
           "id": "right-mfd-2-5",
           "icon": "missile-more",
-          "label": "More Missiles",
+          "label": "MORE MISSILES",
           "voice": false,
           "keys": "g",
           "scAction": "v_weapon_increase_max_missiles",
@@ -1131,7 +1261,7 @@
           "type": "button",
           "id": "right-mfd-2-6",
           "icon": "missile",
-          "label": "Fewer Missiles",
+          "label": "FEWER MISSILES",
           "voice": false,
           "keys": "ralt+minus",
           "scAction": "v_weapon_decrease_max_missiles",
@@ -1146,7 +1276,7 @@
           "type": "button",
           "id": "right-mfd-2-7",
           "icon": "chev-up",
-          "label": "Weapons +",
+          "label": "WEAPONS +",
           "voice": false,
           "keys": "f5",
           "scAction": "v_engineering_assignment_weapons_increase",
@@ -1162,7 +1292,7 @@
           "type": "button",
           "id": "right-mfd-2-8",
           "icon": "chev-down",
-          "label": "Weapons −",
+          "label": "WEAPONS −",
           "voice": false,
           "keys": "lalt+f5",
           "scAction": "v_engineering_assignment_weapons_decrease",
@@ -1180,7 +1310,7 @@
           "type": "button",
           "id": "right-mfd-2-tab-back",
           "icon": "chev-left",
-          "label": "Prev tab",
+          "label": "PREV TAB",
           "voice": false,
           "keys": "rctrl+2",
           "scAction": "v_mfd_soft_select_mfd_2_short",
@@ -1197,7 +1327,7 @@
           "type": "button",
           "id": "right-mfd-2-tab-fwd",
           "icon": "chev-right",
-          "label": "Next tab",
+          "label": "NEXT TAB",
           "voice": false,
           "keys": "rctrl+2",
           "scAction": "v_mfd_soft_select_mfd_2_short",
@@ -1213,7 +1343,7 @@
       }
     },
     "right-mfd-3": {
-      "title": "Shields",
+      "title": "SHIELDS",
       "cols": 6,
       "elements": [
         {
@@ -1369,7 +1499,7 @@
           "type": "button",
           "id": "right-mfd-3-move-up",
           "icon": "chev-up",
-          "label": "Up",
+          "label": "UP",
           "voice": false,
           "keys": "rctrl+2",
           "scAction": "v_mfd_soft_select_mfd_2_short",
@@ -1394,7 +1524,7 @@
           "type": "button",
           "id": "right-mfd-3-move-left",
           "icon": "chev-left",
-          "label": "Left",
+          "label": "LEFT",
           "voice": false,
           "keys": "rctrl+2",
           "scAction": "v_mfd_soft_select_mfd_2_short",
@@ -1419,7 +1549,7 @@
           "type": "button",
           "id": "right-mfd-3-move-right",
           "icon": "chev-right",
-          "label": "Right",
+          "label": "RIGHT",
           "voice": false,
           "keys": "rctrl+2",
           "scAction": "v_mfd_soft_select_mfd_2_short",
@@ -1444,7 +1574,7 @@
           "type": "button",
           "id": "right-mfd-3-move-down",
           "icon": "chev-down",
-          "label": "Down",
+          "label": "DOWN",
           "voice": false,
           "keys": "rctrl+2",
           "scAction": "v_mfd_soft_select_mfd_2_short",
@@ -1469,7 +1599,7 @@
           "type": "button",
           "id": "right-mfd-3-select",
           "icon": "target",
-          "label": "Select",
+          "label": "SELECT",
           "voice": false,
           "keys": "rctrl+2",
           "scAction": "v_mfd_soft_select_mfd_2_short",
@@ -1489,7 +1619,7 @@
           "type": "button",
           "id": "right-mfd-3-repair",
           "icon": "power-reset",
-          "label": "Repair",
+          "label": "REPAIR",
           "voice": false,
           "keys": "rctrl+2",
           "scAction": "v_mfd_soft_select_mfd_2_short",
@@ -1515,7 +1645,7 @@
           "type": "button",
           "id": "right-mfd-3-1",
           "icon": "power-shields",
-          "label": "Front",
+          "label": "FRONT",
           "voice": false,
           "keys": "ralt+np_8",
           "scAction": "v_shield_raise_level_forward",
@@ -1531,7 +1661,7 @@
           "type": "button",
           "id": "right-mfd-3-2",
           "icon": "chev-down",
-          "label": "Back",
+          "label": "BACK",
           "voice": false,
           "keys": "ralt+np_2",
           "scAction": "v_shield_raise_level_back",
@@ -1547,7 +1677,7 @@
           "type": "button",
           "id": "right-mfd-3-3",
           "icon": "chev-left",
-          "label": "Left",
+          "label": "LEFT",
           "voice": false,
           "keys": "ralt+np_4",
           "scAction": "v_shield_raise_level_left",
@@ -1563,7 +1693,7 @@
           "type": "button",
           "id": "right-mfd-3-4",
           "icon": "chev-right",
-          "label": "Right",
+          "label": "RIGHT",
           "voice": false,
           "keys": "ralt+np_6",
           "scAction": "v_shield_raise_level_right",
@@ -1579,7 +1709,7 @@
           "type": "button",
           "id": "right-mfd-3-5",
           "icon": "chev-up",
-          "label": "Top",
+          "label": "TOP",
           "voice": false,
           "keys": "ralt+np_subtract",
           "scAction": "v_shield_raise_level_up",
@@ -1595,7 +1725,7 @@
           "type": "button",
           "id": "right-mfd-3-6",
           "icon": "chev-down",
-          "label": "Bottom",
+          "label": "BOTTOM",
           "voice": false,
           "keys": "ralt+np_add",
           "scAction": "v_shield_raise_level_down",
@@ -1611,7 +1741,7 @@
           "type": "button",
           "id": "right-mfd-3-7",
           "icon": "power-reset",
-          "label": "Reset",
+          "label": "RESET",
           "voice": false,
           "keys": "ralt+np_5",
           "scAction": "v_shield_reset_level",
@@ -1626,7 +1756,7 @@
           "type": "button",
           "id": "right-mfd-3-8",
           "icon": "chev-up",
-          "label": "Shields +",
+          "label": "SHIELDS +",
           "voice": false,
           "keys": "f7",
           "scAction": "v_engineering_assignment_shields_increase",
@@ -1642,7 +1772,7 @@
           "type": "button",
           "id": "right-mfd-3-9",
           "icon": "chev-down",
-          "label": "Shields −",
+          "label": "SHIELDS −",
           "voice": false,
           "keys": "lalt+f7",
           "scAction": "v_engineering_assignment_shields_decrease",
@@ -1660,7 +1790,7 @@
           "type": "button",
           "id": "right-mfd-3-tab-back",
           "icon": "chev-left",
-          "label": "Prev tab",
+          "label": "PREV TAB",
           "voice": false,
           "keys": "rctrl+2",
           "scAction": "v_mfd_soft_select_mfd_2_short",
@@ -1677,7 +1807,7 @@
           "type": "button",
           "id": "right-mfd-3-tab-fwd",
           "icon": "chev-right",
-          "label": "Next tab",
+          "label": "NEXT TAB",
           "voice": false,
           "keys": "rctrl+2",
           "scAction": "v_mfd_soft_select_mfd_2_short",
@@ -1693,7 +1823,7 @@
       }
     },
     "right-mfd-4": {
-      "title": "Self status",
+      "title": "SELF STATUS",
       "cols": 6,
       "elements": [
         {
@@ -1849,7 +1979,7 @@
           "type": "button",
           "id": "right-mfd-4-move-up",
           "icon": "chev-up",
-          "label": "Up",
+          "label": "UP",
           "voice": false,
           "keys": "rctrl+2",
           "scAction": "v_mfd_soft_select_mfd_2_short",
@@ -1874,7 +2004,7 @@
           "type": "button",
           "id": "right-mfd-4-move-left",
           "icon": "chev-left",
-          "label": "Left",
+          "label": "LEFT",
           "voice": false,
           "keys": "rctrl+2",
           "scAction": "v_mfd_soft_select_mfd_2_short",
@@ -1899,7 +2029,7 @@
           "type": "button",
           "id": "right-mfd-4-move-right",
           "icon": "chev-right",
-          "label": "Right",
+          "label": "RIGHT",
           "voice": false,
           "keys": "rctrl+2",
           "scAction": "v_mfd_soft_select_mfd_2_short",
@@ -1924,7 +2054,7 @@
           "type": "button",
           "id": "right-mfd-4-move-down",
           "icon": "chev-down",
-          "label": "Down",
+          "label": "DOWN",
           "voice": false,
           "keys": "rctrl+2",
           "scAction": "v_mfd_soft_select_mfd_2_short",
@@ -1949,7 +2079,7 @@
           "type": "button",
           "id": "right-mfd-4-select",
           "icon": "target",
-          "label": "Select",
+          "label": "SELECT",
           "voice": false,
           "keys": "rctrl+2",
           "scAction": "v_mfd_soft_select_mfd_2_short",
@@ -1969,7 +2099,7 @@
           "type": "button",
           "id": "right-mfd-4-repair",
           "icon": "power-reset",
-          "label": "Repair",
+          "label": "REPAIR",
           "voice": false,
           "keys": "rctrl+2",
           "scAction": "v_mfd_soft_select_mfd_2_short",
@@ -1995,7 +2125,7 @@
           "type": "button",
           "id": "right-mfd-4-1",
           "icon": "decoy",
-          "label": "Decoy",
+          "label": "DECOY",
           "voice": false,
           "keys": "h",
           "scAction": "v_weapon_countermeasure_decoy_launch",
@@ -2011,7 +2141,7 @@
           "type": "button",
           "id": "right-mfd-4-2",
           "icon": "noise",
-          "label": "Noise",
+          "label": "NOISE",
           "voice": false,
           "keys": "j",
           "scAction": "v_weapon_countermeasure_noise_launch",
@@ -2027,7 +2157,7 @@
           "type": "button",
           "id": "right-mfd-4-3",
           "icon": "decoy",
-          "label": "Panic Decoys",
+          "label": "PANIC DECOYS",
           "voice": false,
           "keys": "rctrl+h",
           "scAction": "v_weapon_countermeasure_decoy_launch_panic",
@@ -2045,7 +2175,7 @@
           "type": "button",
           "id": "right-mfd-4-tab-back",
           "icon": "chev-left",
-          "label": "Prev tab",
+          "label": "PREV TAB",
           "voice": false,
           "keys": "rctrl+2",
           "scAction": "v_mfd_soft_select_mfd_2_short",
@@ -2062,7 +2192,7 @@
           "type": "button",
           "id": "right-mfd-4-tab-fwd",
           "icon": "chev-right",
-          "label": "Next tab",
+          "label": "NEXT TAB",
           "voice": false,
           "keys": "rctrl+2",
           "scAction": "v_mfd_soft_select_mfd_2_short",
@@ -2080,7 +2210,7 @@
         "type": "button",
         "id": "right-mfd-4-enter",
         "icon": "target",
-        "label": "Self status",
+        "label": "SELF STATUS",
         "voice": false,
         "keys": "rctrl+2",
         "scAction": "v_mfd_soft_select_mfd_2_short",
@@ -2095,7 +2225,7 @@
       }
     },
     "right-mfd-5": {
-      "title": "Target status",
+      "title": "TARGET STATUS",
       "cols": 6,
       "elements": [
         {
@@ -2251,7 +2381,7 @@
           "type": "button",
           "id": "right-mfd-5-move-up",
           "icon": "chev-up",
-          "label": "Up",
+          "label": "UP",
           "voice": false,
           "keys": "rctrl+2",
           "scAction": "v_mfd_soft_select_mfd_2_short",
@@ -2276,7 +2406,7 @@
           "type": "button",
           "id": "right-mfd-5-move-left",
           "icon": "chev-left",
-          "label": "Left",
+          "label": "LEFT",
           "voice": false,
           "keys": "rctrl+2",
           "scAction": "v_mfd_soft_select_mfd_2_short",
@@ -2301,7 +2431,7 @@
           "type": "button",
           "id": "right-mfd-5-move-right",
           "icon": "chev-right",
-          "label": "Right",
+          "label": "RIGHT",
           "voice": false,
           "keys": "rctrl+2",
           "scAction": "v_mfd_soft_select_mfd_2_short",
@@ -2326,7 +2456,7 @@
           "type": "button",
           "id": "right-mfd-5-move-down",
           "icon": "chev-down",
-          "label": "Down",
+          "label": "DOWN",
           "voice": false,
           "keys": "rctrl+2",
           "scAction": "v_mfd_soft_select_mfd_2_short",
@@ -2351,7 +2481,7 @@
           "type": "button",
           "id": "right-mfd-5-select",
           "icon": "target",
-          "label": "Select",
+          "label": "SELECT",
           "voice": false,
           "keys": "rctrl+2",
           "scAction": "v_mfd_soft_select_mfd_2_short",
@@ -2371,7 +2501,7 @@
           "type": "button",
           "id": "right-mfd-5-repair",
           "icon": "power-reset",
-          "label": "Repair",
+          "label": "REPAIR",
           "voice": false,
           "keys": "rctrl+2",
           "scAction": "v_mfd_soft_select_mfd_2_short",
@@ -2397,7 +2527,7 @@
           "type": "button",
           "id": "right-mfd-5-1",
           "icon": "target",
-          "label": "Next Hostile",
+          "label": "NEXT HOSTILE",
           "voice": false,
           "keys": "5",
           "scAction": "v_target_cycle_hostile_fwd",
@@ -2413,7 +2543,7 @@
           "type": "button",
           "id": "right-mfd-5-2",
           "icon": "next-attacker",
-          "label": "Attacker",
+          "label": "ATTACKER",
           "voice": false,
           "keys": "4",
           "scAction": "v_target_cycle_attacker_fwd",
@@ -2429,7 +2559,7 @@
           "type": "button",
           "id": "right-mfd-5-3",
           "icon": "next-sub",
-          "label": "Subtarget",
+          "label": "SUBTARGET",
           "voice": false,
           "keys": "r",
           "scAction": "v_target_cycle_subitem_fwd",
@@ -2444,7 +2574,7 @@
           "type": "button",
           "id": "right-mfd-5-4",
           "icon": "pin-1",
-          "label": "Pin 1",
+          "label": "PIN 1",
           "voice": false,
           "keys": "lalt+1",
           "scAction": "v_target_toggle_pin_index_1",
@@ -2459,7 +2589,7 @@
           "type": "button",
           "id": "right-mfd-5-5",
           "icon": "target-unlock",
-          "label": "Unlock",
+          "label": "UNLOCK",
           "voice": false,
           "keys": "lalt+t",
           "scAction": "v_target_unlock",
@@ -2475,7 +2605,7 @@
           "type": "button",
           "id": "right-mfd-5-6",
           "icon": "hail",
-          "label": "Hail Target",
+          "label": "HAIL TARGET",
           "voice": false,
           "keys": "9",
           "scAction": "v_target_hail",
@@ -2493,7 +2623,7 @@
           "type": "button",
           "id": "right-mfd-5-tab-back",
           "icon": "chev-left",
-          "label": "Prev tab",
+          "label": "PREV TAB",
           "voice": false,
           "keys": "rctrl+2",
           "scAction": "v_mfd_soft_select_mfd_2_short",
@@ -2510,7 +2640,7 @@
           "type": "button",
           "id": "right-mfd-5-tab-fwd",
           "icon": "chev-right",
-          "label": "Next tab",
+          "label": "NEXT TAB",
           "voice": false,
           "keys": "rctrl+2",
           "scAction": "v_mfd_soft_select_mfd_2_short",
@@ -2528,7 +2658,7 @@
         "type": "button",
         "id": "right-mfd-5-enter",
         "icon": "target",
-        "label": "Target status",
+        "label": "TARGET STATUS",
         "voice": false,
         "keys": "rctrl+2",
         "scAction": "v_mfd_soft_select_mfd_2_short",
@@ -2543,7 +2673,7 @@
       }
     },
     "right-mfd-6": {
-      "title": "Communications",
+      "title": "COMMUNICATIONS",
       "cols": 6,
       "elements": [
         {
@@ -2699,7 +2829,7 @@
           "type": "button",
           "id": "right-mfd-6-move-up",
           "icon": "chev-up",
-          "label": "Up",
+          "label": "UP",
           "voice": false,
           "keys": "rctrl+2",
           "scAction": "v_mfd_soft_select_mfd_2_short",
@@ -2724,7 +2854,7 @@
           "type": "button",
           "id": "right-mfd-6-move-left",
           "icon": "chev-left",
-          "label": "Left",
+          "label": "LEFT",
           "voice": false,
           "keys": "rctrl+2",
           "scAction": "v_mfd_soft_select_mfd_2_short",
@@ -2749,7 +2879,7 @@
           "type": "button",
           "id": "right-mfd-6-move-right",
           "icon": "chev-right",
-          "label": "Right",
+          "label": "RIGHT",
           "voice": false,
           "keys": "rctrl+2",
           "scAction": "v_mfd_soft_select_mfd_2_short",
@@ -2774,7 +2904,7 @@
           "type": "button",
           "id": "right-mfd-6-move-down",
           "icon": "chev-down",
-          "label": "Down",
+          "label": "DOWN",
           "voice": false,
           "keys": "rctrl+2",
           "scAction": "v_mfd_soft_select_mfd_2_short",
@@ -2799,7 +2929,7 @@
           "type": "button",
           "id": "right-mfd-6-select",
           "icon": "target",
-          "label": "Select",
+          "label": "SELECT",
           "voice": false,
           "keys": "rctrl+2",
           "scAction": "v_mfd_soft_select_mfd_2_short",
@@ -2819,7 +2949,7 @@
           "type": "button",
           "id": "right-mfd-6-repair",
           "icon": "power-reset",
-          "label": "Repair",
+          "label": "REPAIR",
           "voice": false,
           "keys": "rctrl+2",
           "scAction": "v_mfd_soft_select_mfd_2_short",
@@ -2845,7 +2975,7 @@
           "type": "button",
           "id": "right-mfd-6-1",
           "icon": "hail",
-          "label": "Hail Target",
+          "label": "HAIL TARGET",
           "voice": false,
           "keys": "9",
           "scAction": "v_target_hail",
@@ -2861,7 +2991,7 @@
           "type": "button",
           "id": "right-mfd-6-2",
           "icon": "party",
-          "label": "Accept Invite",
+          "label": "ACCEPT INVITE",
           "voice": false,
           "keys": "lbracket",
           "scAction": "ui_notification_accept",
@@ -2877,7 +3007,7 @@
           "type": "button",
           "id": "right-mfd-6-3",
           "icon": "party",
-          "label": "Decline Invite",
+          "label": "DECLINE INVITE",
           "voice": false,
           "keys": "rbracket",
           "scAction": "ui_notification_decline",
@@ -2893,7 +3023,7 @@
           "type": "button",
           "id": "right-mfd-6-4",
           "icon": "voice-channel",
-          "label": "Voice Channel",
+          "label": "VOICE CHANNEL",
           "voice": false,
           "keys": "np_period",
           "scAction": "foip_cyclechannel",
@@ -2909,7 +3039,7 @@
           "type": "button",
           "id": "right-mfd-6-5",
           "icon": "push-to-talk",
-          "label": "Push to Talk",
+          "label": "PUSH TO TALK",
           "voice": false,
           "keys": "np_add",
           "scAction": "foip_pushtotalk",
@@ -2938,7 +3068,7 @@
         {
           "type": "button",
           "id": "right-mfd-6-7",
-          "label": "Request Docking",
+          "label": "REQUEST DOCKING",
           "voice": false,
           "keys": "ralt+n",
           "scAction": "v_toggle_docking_request",
@@ -2955,7 +3085,7 @@
           "type": "button",
           "id": "right-mfd-6-tab-back",
           "icon": "chev-left",
-          "label": "Prev tab",
+          "label": "PREV TAB",
           "voice": false,
           "keys": "rctrl+2",
           "scAction": "v_mfd_soft_select_mfd_2_short",
@@ -2972,7 +3102,7 @@
           "type": "button",
           "id": "right-mfd-6-tab-fwd",
           "icon": "chev-right",
-          "label": "Next tab",
+          "label": "NEXT TAB",
           "voice": false,
           "keys": "rctrl+2",
           "scAction": "v_mfd_soft_select_mfd_2_short",
@@ -2990,7 +3120,7 @@
         "type": "button",
         "id": "right-mfd-6-enter",
         "icon": "target",
-        "label": "Communications",
+        "label": "COMMUNICATIONS",
         "voice": false,
         "keys": "rctrl+2",
         "scAction": "v_mfd_soft_select_mfd_2_short",
@@ -3005,7 +3135,7 @@
       }
     },
     "right-mfd-7": {
-      "title": "Configuration",
+      "title": "CONFIGURATION",
       "cols": 6,
       "elements": [
         {
@@ -3161,7 +3291,7 @@
           "type": "button",
           "id": "right-mfd-7-move-up",
           "icon": "chev-up",
-          "label": "Up",
+          "label": "UP",
           "voice": false,
           "keys": "rctrl+2",
           "scAction": "v_mfd_soft_select_mfd_2_short",
@@ -3186,7 +3316,7 @@
           "type": "button",
           "id": "right-mfd-7-move-left",
           "icon": "chev-left",
-          "label": "Left",
+          "label": "LEFT",
           "voice": false,
           "keys": "rctrl+2",
           "scAction": "v_mfd_soft_select_mfd_2_short",
@@ -3211,7 +3341,7 @@
           "type": "button",
           "id": "right-mfd-7-move-right",
           "icon": "chev-right",
-          "label": "Right",
+          "label": "RIGHT",
           "voice": false,
           "keys": "rctrl+2",
           "scAction": "v_mfd_soft_select_mfd_2_short",
@@ -3236,7 +3366,7 @@
           "type": "button",
           "id": "right-mfd-7-move-down",
           "icon": "chev-down",
-          "label": "Down",
+          "label": "DOWN",
           "voice": false,
           "keys": "rctrl+2",
           "scAction": "v_mfd_soft_select_mfd_2_short",
@@ -3261,7 +3391,7 @@
           "type": "button",
           "id": "right-mfd-7-select",
           "icon": "target",
-          "label": "Select",
+          "label": "SELECT",
           "voice": false,
           "keys": "rctrl+2",
           "scAction": "v_mfd_soft_select_mfd_2_short",
@@ -3281,7 +3411,7 @@
           "type": "button",
           "id": "right-mfd-7-repair",
           "icon": "power-reset",
-          "label": "Repair",
+          "label": "REPAIR",
           "voice": false,
           "keys": "rctrl+2",
           "scAction": "v_mfd_soft_select_mfd_2_short",
@@ -3307,7 +3437,7 @@
           "type": "button",
           "id": "right-mfd-7-1",
           "icon": "speed",
-          "label": "Speed Limiter",
+          "label": "SPEED LIMITER",
           "voice": false,
           "keys": "lalt+minus",
           "scAction": "v_ifcs_speed_limiter_toggle",
@@ -3325,7 +3455,7 @@
           "type": "button",
           "id": "right-mfd-7-2",
           "icon": "target",
-          "label": "Proximity assist",
+          "label": "PROXIMITY ASSIST",
           "voice": false,
           "keys": "rctrl+z",
           "scAction": "v_ifcs_proximity_assist_toggle",
@@ -3343,7 +3473,7 @@
           "type": "button",
           "id": "right-mfd-7-3",
           "icon": "lights",
-          "label": "Lights",
+          "label": "LIGHTS",
           "voice": false,
           "keys": "l",
           "scAction": "v_lights",
@@ -3361,7 +3491,7 @@
           "type": "button",
           "id": "right-mfd-7-4",
           "icon": "light-amp",
-          "label": "Light Amp",
+          "label": "LIGHT AMP",
           "voice": false,
           "keys": "ralt+l",
           "scAction": "v_light_amplification_toggle",
@@ -3379,7 +3509,7 @@
           "type": "button",
           "id": "right-mfd-7-5",
           "icon": "speed",
-          "label": "Throttle Mode",
+          "label": "THROTTLE MODE",
           "voice": false,
           "keys": "lalt+c",
           "scAction": "v_ifcs_throttle_swap_mode",
@@ -3396,7 +3526,7 @@
           "type": "button",
           "id": "right-mfd-7-tab-back",
           "icon": "chev-left",
-          "label": "Prev tab",
+          "label": "PREV TAB",
           "voice": false,
           "keys": "rctrl+2",
           "scAction": "v_mfd_soft_select_mfd_2_short",
@@ -3413,7 +3543,7 @@
           "type": "button",
           "id": "right-mfd-7-tab-fwd",
           "icon": "chev-right",
-          "label": "Next tab",
+          "label": "NEXT TAB",
           "voice": false,
           "keys": "rctrl+2",
           "scAction": "v_mfd_soft_select_mfd_2_short",
@@ -3431,7 +3561,7 @@
         "type": "button",
         "id": "right-mfd-7-enter",
         "icon": "target",
-        "label": "Configuration",
+        "label": "CONFIGURATION",
         "voice": false,
         "keys": "rctrl+2",
         "scAction": "v_mfd_soft_select_mfd_2_short",
@@ -3446,7 +3576,7 @@
       }
     },
     "right-mfd-8": {
-      "title": "Diagnostics",
+      "title": "DIAGNOSTICS",
       "cols": 6,
       "elements": [
         {
@@ -3602,7 +3732,7 @@
           "type": "button",
           "id": "right-mfd-8-move-up",
           "icon": "chev-up",
-          "label": "Up",
+          "label": "UP",
           "voice": false,
           "keys": "rctrl+2",
           "scAction": "v_mfd_soft_select_mfd_2_short",
@@ -3627,7 +3757,7 @@
           "type": "button",
           "id": "right-mfd-8-move-left",
           "icon": "chev-left",
-          "label": "Left",
+          "label": "LEFT",
           "voice": false,
           "keys": "rctrl+2",
           "scAction": "v_mfd_soft_select_mfd_2_short",
@@ -3652,7 +3782,7 @@
           "type": "button",
           "id": "right-mfd-8-move-right",
           "icon": "chev-right",
-          "label": "Right",
+          "label": "RIGHT",
           "voice": false,
           "keys": "rctrl+2",
           "scAction": "v_mfd_soft_select_mfd_2_short",
@@ -3677,7 +3807,7 @@
           "type": "button",
           "id": "right-mfd-8-move-down",
           "icon": "chev-down",
-          "label": "Down",
+          "label": "DOWN",
           "voice": false,
           "keys": "rctrl+2",
           "scAction": "v_mfd_soft_select_mfd_2_short",
@@ -3702,7 +3832,7 @@
           "type": "button",
           "id": "right-mfd-8-select",
           "icon": "target",
-          "label": "Select",
+          "label": "SELECT",
           "voice": false,
           "keys": "rctrl+2",
           "scAction": "v_mfd_soft_select_mfd_2_short",
@@ -3722,7 +3852,7 @@
           "type": "button",
           "id": "right-mfd-8-repair",
           "icon": "power-reset",
-          "label": "Repair",
+          "label": "REPAIR",
           "voice": false,
           "keys": "rctrl+2",
           "scAction": "v_mfd_soft_select_mfd_2_short",
@@ -3750,7 +3880,7 @@
           "type": "button",
           "id": "right-mfd-8-tab-back",
           "icon": "chev-left",
-          "label": "Prev tab",
+          "label": "PREV TAB",
           "voice": false,
           "keys": "rctrl+2",
           "scAction": "v_mfd_soft_select_mfd_2_short",
@@ -3767,7 +3897,7 @@
           "type": "button",
           "id": "right-mfd-8-tab-fwd",
           "icon": "chev-right",
-          "label": "Next tab",
+          "label": "NEXT TAB",
           "voice": false,
           "keys": "rctrl+2",
           "scAction": "v_mfd_soft_select_mfd_2_short",
@@ -3785,7 +3915,7 @@
         "type": "button",
         "id": "right-mfd-8-enter",
         "icon": "target",
-        "label": "Diagnostics",
+        "label": "DIAGNOSTICS",
         "voice": false,
         "keys": "rctrl+2",
         "scAction": "v_mfd_soft_select_mfd_2_short",
@@ -3800,7 +3930,7 @@
       }
     },
     "right-mfd-9": {
-      "title": "Scanning",
+      "title": "SCANNING",
       "cols": 6,
       "elements": [
         {
@@ -3956,7 +4086,7 @@
           "type": "button",
           "id": "right-mfd-9-move-up",
           "icon": "chev-up",
-          "label": "Up",
+          "label": "UP",
           "voice": false,
           "keys": "rctrl+2",
           "scAction": "v_mfd_soft_select_mfd_2_short",
@@ -3981,7 +4111,7 @@
           "type": "button",
           "id": "right-mfd-9-move-left",
           "icon": "chev-left",
-          "label": "Left",
+          "label": "LEFT",
           "voice": false,
           "keys": "rctrl+2",
           "scAction": "v_mfd_soft_select_mfd_2_short",
@@ -4006,7 +4136,7 @@
           "type": "button",
           "id": "right-mfd-9-move-right",
           "icon": "chev-right",
-          "label": "Right",
+          "label": "RIGHT",
           "voice": false,
           "keys": "rctrl+2",
           "scAction": "v_mfd_soft_select_mfd_2_short",
@@ -4031,7 +4161,7 @@
           "type": "button",
           "id": "right-mfd-9-move-down",
           "icon": "chev-down",
-          "label": "Down",
+          "label": "DOWN",
           "voice": false,
           "keys": "rctrl+2",
           "scAction": "v_mfd_soft_select_mfd_2_short",
@@ -4056,7 +4186,7 @@
           "type": "button",
           "id": "right-mfd-9-select",
           "icon": "target",
-          "label": "Select",
+          "label": "SELECT",
           "voice": false,
           "keys": "rctrl+2",
           "scAction": "v_mfd_soft_select_mfd_2_short",
@@ -4076,7 +4206,7 @@
           "type": "button",
           "id": "right-mfd-9-repair",
           "icon": "power-reset",
-          "label": "Repair",
+          "label": "REPAIR",
           "voice": false,
           "keys": "rctrl+2",
           "scAction": "v_mfd_soft_select_mfd_2_short",
@@ -4102,7 +4232,7 @@
           "type": "button",
           "id": "right-mfd-9-1",
           "icon": "scanning",
-          "label": "Scanning",
+          "label": "SCANNING",
           "voice": false,
           "keys": "ralt+v",
           "scAction": "v_set_scan_mode",
@@ -4118,7 +4248,7 @@
           "type": "button",
           "id": "right-mfd-9-2",
           "icon": "scan-ping",
-          "label": "Radar Ping",
+          "label": "RADAR PING",
           "voice": false,
           "keys": "tab",
           "scAction": "v_invoke_ping",
@@ -4134,7 +4264,7 @@
           "type": "button",
           "id": "right-mfd-9-3",
           "icon": "target",
-          "label": "Scan",
+          "label": "SCAN",
           "voice": false,
           "keys": "rctrl+np_divide",
           "scAction": "v_scanning_trigger_scan",
@@ -4150,7 +4280,7 @@
           "type": "button",
           "id": "right-mfd-9-4",
           "icon": "chev-up",
-          "label": "Scan angle +",
+          "label": "SCAN ANGLE +",
           "voice": false,
           "keys": "rctrl+equals",
           "scAction": "v_inc_scan_focus_level",
@@ -4165,12 +4295,30 @@
           "type": "button",
           "id": "right-mfd-9-5",
           "icon": "chev-down",
-          "label": "Scan angle −",
+          "label": "SCAN ANGLE −",
           "voice": false,
           "keys": "rctrl+semicolon",
           "scAction": "v_dec_scan_focus_level",
           "mode": "tap",
           "labels": "show",
+          "span": [
+            2,
+            1
+          ]
+        },
+        {
+          "type": "button",
+          "id": "right-mfd-9-6",
+          "icon": "target",
+          "label": "RADAR ON/OFF",
+          "voice": false,
+          "keys": "rctrl+slash",
+          "scAction": "v_radar_toggle_onoff",
+          "mode": "tap",
+          "labels": "show",
+          "state": {
+            "group": "radar"
+          },
           "span": [
             2,
             1
@@ -4182,7 +4330,7 @@
           "type": "button",
           "id": "right-mfd-9-tab-back",
           "icon": "chev-left",
-          "label": "Prev tab",
+          "label": "PREV TAB",
           "voice": false,
           "keys": "rctrl+2",
           "scAction": "v_mfd_soft_select_mfd_2_short",
@@ -4199,7 +4347,7 @@
           "type": "button",
           "id": "right-mfd-9-tab-fwd",
           "icon": "chev-right",
-          "label": "Next tab",
+          "label": "NEXT TAB",
           "voice": false,
           "keys": "rctrl+2",
           "scAction": "v_mfd_soft_select_mfd_2_short",
@@ -4217,7 +4365,7 @@
         "type": "button",
         "id": "right-mfd-9-enter",
         "icon": "target",
-        "label": "Scanning",
+        "label": "SCANNING",
         "voice": false,
         "keys": "rctrl+2",
         "scAction": "v_mfd_soft_select_mfd_2_short",
@@ -5727,13 +5875,15 @@
                     "power": true,
                     "weapons-power": true,
                     "shield-power": true,
-                    "thruster-power": true
+                    "thruster-power": true,
+                    "life-support": true
                   },
                   "off": {
                     "power": false,
                     "weapons-power": false,
                     "shield-power": false,
-                    "thruster-power": false
+                    "thruster-power": false,
+                    "life-support": false
                   }
                 }
               },
@@ -5777,12 +5927,14 @@
                       "on": {
                         "weapons-power": true,
                         "shield-power": true,
-                        "thruster-power": true
+                        "thruster-power": true,
+                        "life-support": true
                       },
                       "off": {
                         "weapons-power": false,
                         "shield-power": false,
-                        "thruster-power": false
+                        "thruster-power": false,
+                        "life-support": false
                       }
                     }
                   },

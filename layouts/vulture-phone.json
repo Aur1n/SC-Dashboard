@@ -305,13 +305,15 @@
                     "power": true,
                     "weapons-power": true,
                     "shield-power": true,
-                    "thruster-power": true
+                    "thruster-power": true,
+                    "life-support": true
                   },
                   "off": {
                     "power": false,
                     "weapons-power": false,
                     "shield-power": false,
-                    "thruster-power": false
+                    "thruster-power": false,
+                    "life-support": false
                   }
                 }
               },
@@ -2079,13 +2081,15 @@
                     "power": true,
                     "weapons-power": true,
                     "shield-power": true,
-                    "thruster-power": true
+                    "thruster-power": true,
+                    "life-support": true
                   },
                   "off": {
                     "power": false,
                     "weapons-power": false,
                     "shield-power": false,
-                    "thruster-power": false
+                    "thruster-power": false,
+                    "life-support": false
                   }
                 }
               },
@@ -2129,12 +2133,14 @@
                       "on": {
                         "weapons-power": true,
                         "shield-power": true,
-                        "thruster-power": true
+                        "thruster-power": true,
+                        "life-support": true
                       },
                       "off": {
                         "weapons-power": false,
                         "shield-power": false,
-                        "thruster-power": false
+                        "thruster-power": false,
+                        "life-support": false
                       }
                     }
                   },

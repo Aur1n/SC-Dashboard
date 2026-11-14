@@ -39,8 +39,8 @@ const SWITCHES = {
 };
 
 // Buttons the HUD doesn't have: [scAction, label, icon, keys, extra].
-const POWER_ALL = { "weapons-power": true, "shield-power": true, "thruster-power": true };
-const POWER_NONE = { "weapons-power": false, "shield-power": false, "thruster-power": false };
+const POWER_ALL = { "weapons-power": true, "shield-power": true, "thruster-power": true, "life-support": true };
+const POWER_NONE = { "weapons-power": false, "shield-power": false, "thruster-power": false, "life-support": false };
 const OWN = {
   v_power_set_on: ["Power on", "power", "rctrl+c", { color: "green", state: { group: "power", set: true, with: { on: POWER_ALL } } }],
   v_power_set_off: ["Power off", "power", "rctrl+v", { color: "red", state: { group: "power", set: false, with: { off: POWER_NONE } } }],
@@ -56,17 +56,51 @@ const OWN = {
   v_inc_scan_focus_level: ["Scan angle +", "chev-up", "rctrl+equals", {}],
   v_dec_scan_focus_level: ["Scan angle −", "chev-down", "rctrl+semicolon", {}],
   v_ifcs_proximity_assist_toggle: ["Proximity assist", "target", "rctrl+z", { state: { group: "proximity-assist" } }],
+  // On trial: missing from 4.10's list, still in the game's blank layout (see make-profile's ON_TRIAL).
+  v_radar_toggle_onoff: ["Radar on/off", "target", "rctrl+slash", { state: { group: "radar" } }],
 };
+
+// Power management as the HUD's power distribution: Weapons, Thrusters and Shields sliders
+// (swipe up and down, max above, min below), a Coolers slider on the cooler rate, and lamps for
+// Life Support (on with Flight Ready and Power) and the Quantum Drive (on in Quantum mode, from
+// the right half's operator modes). The game has no keys for those two, so they only show.
+function powerBlock(pid) {
+  const hudGroup = hud.panels["power-landing"].elements.find((e) => e.id === "pw-group");
+  const ren = (id) => `${pid}-${id}`;
+  const copy = (e) => {
+    const c = JSON.parse(JSON.stringify(e));
+    (function walk(n) {
+      if (!n || typeof n !== "object") return;
+      if (typeof n.id === "string") n.id = ren(n.id);
+      delete n.voice; delete n.span; delete n.at;
+      if (n.follows) for (const k of Object.keys(n.follows)) n.follows[k] = ren(n.follows[k]);
+      for (const v of Object.values(n)) if (v && typeof v === "object") walk(v);
+    })(c);
+    return c;
+  };
+  const byId = (id) => copy(hudGroup.elements.find((e) => e.id === id));
+  const at = (e, col, row, w, h) => ({ ...e, at: [col, row], span: [w, h] });
+  const lamp = (id, label, icon, group) => ({ type: "button", id: ren(id), icon, label, voice: false, labels: "show", state: { group }, at: [6, id === "life" ? 0 : 4], span: [2, 1] });
+  return {
+    type: "group", id: ren("power"), cols: 8, span: [4, 6],
+    elements: [
+      at(byId("pw-wep-max"), 0, 0, 2, 1), at(byId("pw-thr-max"), 2, 0, 2, 1), at(byId("pw-shd-max"), 4, 0, 2, 1),
+      lamp("life", "Life Support", "power", "life-support"),
+      at(byId("pw-wep-level"), 0, 1, 2, 3), at(byId("pw-thr-level"), 2, 1, 2, 3), at(byId("pw-shd-level"), 4, 1, 2, 3),
+      { type: "level", id: ren("cool-level"), label: "Coolers", icon: "power-reset", color: "blue", steps: 5, at: [6, 1], span: [2, 3],
+        up: { icon: "chev-up", id: ren("cool-up"), label: "Coolers +", keys: OWN.v_cooler_throttle_up[2], scAction: "v_cooler_throttle_up", mode: "tap", color: "blue" },
+        down: { icon: "chev-down", id: ren("cool-down"), label: "Coolers −", keys: OWN.v_cooler_throttle_down[2], scAction: "v_cooler_throttle_down", mode: "tap", color: "blue" } },
+      at(byId("pw-wep-min"), 0, 4, 2, 1), at(byId("pw-thr-min"), 2, 4, 2, 1), at(byId("pw-shd-min"), 4, 4, 2, 1),
+      lamp("quantum", "Quantum Drive", "quantum-mode", "quantum-mode"),
+      at(byId("pw-reset"), 0, 5, 4, 1), at(byId("pw-center"), 4, 5, 4, 1),
+    ],
+  };
+}
 
 // The game's pages in its own order (« » steps through them). view: the direct page action, or
 // null. items: [scAction, label?] for what the page does.
 const PAGES = [
-  ["Power management", "resource_network", "rctrl+3", [
-    ["v_power_set_on"], ["v_power_set_off"], ["v_power_set_weapons_on"], ["v_power_set_weapons_off"],
-    ["v_power_set_thrusters_on"], ["v_power_set_thrusters_off"], ["v_power_set_shields_on"], ["v_power_set_shields_off"],
-    ["v_power_throttle_up"], ["v_power_throttle_down"], ["v_cooler_throttle_up"], ["v_cooler_throttle_down"],
-    ["v_engineering_assignment_reset"],
-  ]],
+  ["Power management", "resource_network", "rctrl+3", [["@power"], ["v_power_throttle_down"], ["v_power_throttle_up"]]],
   ["Weapon config", null, null, [
     ["v_set_guns_mode"], ["v_set_missile_mode"], ["v_weapon_launch_missile"], ["v_weapon_pip_toggle_lead_lag"],
     ["v_weapon_increase_max_missiles"], ["v_weapon_decrease_max_missiles"],
@@ -95,8 +129,20 @@ const PAGES = [
   ["Diagnostics", "diagnostics", "rctrl+0", []],
   ["Scanning", "scanning", "rctrl+comma", [
     ["v_set_scan_mode"], ["v_invoke_ping"], ["v_scanning_trigger_scan"], ["v_inc_scan_focus_level"], ["v_dec_scan_focus_level"],
+    ["v_radar_toggle_onoff"],
   ]],
 ];
+
+// The MFD pages speak the game's English, as on its screens: labels and titles in capitals,
+// which the deck shows anyway, aren't in the translation tables (keys are case-sensitive),
+// so they stay English in every language. State words (ON / OFF) still translate.
+function english(node) {
+  if (Array.isArray(node)) return node.map(english);
+  if (!node || typeof node !== "object") return node;
+  const out = {};
+  for (const [k, v] of Object.entries(node)) out[k] = (k === "label" || k === "title" || k === "short") && typeof v === "string" ? v.toUpperCase() : english(v);
+  return out;
+}
 
 // The HUD's first button for an action (its panels, then its top bar), or null.
 function hudButton(scAction) {
@@ -150,7 +196,7 @@ function mfdLayout(side) {
         { keys: MOVES[dir][1], scAction: `v_mfd_movement_${dir}_short` }, { span: [1, 1], labels: "hide", at: at(i) })),
       onScreen(`${p + 1}-select`, "Select", "target", null, { span: [1, 1], labels: "hide", color: "blue", at: at(4) }),
       onScreen(`${p + 1}-repair`, "Repair", "power-reset", { keys: "rctrl+q", scAction: "v_mfd_quick_action_repair_all" }, { span: [1, 1], labels: "hide", color: "amber", at: at(5) }),
-      ...items.map(([scAction], i) => actionButton(`${pid}-${i + 1}`, scAction, { span: [2, 1] })),
+      ...items.map(([scAction], i) => (scAction === "@power" ? powerBlock(pid) : actionButton(`${pid}-${i + 1}`, scAction, { span: [2, 1] }))),
     ];
     // Each page has its own pair (ids are unique per layout); they send « / » after selecting the screen.
     const pager = {
@@ -159,7 +205,7 @@ function mfdLayout(side) {
     };
     const panel = { title, cols: 6, elements, pager };
     if (view) panel.enter = onScreen(`${p + 1}-enter`, title, "target", { keys: viewKeys, scAction: `v_mfd_select_view_${view}_short` });
-    panels[pid] = panel;
+    panels[pid] = english(panel);
   });
   for (const [id, panel] of Object.entries(hud.panels)) if (id !== "mfd") panels[id] = panel;
   return {

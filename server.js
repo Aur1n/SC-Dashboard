@@ -1567,7 +1567,7 @@ server.on("upgrade", (req, socket) => {
     close: () => socket.destroy(),
   };
   tablets.add(client);
-  client.send({ t: "hello", voice: Boolean(config.voice), voiceStatus: tabletVoice, states: Object.fromEntries(buttonStates), soundStatus: soundState, tapMs: config.tapMs, game: gameInUse() });
+  client.send({ t: "hello", version: VERSION, voice: Boolean(config.voice), voiceStatus: tabletVoice, states: Object.fromEntries(buttonStates), soundStatus: soundState, tapMs: config.tapMs, game: gameInUse() });
   sendBattle(client);
 
   const held = new Map(); // button id -> { sc } currently pressed by this tablet

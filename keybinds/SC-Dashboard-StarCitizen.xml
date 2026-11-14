@@ -253,35 +253,14 @@
    <rebind input="kb1_ralt+insert"/>
   </action>
  </actionmap>
- <actionmap name="spaceship_power">
-  <action name="v_power_set_off">
-   <rebind input="kb1_rctrl+v"/>
-  </action>
-  <action name="v_power_set_on">
-   <rebind input="kb1_rctrl+c"/>
-  </action>
-  <action name="v_power_set_shields_off">
-   <rebind input="kb1_rctrl+np_0"/>
-  </action>
-  <action name="v_power_set_shields_on">
-   <rebind input="kb1_rctrl+pgdn"/>
-  </action>
-  <action name="v_power_set_thrusters_off">
-   <rebind input="kb1_rctrl+delete"/>
-  </action>
-  <action name="v_power_set_thrusters_on">
-   <rebind input="kb1_rctrl+insert"/>
-  </action>
-  <action name="v_power_set_weapons_off">
-   <rebind input="kb1_rctrl+home"/>
-  </action>
-  <action name="v_power_set_weapons_on">
-   <rebind input="kb1_rctrl+r"/>
-  </action>
- </actionmap>
  <actionmap name="spaceship_quantum">
   <action name="v_toggle_qdrive_engagement">
    <rebind input="kb1_ralt+j"/>
+  </action>
+ </actionmap>
+ <actionmap name="spaceship_radar">
+  <action name="v_radar_toggle_onoff">
+   <rebind input="kb1_rctrl+slash"/>
   </action>
  </actionmap>
  <actionmap name="spaceship_salvage">
