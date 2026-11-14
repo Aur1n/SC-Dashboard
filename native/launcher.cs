@@ -1871,7 +1871,7 @@ class DeckWindow : Form
         using (var pen = new Pen(Hud.Accent, 2f)) g.DrawPolygon(pen, hex);
         using (var brush = new SolidBrush(Hud.Accent))
             g.FillPolygon(brush, new[] { new PointF(32, 23), new PointF(38, 38), new PointF(32, 34), new PointF(26, 38) });
-        float tw = Hud.Spaced(g, "SPOOLUP", Hud.Head(24), Hud.Ink, 58, 12, 3f), vw = 0;
+        float tw = Hud.Spaced(g, "SC-DASHBOARD", Hud.Head(24), Hud.Ink, 58, 12, 3f), vw = 0;
         if (version != "") vw = 12 + Hud.Spaced(g, "V" + version, Hud.Label(12), Hud.Dim, 58 + tw + 12, 22, 1.2f);
         float sw = Hud.Spaced(g, Lang.T("STAR CITIZEN CONTROL DECK"), Hud.Label(12), Hud.Dim, 59, 41, 2f);
         hud.Covers.Add(new RectangleF(12, 6, Math.Max(58 + tw + vw, 59 + sw) + 8, 54));
