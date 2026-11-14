@@ -81,6 +81,12 @@ Name: "{autodesktop}\{#AppName}"; Filename: "{app}\{#AppExe}"; WorkingDir: "{app
 ; The shortcuts older versions made, under the app's old name.
 Type: files; Name: "{autoprograms}\Tablet Deck.lnk"
 Type: files; Name: "{autodesktop}\Tablet Deck.lnk"
+; The keybind profile under the old names, so the game's profile list keeps only
+; "SC-Dashboard Keyboard". A profile the player already loaded stays in their binds.
+Type: files; Name: "{code:MappingsDir}\TabletDeck-StarCitizen.xml"; Check: HasStarCitizen
+Type: files; Name: "{code:MappingsDir}\SpoolUp-StarCitizen.xml"; Check: HasStarCitizen
+; The old settings folder, once the app has copied it into %APPDATA%\SC-Dashboard.
+Type: filesandordirs; Name: "{userappdata}\TabletDeck"; Check: SettingsMoved
 
 [Run]
 ; Let tablets reach the server on private (home) networks only, so Windows doesn't ask.
@@ -167,6 +173,14 @@ function InitializeSetup(): Boolean;
 begin
   StarCitizenDir := FindStarCitizen();
   Result := True;
+end;
+
+// True once the app has run since the rename and copied the old settings over, so
+// %APPDATA%\TabletDeck is only a leftover. Before that first run it stays, as the copy's source.
+function SettingsMoved(): Boolean;
+begin
+  Result := FileExists(ExpandConstant('{userappdata}\SC-Dashboard\config.json')) and
+            DirExists(ExpandConstant('{userappdata}\TabletDeck'));
 end;
 
 function HasStarCitizen(): Boolean;

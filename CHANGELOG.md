@@ -5,6 +5,15 @@ section becomes the notes of its
 [GitHub release](https://github.com/xattribution/SpoolUp/releases), so add one
 before tagging a release.
 
+## 2.2.1-hu.7 (2026-11-14)
+
+- **A telepítő elpakolja a régi név maradványait.** Minden telepítés törli a
+  játék profilmappájából a régi „Tablet Deck Keyboard" és „SpoolUp Keyboard"
+  profilfájlt, és a régi `%APPDATA%\TabletDeck` beállításmappát, ha az
+  SC-Dashboard már átmásolta belőle a beállításokat. Az új verzió továbbra is a
+  régire települ, így a Programok listájában mindig egy SC-Dashboard van.
+- Benne van a hu.6 jobb Alt javítása is.
+
 ## 2.2.1-hu.6 (2026-11-14)
 
 - **Működnek a jobb Altos gombok magyar billentyűzetkiosztással.** Az AltGr-es
