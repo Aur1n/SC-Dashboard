@@ -1547,7 +1547,7 @@ class DeckWindow : Form
     string publicNetwork = "";
     bool publicNetworkNoticed;
     float networkGrown; // how much taller the window got for the banner, in 96-dpi pixels
-    const string FeedbackPage = "https://github.com/xattribution/SpoolUp/issues/new/choose";
+    const string FeedbackPage = "https://github.com/Aur1n/SC-Dashboard/issues/new/choose";
     readonly HudView.Item bannerWhatsNew, bannerUpdate, bannerLater;
     string editorUrl = ""; // the layout editor on this PC, set when the server is ready
     bool serverReady; // the server has said "ready" and takes settings on stdin
@@ -1563,9 +1563,10 @@ class DeckWindow : Form
     VoiceCommandsWindow commandsWindow;
 
     // ---- updates ----
-    const string LatestReleaseApi = "https://api.github.com/repos/xattribution/SpoolUp/releases/latest";
-    const string ReleasesPage = "https://github.com/xattribution/SpoolUp/releases";
-    const string DownloadPrefix = "https://github.com/xattribution/SpoolUp/releases/download/";
+    // The Hungarian fork's releases, so an update never replaces this build with upstream's.
+    const string LatestReleaseApi = "https://api.github.com/repos/Aur1n/SC-Dashboard/releases/latest";
+    const string ReleasesPage = "https://github.com/Aur1n/SC-Dashboard/releases";
+    const string DownloadPrefix = "https://github.com/Aur1n/SC-Dashboard/releases/download/";
     const string AppKey = @"Software\Tablet Deck"; // the old name, like Lang's key
     // This window's version, e.g. "1.1.0" (AssemblyInformationalVersion, set by scripts/build.js).
     static readonly string CurrentVersion = Application.ProductVersion;
@@ -2381,6 +2382,10 @@ class DeckWindow : Form
     static Version ParseVersion(string text)
     {
         string v = (text ?? "").Trim().TrimStart('v', 'V');
+        // The Hungarian fork's builds, "2.2.1-hu.3", count as 2.2.1.3: after 2.2.1 and the
+        // earlier -hu builds, before 2.2.2.
+        var hu = System.Text.RegularExpressions.Regex.Match(v, @"^(\d+\.\d+\.\d+)-hu\.(\d+)$");
+        if (hu.Success) v = hu.Groups[1].Value + "." + hu.Groups[2].Value;
         int cut = v.IndexOfAny(new[] { '-', '+', ' ' });
         if (cut >= 0) v = v.Substring(0, cut);
         Version result;

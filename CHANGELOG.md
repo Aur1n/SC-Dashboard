@@ -5,6 +5,22 @@ section becomes the notes of its
 [GitHub release](https://github.com/xattribution/SpoolUp/releases), so add one
 before tagging a release.
 
+## 2.2.1-hu.1 (2026-11-14)
+
+A SpoolUp 2.2.1 magyar kiadása (SC-Dashboard), az Aur1n/SC-Dashboard forkból.
+
+- **Magyar felület.** A tablet és az appablak magyarul is beszél: a Deck
+  beállításokban a Nyelv alatt, az ablakban a Beállításokban választható. A
+  játékosok szlengje (Shields, Quantum, Power, Weapons, Salvage, Missile) és a
+  hangparancsok angolok maradnak.
+- **Összekapcsolt gombfények.** A PWR a WEP, a SHLD és a THR fényét is
+  felkapcsolja és lekapcsolja; a Flight Ready mind a négyet együtt váltja;
+  az SCM/NAV és a Master: SCM / NAV mutatja a módot, NAV-ban a WEP és a SHLD
+  kialszik, SCM-ben visszajön. Eddig a PWR kikapcsolása után a pajzs és a
+  fegyverek fénye égve maradt.
+- A frissítések az Aur1n/SC-Dashboard kiadásaiból jönnek, így egy frissítés
+  soha nem cseréli a magyar buildet az angol SpoolUpra.
+
 ## 2.2.1 (2026-11-08)
 
 - **Star Citizen folder in Settings.** The app window's Settings shows the copy
