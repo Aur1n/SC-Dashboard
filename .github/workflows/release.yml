@@ -138,12 +138,14 @@ jobs:
           if ((Get-FileHash $jar -Algorithm SHA256).Hash.ToLower() -ne "6cf58aa080e7ff82656f320cff8d4a3bff30408df8766806dcba3740dd839fa5") { throw "jsign-7.6.jar doesn't match its SHA-256" }
           "SIGN_CMD=java -jar $jar --storetype TRUSTEDSIGNING --keystore $env:ENDPOINT --alias $env:ALIAS --tsaurl http://timestamp.acs.microsoft.com --tsmode RFC3161 `$f" >> $env:GITHUB_ENV
 
-      # A published release is always signed: with no signing set up, stop before building.
-      - name: Check the release will be signed
+      # Upstream publishes signed releases only. This fork has no signing certificate, so its
+      # releases go out unsigned, as Tablet Deck's did: Windows SmartScreen shows an
+      # "unknown publisher" warning, and the release notes say so.
+      - name: Note when the release is unsigned
         if: env.RELEASE_TAG != ''
         shell: pwsh
         run: |
-          if (-not $env:SIGN_CMD -and -not $env:SIGNPATH_API_TOKEN) { throw "Releases are signed: set up code signing first (option C, Azure Artifact Signing: the AZURE_* secrets and TD_SIGN_* variables; see docs/DEVELOPMENT.md)." }
+          if (-not $env:SIGN_CMD -and -not $env:SIGNPATH_API_TOKEN) { Write-Host "::warning::No code signing set up: this release is unsigned." }
 
       # The build runs in two stages so SignPath (option B) can sign the app files before
       # they go into the installer, and then the installer itself. Without SignPath the
@@ -246,9 +248,9 @@ jobs:
 
           ## Download
 
-          Download **SpoolUp-Setup-$version.exe** below and run it. No Node.js needed. Already have SpoolUp (or Tablet Deck, its old name)? Run it over your copy; your settings are kept. After that it offers updates itself.
+          Töltsd le a lenti **SpoolUp-Setup-$version.exe** fájlt, és futtasd. Node.js nem kell hozzá. Ha már van SpoolUp vagy Tablet Deck a gépen, települj rá; a beállítások megmaradnak. Utána a frissítéseket maga ajánlja fel.
 
-          The installer and everything in it are code-signed: its Properties → Digital Signatures shows the publisher. You can also check it against the SHA-256 below. See the [code signing policy](https://github.com/xattribution/SpoolUp/blob/main/CODE_SIGNING.md).
+          Ez a magyar kiadás (SC-Dashboard) **nincs kódaláírással ellátva**, ezért a Windows SmartScreen „ismeretlen kiadó" figyelmeztetést mutat: **További információ → Futtatás mindenképp**. A fájl épségét a lenti SHA-256 ellenőrzőösszeggel tudod megnézni.
 
           SHA-256: ``$hash``
 
