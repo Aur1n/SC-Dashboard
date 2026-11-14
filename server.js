@@ -1510,7 +1510,9 @@ const server = http.createServer((req, res) => {
   const body = rel.startsWith("public/layouts/") ? readBundled(rel.slice("public/".length))
     : rel.startsWith("public/") ? readBundled(rel) : null;
   if (!body) { res.writeHead(404); res.end("not found"); return; }
-  res.writeHead(200, { "Content-Type": MIME[path.extname(rel)] || "application/octet-stream" });
+  // no-cache: a tablet asks again on every load, so an update never leaves it with an old
+  // app.js that no longer matches the server (a few hundred KB on the home network).
+  res.writeHead(200, { "Content-Type": MIME[path.extname(rel)] || "application/octet-stream", "Cache-Control": "no-cache" });
   res.end(body);
 });
 
