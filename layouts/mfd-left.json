@@ -325,7 +325,7 @@
           "id": "left-mfd-1-power",
           "cols": 8,
           "span": [
-            4,
+            5,
             6
           ],
           "at": [
@@ -703,44 +703,6 @@
                 1
               ]
             }
-          ]
-        },
-        {
-          "type": "button",
-          "id": "left-mfd-1-2",
-          "icon": "power-up",
-          "label": "PWR +",
-          "voice": false,
-          "keys": "f10",
-          "scAction": "v_power_throttle_up",
-          "mode": "tap",
-          "labels": "show",
-          "span": [
-            1,
-            3
-          ],
-          "at": [
-            4,
-            0
-          ]
-        },
-        {
-          "type": "button",
-          "id": "left-mfd-1-3",
-          "icon": "power-down",
-          "label": "PWR −",
-          "voice": false,
-          "keys": "f9",
-          "scAction": "v_power_throttle_down",
-          "mode": "tap",
-          "labels": "show",
-          "span": [
-            1,
-            3
-          ],
-          "at": [
-            4,
-            3
           ]
         }
       ],
@@ -1143,183 +1105,11 @@
       "cols": 6,
       "elements": [
         {
-          "type": "button",
-          "id": "left-mfd-3-sw-pwr",
-          "icon": "power",
-          "label": "PWR",
-          "voice": false,
-          "keys": "u",
-          "scAction": "v_power_toggle",
-          "mode": "tap",
-          "labels": "show",
-          "state": {
-            "group": "power",
-            "with": {
-              "on": {
-                "weapons-power": true,
-                "shield-power": true,
-                "thruster-power": true,
-                "life-support": true
-              },
-              "off": {
-                "weapons-power": false,
-                "shield-power": false,
-                "thruster-power": false,
-                "life-support": false
-              }
-            }
-          },
-          "color": "green",
-          "span": [
-            1,
-            1
-          ],
-          "at": [
-            5,
-            0
-          ]
-        },
-        {
-          "type": "button",
-          "id": "left-mfd-3-sw-wpn",
-          "icon": "power-weapons",
-          "label": "WPN",
-          "voice": false,
-          "keys": "p",
-          "scAction": "v_power_toggle_weapons",
-          "mode": "tap",
-          "labels": "show",
-          "state": {
-            "group": "weapons-power"
-          },
-          "color": "red",
-          "span": [
-            1,
-            1
-          ],
-          "at": [
-            5,
-            1
-          ]
-        },
-        {
-          "type": "button",
-          "id": "left-mfd-3-sw-thr",
-          "icon": "power-engines",
-          "label": "THR",
-          "voice": false,
-          "keys": "i",
-          "scAction": "v_power_toggle_thrusters",
-          "mode": "tap",
-          "labels": "show",
-          "state": {
-            "group": "thruster-power"
-          },
-          "color": "blue",
-          "span": [
-            1,
-            1
-          ],
-          "at": [
-            5,
-            2
-          ]
-        },
-        {
-          "type": "button",
-          "id": "left-mfd-3-sw-shld",
-          "icon": "power-shields",
-          "label": "SHLD",
-          "voice": false,
-          "keys": "o",
-          "scAction": "v_power_toggle_shields",
-          "mode": "tap",
-          "labels": "show",
-          "state": {
-            "group": "shield-power"
-          },
-          "color": "green",
-          "span": [
-            1,
-            1
-          ],
-          "at": [
-            5,
-            3
-          ]
-        },
-        {
-          "type": "button",
-          "id": "left-mfd-3-sw-cpld",
-          "icon": "swap",
-          "label": "CPLD",
-          "voice": false,
-          "keys": "c",
-          "scAction": "v_ifcs_vector_decoupling_toggle",
-          "mode": "tap",
-          "labels": "show",
-          "state": {
-            "group": "decoupled"
-          },
-          "span": [
-            1,
-            1
-          ],
-          "at": [
-            5,
-            4
-          ]
-        },
-        {
-          "type": "button",
-          "id": "left-mfd-3-sw-esp",
-          "icon": "target",
-          "label": "ESP",
-          "voice": false,
-          "keys": "lalt+semicolon",
-          "scAction": "v_ifcs_toggle_esp",
-          "mode": "tap",
-          "labels": "show",
-          "state": {
-            "group": "esp"
-          },
-          "span": [
-            1,
-            1
-          ],
-          "at": [
-            5,
-            5
-          ]
-        },
-        {
-          "type": "button",
-          "id": "left-mfd-3-sw-lock",
-          "icon": "lock",
-          "label": "LOCK",
-          "voice": false,
-          "keys": "rshift",
-          "scAction": "v_lock_rotation",
-          "mode": "tap",
-          "labels": "show",
-          "state": {
-            "group": "lock-rotation"
-          },
-          "span": [
-            1,
-            1
-          ],
-          "at": [
-            5,
-            6
-          ]
-        },
-        {
           "type": "shields",
           "id": "left-mfd-3-sh-cluster",
           "label": "SHIELDS",
           "span": [
-            4,
+            5,
             6
           ],
           "faces": {
@@ -1418,7 +1208,7 @@
             3
           ],
           "at": [
-            4,
+            5,
             0
           ],
           "color": "green"
@@ -1438,7 +1228,7 @@
             3
           ],
           "at": [
-            4,
+            5,
             3
           ],
           "color": "green"
@@ -3192,7 +2982,7 @@
           "voice": false,
           "keys": "rctrl+np_divide",
           "scAction": "v_scanning_trigger_scan",
-          "mode": "tap",
+          "mode": "hold",
           "labels": "show",
           "color": "amber",
           "span": [

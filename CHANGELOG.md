@@ -5,6 +5,15 @@ section becomes the notes of its
 [GitHub release](https://github.com/xattribution/SpoolUp/releases), so add one
 before tagging a release.
 
+## 2.2.1-hu.18 (2026-11-14)
+
+- **Shields oldal:** a kapcsolóoszlop kikerült, a pajzsvezérlő nagyobb. A
+  Shld + csak akkor ad a pajzsnak, ha van szabad energia (OUTPUT nagyobb
+  0-nál); ha nincs, előbb máshonnan kell elvenni.
+- **Power management:** a Pwr + / Pwr − kikerült (a játék power throttle-je
+  élő próbán semmit nem változtatott), a csúszkablokk szélesebb.
+- **Scanning:** a Scan gomb nyomva tartós, mert a játék csak így veszi.
+
 ## 2.2.1-hu.17 (2026-11-14)
 
 - **Shields oldal az eredeti pajzsvezérlővel:** az ívre koppintva az az oldal

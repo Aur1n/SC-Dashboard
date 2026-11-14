@@ -52,7 +52,8 @@ const OWN = {
   v_power_set_shields_off: ["Shields off", "power-shields", "rctrl+np_0", { color: "red", state: { group: "shield-power", set: false } }],
   // The game's own V (Data/Libs/Config/defaultProfile.xml): scanning works only in scan mode.
   v_toggle_scan_mode: ["Scan mode", "target", "v", { color: "amber", state: { group: "scan-mode" } }],
-  v_scanning_trigger_scan: ["Scan", "target", "rctrl+np_divide", { color: "amber" }],
+  // The game takes the scan only while held (activation mode "hold").
+  v_scanning_trigger_scan: ["Scan", "target", "rctrl+np_divide", { color: "amber", mode: "hold" }],
   v_inc_scan_focus_level: ["Scan angle +", "chev-up", "rctrl+equals", {}],
   v_dec_scan_focus_level: ["Scan angle −", "chev-down", "rctrl+semicolon", {}],
   v_ifcs_proximity_assist_toggle: ["Proximity assist", "target", "rctrl+z", { state: { group: "proximity-assist" } }],
@@ -115,13 +116,15 @@ const TALL = { v_power_throttle_up: "Pwr +", v_power_throttle_down: "Pwr −", v
 // The game's pages in its own order (« » steps through them). view: the direct page action, or
 // null. items: [scAction, label?] for what the page does.
 const PAGES = [
-  ["Power management", "resource_network", "rctrl+3", [["@power"], ["v_power_throttle_up"], ["v_power_throttle_down"]]],
+  // The game's power throttle (F9 / F10) changed nothing in a live test, so it's left out.
+  ["Power management", "resource_network", "rctrl+3", [["@power"]]],
   ["Weapon config", null, null, [
     ["v_set_guns_mode"], ["v_set_missile_mode"], ["v_weapon_launch_missile"], ["v_weapon_pip_toggle_lead_lag"],
     ["v_weapon_increase_max_missiles"], ["v_weapon_decrease_max_missiles"],
     ["v_engineering_assignment_weapons_increase"], ["v_engineering_assignment_weapons_decrease"],
   ]],
-  ["Shields", null, null, [["@shields"], ["v_engineering_assignment_shields_increase"], ["v_engineering_assignment_shields_decrease"]]],
+  // No switch column here: the shield cluster takes the room. Shld + needs free power (OUTPUT above 0).
+  ["Shields", null, null, [["@shields"], ["v_engineering_assignment_shields_increase"], ["v_engineering_assignment_shields_decrease"]], { noSwitches: true }],
   ["Self status", "self_status", "rctrl+4", [
     ["v_weapon_countermeasure_decoy_launch"], ["v_weapon_countermeasure_noise_launch"], ["v_weapon_countermeasure_decoy_launch_panic"],
   ]],
@@ -191,13 +194,14 @@ function mfdLayout(side) {
     type: "button", id: `${tag}-${id}`, icon, label, voice: false, ...select, ...(step ? { then: [step] } : {}), mode: "tap", labels: "show", ...extra,
   });
   const panels = {};
-  PAGES.forEach(([title, view, viewKeys, items], p) => {
+  PAGES.forEach(([title, view, viewKeys, items, opts = {}], p) => {
     const pid = `${tag}-${p + 1}`;
-    // A page with a big block (power, shields): the block on four columns, its other two
-    // buttons stacked tall in the fifth.
+    // A page with a big block (power, shields): the block fills the page, or leaves one column
+    // for its other two buttons, stacked tall.
     const block = items.length && items[0][0].startsWith("@");
+    const x0 = opts.noSwitches ? 0 : c0, width = (opts.noSwitches ? 6 : 5) - (items.length > 1 ? 1 : 0);
     const elements = [
-      ...SWITCHES[side].map(([label, scAction, own], i) => {
+      ...(opts.noSwitches ? [] : SWITCHES[side]).map(([label, scAction, own], i) => {
         const from = hudButton(scAction);
         const b = from ? actionButton(`${pid}-sw-${label.toLowerCase()}`, scAction, { label }) : (() => {
           const { icon, keys, mode, state } = own;
@@ -206,9 +210,9 @@ function mfdLayout(side) {
         return { ...b, span: [1, 1], at: [sw, i] };
       }),
       ...items.map(([scAction], i) => {
-        if (scAction === "@power") return powerBlock(pid, [c0, 0]);
-        if (scAction === "@shields") return shieldBlock(pid, [c0, 0]);
-        if (block) return actionButton(`${pid}-${i + 1}`, scAction, { ...(TALL[scAction] ? { label: TALL[scAction] } : {}), span: [1, 3], at: [c0 + 4, (i - 1) * 3] });
+        if (scAction === "@power") return { ...powerBlock(pid, [x0, 0]), span: [width, 6] };
+        if (scAction === "@shields") return { ...shieldBlock(pid, [x0, 0]), span: [width, 6] };
+        if (block) return actionButton(`${pid}-${i + 1}`, scAction, { ...(TALL[scAction] ? { label: TALL[scAction] } : {}), span: [1, 3], at: [x0 + width, (i - 1) * 3] });
         return actionButton(`${pid}-${i + 1}`, scAction, { span: [2, 1] });
       }),
     ];

@@ -302,7 +302,7 @@
           "id": "right-mfd-1-power",
           "cols": 8,
           "span": [
-            4,
+            5,
             6
           ],
           "at": [
@@ -680,44 +680,6 @@
                 1
               ]
             }
-          ]
-        },
-        {
-          "type": "button",
-          "id": "right-mfd-1-2",
-          "icon": "power-up",
-          "label": "PWR +",
-          "voice": false,
-          "keys": "f10",
-          "scAction": "v_power_throttle_up",
-          "mode": "tap",
-          "labels": "show",
-          "span": [
-            1,
-            3
-          ],
-          "at": [
-            5,
-            0
-          ]
-        },
-        {
-          "type": "button",
-          "id": "right-mfd-1-3",
-          "icon": "power-down",
-          "label": "PWR −",
-          "voice": false,
-          "keys": "f9",
-          "scAction": "v_power_throttle_down",
-          "mode": "tap",
-          "labels": "show",
-          "span": [
-            1,
-            3
-          ],
-          "at": [
-            5,
-            3
           ]
         }
       ],
@@ -1097,160 +1059,11 @@
       "cols": 6,
       "elements": [
         {
-          "type": "button",
-          "id": "right-mfd-3-sw-qtm",
-          "icon": "quantum-mode",
-          "label": "QTM",
-          "voice": false,
-          "keys": "rctrl+np_multiply",
-          "scAction": "v_toggle_quantum_mode",
-          "mode": "tap",
-          "labels": "show",
-          "state": {
-            "group": "quantum-mode"
-          },
-          "span": [
-            1,
-            1
-          ],
-          "at": [
-            0,
-            0
-          ]
-        },
-        {
-          "type": "button",
-          "id": "right-mfd-3-sw-ping",
-          "icon": "scan-ping",
-          "label": "PING",
-          "voice": false,
-          "keys": "tab",
-          "scAction": "v_invoke_ping",
-          "mode": "hold",
-          "labels": "show",
-          "color": "blue",
-          "span": [
-            1,
-            1
-          ],
-          "at": [
-            0,
-            1
-          ]
-        },
-        {
-          "type": "button",
-          "id": "right-mfd-3-sw-prox",
-          "icon": "target",
-          "label": "PROX",
-          "voice": false,
-          "keys": "rctrl+z",
-          "scAction": "v_ifcs_proximity_assist_toggle",
-          "mode": "tap",
-          "labels": "show",
-          "state": {
-            "group": "proximity-assist"
-          },
-          "span": [
-            1,
-            1
-          ],
-          "at": [
-            0,
-            2
-          ]
-        },
-        {
-          "type": "button",
-          "id": "right-mfd-3-sw-misl",
-          "icon": "missile",
-          "label": "MISL",
-          "voice": false,
-          "keys": "ralt+t",
-          "scAction": "v_set_missile_mode",
-          "mode": "tap",
-          "labels": "show",
-          "color": "red",
-          "span": [
-            1,
-            1
-          ],
-          "at": [
-            0,
-            3
-          ]
-        },
-        {
-          "type": "button",
-          "id": "right-mfd-3-sw-vtol",
-          "label": "VTOL",
-          "voice": false,
-          "keys": "k",
-          "scAction": "v_vtol_toggle",
-          "mode": "tap",
-          "labels": "show",
-          "state": {
-            "group": "vtol"
-          },
-          "span": [
-            1,
-            1
-          ],
-          "at": [
-            0,
-            4
-          ]
-        },
-        {
-          "type": "button",
-          "id": "right-mfd-3-sw-gear",
-          "label": "GEAR",
-          "voice": false,
-          "keys": "n",
-          "scAction": "v_toggle_landing_system",
-          "mode": "tap",
-          "labels": "show",
-          "state": {
-            "group": "gear"
-          },
-          "span": [
-            1,
-            1
-          ],
-          "at": [
-            0,
-            5
-          ]
-        },
-        {
-          "type": "button",
-          "id": "right-mfd-3-sw-gsaf",
-          "icon": "power-shields",
-          "label": "GSAF",
-          "voice": false,
-          "keys": "lalt+i",
-          "scAction": "v_ifcs_toggle_gforce_safety",
-          "mode": "tap",
-          "labels": "show",
-          "state": {
-            "group": "g-safety"
-          },
-          "color": "amber",
-          "span": [
-            1,
-            1
-          ],
-          "at": [
-            0,
-            6
-          ]
-        },
-        {
           "type": "shields",
           "id": "right-mfd-3-sh-cluster",
           "label": "SHIELDS",
           "span": [
-            4,
+            5,
             6
           ],
           "faces": {
@@ -1330,7 +1143,7 @@
             }
           },
           "at": [
-            1,
+            0,
             0
           ]
         },
@@ -2985,7 +2798,7 @@
           "voice": false,
           "keys": "rctrl+np_divide",
           "scAction": "v_scanning_trigger_scan",
-          "mode": "tap",
+          "mode": "hold",
           "labels": "show",
           "color": "amber",
           "span": [
