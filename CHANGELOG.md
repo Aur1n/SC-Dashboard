@@ -5,6 +5,19 @@ section becomes the notes of its
 [GitHub release](https://github.com/xattribution/SpoolUp/releases), so add one
 before tagging a release.
 
+## 2.2.1-hu.11 (2026-11-14)
+
+- **A Bal MFD és a Jobb MFD elrendezés teljes lett.** A bal fél első lapja az
+  adott képernyő panelje: fent a nyolc MFD-oldal és a Mindent javít, alatta a
+  játék MFD-je mellett látható kapcsolók (QTM, MISL, VTOL, GEAR, GSAF, PING,
+  PWR, WPN, THR, SHLD, CPLD, ESP), legalul a lépkedés és a fülek lapozása.
+  Utána a HUD megszokott bal oldali paneljei lapozhatók, a jobb félen pedig a
+  HUD eredeti paneljei vannak. A kapcsolók fényei közösek a HUD gombjaival.
+- A HUD MFD-paneljén mindkét képernyőnek saját fül-lapozója van; a közös pár
+  mindig az utoljára kiválasztott képernyőn lapozott.
+- A nyílgombokon egyetlen nyíl van (eddig az ikon és a felirat is nyilat rajzolt).
+- Új billentyű nincs, a profilt nem kell újra betölteni.
+
 ## 2.2.1-hu.10 (2026-11-14)
 
 - **Két tablet, két MFD.** Új elrendezések: **Bal MFD** és **Jobb MFD**

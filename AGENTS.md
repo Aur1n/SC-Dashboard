@@ -19,6 +19,7 @@ Imperium Games.
 | `discovery.js` | answers mDNS for `_spoolup._tcp` so the apps find the PC (name, port, version) |
 | `public/` | the deck, the layout editor (`editor.*`) and the showcase |
 | `layouts/` | built-in layouts; `hud.json` is the source, most others are generated |
+| `layouts/mfd-left.json`, `layouts/mfd-right.json` (one tablet per MFD) | `layouts/hud.json`, `tools/make-mfd-layouts.js` | `node tools/make-mfd-layouts.js` |
 | `keybinds/` | the SC-Dashboard Keyboard profile (generated) |
 | `data/` | Star Citizen 4.10's actions, default keys and action-map contexts, for the profile check and the merged profile |
 | `native/` | C# sources: the app window, the key sender, the voice listener, the sound player |

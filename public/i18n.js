@@ -552,6 +552,10 @@
     "Self Repair All": ["Autorreparar todo", "Tout réparer", "Alles reparieren"],
     "Select left MFD": ["Elegir MFD izquierdo", "Choisir le MFD gauche", "Linkes MFD wählen"],
     "Select right MFD": ["Elegir MFD derecho", "Choisir le MFD droit", "Rechtes MFD wählen"],
+    "Up": ["Arriba", "Haut", "Hoch"],
+    "Down": ["Abajo", "Bas", "Runter"],
+    "Prev tab": ["Pestaña ant.", "Onglet préc.", "Tab zurück"],
+    "Next tab": ["Pestaña sig.", "Onglet suiv.", "Tab vor"],
   };
 
   // Magyar, T's fourth column, kept apart so upstream changes to T merge without conflicts.
@@ -995,6 +999,10 @@
     "Self Repair All": "Mindent javít",
     "Select left MFD": "Bal MFD kiválasztása",
     "Select right MFD": "Jobb MFD kiválasztása",
+    "Up": "Fel",
+    "Down": "Le",
+    "Prev tab": "Előző fül",
+    "Next tab": "Köv. fül",
   };
   for (const key in HU) if (T[key]) T[key][COLUMN.hu] = HU[key];
 
