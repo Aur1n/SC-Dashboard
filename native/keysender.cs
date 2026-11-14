@@ -170,10 +170,18 @@ static class KeySender
 
             uint sent = Send(scan, flags);
             if (scan == SCAN_CTRL && !extended) ctrlHeld = down;
-            if (sent == 1 && down && scan == SCAN_ALT && extended && !ctrlHeld)
-                Send(SCAN_CTRL, KEYEVENTF_SCANCODE | KEYEVENTF_KEYUP); // AltGr's own Left Ctrl
+            // AltGr's own Left Ctrl: let go right after Right Alt goes down, and once more as it
+            // comes up, so a lost key-up can never leave Left Ctrl held in the game.
+            if (sent == 1 && scan == SCAN_ALT && extended && !ctrlHeld)
+                Send(SCAN_CTRL, KEYEVENTF_SCANCODE | KEYEVENTF_KEYUP);
             Console.WriteLine(sent == 1 ? "ok" : "err " + Marshal.GetLastWin32Error());
             Console.Out.Flush();
         }
+        // The server closed us (it quit, or was stopped by an update): let go of every
+        // modifier, in case a press was cut off between its down and its up.
+        foreach (var m in new[] { new { s = SCAN_CTRL, e = false }, new { s = SCAN_CTRL, e = true },
+                                  new { s = SCAN_ALT, e = false }, new { s = SCAN_ALT, e = true },
+                                  new { s = (ushort)0x2A, e = false }, new { s = (ushort)0x36, e = false } })
+            Send(m.s, KEYEVENTF_SCANCODE | KEYEVENTF_KEYUP | (m.e ? KEYEVENTF_EXTENDEDKEY : 0));
     }
 }

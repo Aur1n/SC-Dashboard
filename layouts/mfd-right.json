@@ -1,0 +1,396 @@
+{
+  "name": "Right MFD",
+  "notes": "One tablet for the right MFD (MFD 2 in Star Citizen): each button selects that screen (Right Ctrl+2), then sends its page or move. The page and move actions are unbound in the game by default; the SC-Dashboard Keyboard profile binds them on Right Ctrl. One way only: a page picked in the game with the mouse doesn't show here.",
+  "grid": {
+    "version": 3,
+    "density": {
+      "small": "default",
+      "large": "default"
+    },
+    "halves": {
+      "left": [
+        "pages"
+      ],
+      "right": [
+        "nav"
+      ]
+    },
+    "full": []
+  },
+  "chrome": [
+    {
+      "type": "action",
+      "action": "menu",
+      "icon": "emblem",
+      "bar": "left"
+    },
+    {
+      "type": "status",
+      "bar": "left"
+    },
+    {
+      "type": "talk",
+      "label": "Hold to talk",
+      "bar": "right"
+    },
+    {
+      "type": "voicehelp",
+      "bar": "right"
+    },
+    {
+      "type": "action",
+      "action": "theme",
+      "icon": "sliders",
+      "bar": "right"
+    }
+  ],
+  "panels": {
+    "pages": {
+      "title": "Pages",
+      "cols": 6,
+      "elements": [
+        {
+          "type": "button",
+          "id": "right-mfd-resource_network",
+          "icon": "power",
+          "label": "Power",
+          "voice": false,
+          "keys": "rctrl+2",
+          "scAction": "v_mfd_soft_select_mfd_2_short",
+          "then": [
+            {
+              "keys": "rctrl+3",
+              "scAction": "v_mfd_select_view_resource_network_short"
+            }
+          ],
+          "mode": "tap",
+          "labels": "show",
+          "span": [
+            3,
+            1
+          ],
+          "color": "green"
+        },
+        {
+          "type": "button",
+          "id": "right-mfd-self_status",
+          "icon": "power-shields",
+          "label": "Self status",
+          "voice": false,
+          "keys": "rctrl+2",
+          "scAction": "v_mfd_soft_select_mfd_2_short",
+          "then": [
+            {
+              "keys": "rctrl+4",
+              "scAction": "v_mfd_select_view_self_status_short"
+            }
+          ],
+          "mode": "tap",
+          "labels": "show",
+          "span": [
+            3,
+            1
+          ],
+          "color": "blue"
+        },
+        {
+          "type": "button",
+          "id": "right-mfd-target_status",
+          "icon": "target",
+          "label": "Target status",
+          "voice": false,
+          "keys": "rctrl+2",
+          "scAction": "v_mfd_soft_select_mfd_2_short",
+          "then": [
+            {
+              "keys": "rctrl+5",
+              "scAction": "v_mfd_select_view_target_status_short"
+            }
+          ],
+          "mode": "tap",
+          "labels": "show",
+          "span": [
+            3,
+            1
+          ],
+          "color": "amber"
+        },
+        {
+          "type": "button",
+          "id": "right-mfd-comms",
+          "icon": "chat",
+          "label": "Comms",
+          "voice": false,
+          "keys": "rctrl+2",
+          "scAction": "v_mfd_soft_select_mfd_2_short",
+          "then": [
+            {
+              "keys": "rctrl+6",
+              "scAction": "v_mfd_select_view_comms_short"
+            }
+          ],
+          "mode": "tap",
+          "labels": "show",
+          "span": [
+            3,
+            1
+          ]
+        },
+        {
+          "type": "button",
+          "id": "right-mfd-configuration",
+          "icon": "swap",
+          "label": "Configuration",
+          "voice": false,
+          "keys": "rctrl+2",
+          "scAction": "v_mfd_soft_select_mfd_2_short",
+          "then": [
+            {
+              "keys": "rctrl+9",
+              "scAction": "v_mfd_select_view_configuration_short"
+            }
+          ],
+          "mode": "tap",
+          "labels": "show",
+          "span": [
+            3,
+            1
+          ]
+        },
+        {
+          "type": "button",
+          "id": "right-mfd-diagnostics",
+          "icon": "power-reset",
+          "label": "Diagnostics",
+          "voice": false,
+          "keys": "rctrl+2",
+          "scAction": "v_mfd_soft_select_mfd_2_short",
+          "then": [
+            {
+              "keys": "rctrl+0",
+              "scAction": "v_mfd_select_view_diagnostics_short"
+            }
+          ],
+          "mode": "tap",
+          "labels": "show",
+          "span": [
+            3,
+            1
+          ]
+        },
+        {
+          "type": "button",
+          "id": "right-mfd-scanning",
+          "icon": "target",
+          "label": "Scanning",
+          "voice": false,
+          "keys": "rctrl+2",
+          "scAction": "v_mfd_soft_select_mfd_2_short",
+          "then": [
+            {
+              "keys": "rctrl+comma",
+              "scAction": "v_mfd_select_view_scanning_short"
+            }
+          ],
+          "mode": "tap",
+          "labels": "show",
+          "span": [
+            3,
+            1
+          ]
+        },
+        {
+          "type": "button",
+          "id": "right-mfd-ifcs",
+          "icon": "speed",
+          "label": "IFCS",
+          "voice": false,
+          "keys": "rctrl+2",
+          "scAction": "v_mfd_soft_select_mfd_2_short",
+          "then": [
+            {
+              "keys": "rctrl+period",
+              "scAction": "v_mfd_select_view_ifcs_short"
+            }
+          ],
+          "mode": "tap",
+          "labels": "show",
+          "span": [
+            3,
+            1
+          ]
+        },
+        {
+          "type": "button",
+          "id": "right-mfd-repair",
+          "icon": "power-reset",
+          "label": "Self Repair All",
+          "voice": false,
+          "keys": "rctrl+2",
+          "scAction": "v_mfd_soft_select_mfd_2_short",
+          "then": [
+            {
+              "keys": "rctrl+q",
+              "scAction": "v_mfd_quick_action_repair_all"
+            }
+          ],
+          "mode": "tap",
+          "labels": "show",
+          "span": [
+            6,
+            1
+          ],
+          "color": "amber"
+        }
+      ]
+    },
+    "nav": {
+      "title": "Navigation",
+      "cols": 6,
+      "elements": [
+        {
+          "type": "button",
+          "id": "right-mfd-tab-back",
+          "icon": "chev-left",
+          "label": "◀ Tab",
+          "voice": false,
+          "keys": "rctrl+2",
+          "scAction": "v_mfd_soft_select_mfd_2_short",
+          "then": [
+            {
+              "keys": "lalt+q",
+              "scAction": "v_mfd_interact_cycle_backwards_short"
+            }
+          ],
+          "mode": "tap",
+          "labels": "show",
+          "span": [
+            3,
+            1
+          ]
+        },
+        {
+          "type": "button",
+          "id": "right-mfd-tab-fwd",
+          "icon": "chev-right",
+          "label": "Tab ▶",
+          "voice": false,
+          "keys": "rctrl+2",
+          "scAction": "v_mfd_soft_select_mfd_2_short",
+          "then": [
+            {
+              "keys": "lalt+e",
+              "scAction": "v_mfd_interact_cycle_forwards_short"
+            }
+          ],
+          "mode": "tap",
+          "labels": "show",
+          "span": [
+            3,
+            1
+          ]
+        },
+        {
+          "type": "button",
+          "id": "right-mfd-move-up",
+          "icon": "chev-up",
+          "label": "▲",
+          "voice": false,
+          "keys": "rctrl+2",
+          "scAction": "v_mfd_soft_select_mfd_2_short",
+          "then": [
+            {
+              "keys": "rctrl+e",
+              "scAction": "v_mfd_movement_up_short"
+            }
+          ],
+          "mode": "tap",
+          "labels": "show",
+          "span": [
+            6,
+            1
+          ]
+        },
+        {
+          "type": "button",
+          "id": "right-mfd-move-left",
+          "icon": "chev-left",
+          "label": "◀",
+          "voice": false,
+          "keys": "rctrl+2",
+          "scAction": "v_mfd_soft_select_mfd_2_short",
+          "then": [
+            {
+              "keys": "rctrl+a",
+              "scAction": "v_mfd_movement_left_short"
+            }
+          ],
+          "mode": "tap",
+          "labels": "show",
+          "span": [
+            3,
+            1
+          ]
+        },
+        {
+          "type": "button",
+          "id": "right-mfd-move-right",
+          "icon": "chev-right",
+          "label": "▶",
+          "voice": false,
+          "keys": "rctrl+2",
+          "scAction": "v_mfd_soft_select_mfd_2_short",
+          "then": [
+            {
+              "keys": "rctrl+d",
+              "scAction": "v_mfd_movement_right_short"
+            }
+          ],
+          "mode": "tap",
+          "labels": "show",
+          "span": [
+            3,
+            1
+          ]
+        },
+        {
+          "type": "button",
+          "id": "right-mfd-move-down",
+          "icon": "chev-down",
+          "label": "▼",
+          "voice": false,
+          "keys": "rctrl+2",
+          "scAction": "v_mfd_soft_select_mfd_2_short",
+          "then": [
+            {
+              "keys": "rctrl+x",
+              "scAction": "v_mfd_movement_down_short"
+            }
+          ],
+          "mode": "tap",
+          "labels": "show",
+          "span": [
+            6,
+            1
+          ]
+        },
+        {
+          "type": "button",
+          "id": "right-mfd-select",
+          "icon": "target",
+          "label": "Select right MFD",
+          "voice": false,
+          "keys": "rctrl+2",
+          "scAction": "v_mfd_soft_select_mfd_2_short",
+          "mode": "tap",
+          "labels": "show",
+          "span": [
+            6,
+            1
+          ],
+          "color": "blue"
+        }
+      ]
+    }
+  }
+}

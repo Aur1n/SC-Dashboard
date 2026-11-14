@@ -303,8 +303,38 @@
   </action>
  </actionmap>
  <actionmap name="vehicle_mfd">
+  <action name="v_mfd_movement_down_short">
+   <rebind input="kb1_rctrl+x"/>
+  </action>
+  <action name="v_mfd_movement_left_short">
+   <rebind input="kb1_rctrl+a"/>
+  </action>
+  <action name="v_mfd_movement_right_short">
+   <rebind input="kb1_rctrl+d"/>
+  </action>
+  <action name="v_mfd_movement_up_short">
+   <rebind input="kb1_rctrl+e"/>
+  </action>
+  <action name="v_mfd_quick_action_repair_all">
+   <rebind input="kb1_rctrl+q"/>
+  </action>
+  <action name="v_mfd_select_view_comms_short">
+   <rebind input="kb1_rctrl+6"/>
+  </action>
+  <action name="v_mfd_select_view_configuration_short">
+   <rebind input="kb1_rctrl+9"/>
+  </action>
+  <action name="v_mfd_select_view_diagnostics_short">
+   <rebind input="kb1_rctrl+0"/>
+  </action>
+  <action name="v_mfd_select_view_ifcs_short">
+   <rebind input="kb1_rctrl+period"/>
+  </action>
   <action name="v_mfd_select_view_resource_network_short">
    <rebind input="kb1_rctrl+3"/>
+  </action>
+  <action name="v_mfd_select_view_scanning_short">
+   <rebind input="kb1_rctrl+comma"/>
   </action>
   <action name="v_mfd_select_view_self_status_short">
    <rebind input="kb1_rctrl+4"/>

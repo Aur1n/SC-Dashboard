@@ -545,6 +545,13 @@
     "Power Throttle +": ["Potencia +", "Puissance +", "Leistung +"],
     "Power −": ["Energía −", "Énergie −", "Energie −"],
     "Power +": ["Energía +", "Énergie +", "Energie +"],
+    "Left MFD": ["MFD izquierdo", "MFD gauche", "Linkes MFD"],
+    "Right MFD": ["MFD derecho", "MFD droit", "Rechtes MFD"],
+    "Pages": ["Páginas", "Pages", "Seiten"],
+    "Navigation": ["Navegación", "Navigation", "Navigation"],
+    "Self Repair All": ["Autorreparar todo", "Tout réparer", "Alles reparieren"],
+    "Select left MFD": ["Elegir MFD izquierdo", "Choisir le MFD gauche", "Linkes MFD wählen"],
+    "Select right MFD": ["Elegir MFD derecho", "Choisir le MFD droit", "Rechtes MFD wählen"],
   };
 
   // Magyar, T's fourth column, kept apart so upstream changes to T merge without conflicts.
@@ -981,6 +988,13 @@
     "Toggle Port Locks": "Portzárak be/ki",
     "Port Locks": "Portzárak",
     "Emergency Exit": "Vészkijárat",
+    "Left MFD": "Bal MFD",
+    "Right MFD": "Jobb MFD",
+    "Pages": "Oldalak",
+    "Navigation": "Navigáció",
+    "Self Repair All": "Mindent javít",
+    "Select left MFD": "Bal MFD kiválasztása",
+    "Select right MFD": "Jobb MFD kiválasztása",
   };
   for (const key in HU) if (T[key]) T[key][COLUMN.hu] = HU[key];
 

@@ -5,6 +5,22 @@ section becomes the notes of its
 [GitHub release](https://github.com/xattribution/SpoolUp/releases), so add one
 before tagging a release.
 
+## 2.2.1-hu.10 (2026-11-14)
+
+- **Két tablet, két MFD.** Új elrendezések: **Bal MFD** és **Jobb MFD**
+  (Deck beállítások → Elrendezés, tabletenként külön). A bal oldali félen a
+  nyolc MFD-oldal (Power, Self status, Target status, Comms, Configuration,
+  Diagnostics, Scanning, IFCS) és a Self Repair All, a jobb oldalin a fülek
+  közti lapozás, a négyirányú lépkedés és a képernyő kiválasztása. Minden gomb
+  előbb kiválasztja a saját MFD-jét (bal = MFD 1, jobb = MFD 2), aztán küldi az
+  oldalt vagy a lépést. Csak egy irányban működik: amit a játékban egérrel
+  váltasz, azt a tablet nem látja. **A profilt újra kell telepíteni és
+  betölteni** (tíz új jobb Ctrl-es kötés).
+- A HUD MFD-paneljén a fejlécek „Bal MFD" / „Jobb MFD" lettek.
+- **Nem ragad be a Ctrl.** A billentyűküldő a jobb Alt felengedésekor is
+  elengedi az AltGr bal Ctrl-ját, és kilépéskor (például frissítéskor) minden
+  módosítót (Ctrl, Alt, Shift) felenged.
+
 ## 2.2.1-hu.9 (2026-11-14)
 
 - **Az MFD-oldalak billentyűi jobb Ctrl+3/4/5 lettek** (eddig jobb Ctrl+F1/F2/F3).
