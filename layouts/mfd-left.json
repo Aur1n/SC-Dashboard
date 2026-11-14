@@ -321,158 +321,16 @@
           ]
         },
         {
-          "type": "button",
-          "id": "left-mfd-1-move-up",
-          "icon": "chev-up",
-          "label": "UP",
-          "voice": false,
-          "keys": "rctrl+1",
-          "scAction": "v_mfd_soft_select_mfd_1_short",
-          "then": [
-            {
-              "keys": "rctrl+e",
-              "scAction": "v_mfd_movement_up_short"
-            }
-          ],
-          "mode": "tap",
-          "labels": "hide",
-          "span": [
-            1,
-            1
-          ],
-          "at": [
-            4,
-            0
-          ]
-        },
-        {
-          "type": "button",
-          "id": "left-mfd-1-move-left",
-          "icon": "chev-left",
-          "label": "LEFT",
-          "voice": false,
-          "keys": "rctrl+1",
-          "scAction": "v_mfd_soft_select_mfd_1_short",
-          "then": [
-            {
-              "keys": "rctrl+a",
-              "scAction": "v_mfd_movement_left_short"
-            }
-          ],
-          "mode": "tap",
-          "labels": "hide",
-          "span": [
-            1,
-            1
-          ],
-          "at": [
-            4,
-            1
-          ]
-        },
-        {
-          "type": "button",
-          "id": "left-mfd-1-move-right",
-          "icon": "chev-right",
-          "label": "RIGHT",
-          "voice": false,
-          "keys": "rctrl+1",
-          "scAction": "v_mfd_soft_select_mfd_1_short",
-          "then": [
-            {
-              "keys": "rctrl+d",
-              "scAction": "v_mfd_movement_right_short"
-            }
-          ],
-          "mode": "tap",
-          "labels": "hide",
-          "span": [
-            1,
-            1
-          ],
-          "at": [
-            4,
-            2
-          ]
-        },
-        {
-          "type": "button",
-          "id": "left-mfd-1-move-down",
-          "icon": "chev-down",
-          "label": "DOWN",
-          "voice": false,
-          "keys": "rctrl+1",
-          "scAction": "v_mfd_soft_select_mfd_1_short",
-          "then": [
-            {
-              "keys": "rctrl+x",
-              "scAction": "v_mfd_movement_down_short"
-            }
-          ],
-          "mode": "tap",
-          "labels": "hide",
-          "span": [
-            1,
-            1
-          ],
-          "at": [
-            4,
-            3
-          ]
-        },
-        {
-          "type": "button",
-          "id": "left-mfd-1-select",
-          "icon": "target",
-          "label": "SELECT",
-          "voice": false,
-          "keys": "rctrl+1",
-          "scAction": "v_mfd_soft_select_mfd_1_short",
-          "mode": "tap",
-          "labels": "hide",
-          "span": [
-            1,
-            1
-          ],
-          "color": "blue",
-          "at": [
-            4,
-            4
-          ]
-        },
-        {
-          "type": "button",
-          "id": "left-mfd-1-repair",
-          "icon": "power-reset",
-          "label": "REPAIR",
-          "voice": false,
-          "keys": "rctrl+1",
-          "scAction": "v_mfd_soft_select_mfd_1_short",
-          "then": [
-            {
-              "keys": "rctrl+q",
-              "scAction": "v_mfd_quick_action_repair_all"
-            }
-          ],
-          "mode": "tap",
-          "labels": "hide",
-          "span": [
-            1,
-            1
-          ],
-          "color": "amber",
-          "at": [
-            4,
-            5
-          ]
-        },
-        {
           "type": "group",
           "id": "left-mfd-1-power",
           "cols": 8,
           "span": [
             4,
             6
+          ],
+          "at": [
+            0,
+            0
           ],
           "elements": [
             {
@@ -539,7 +397,7 @@
               "type": "button",
               "id": "left-mfd-1-life",
               "icon": "power",
-              "label": "LIFE SUPPORT",
+              "label": "LIFE",
               "voice": false,
               "labels": "show",
               "state": {
@@ -672,38 +530,68 @@
               ]
             },
             {
-              "type": "level",
-              "id": "left-mfd-1-cool-level",
-              "label": "COOLERS",
-              "icon": "power-reset",
-              "color": "blue",
-              "steps": 5,
+              "type": "button",
+              "id": "left-mfd-1-on",
+              "icon": "power",
+              "label": "ON",
+              "voice": false,
+              "keys": "rctrl+c",
+              "scAction": "v_power_set_on",
+              "mode": "tap",
+              "labels": "show",
+              "color": "green",
+              "state": {
+                "group": "power",
+                "set": true,
+                "with": {
+                  "on": {
+                    "weapons-power": true,
+                    "shield-power": true,
+                    "thruster-power": true,
+                    "life-support": true
+                  }
+                }
+              },
               "at": [
                 6,
                 1
               ],
               "span": [
                 2,
-                3
-              ],
-              "up": {
-                "icon": "chev-up",
-                "id": "left-mfd-1-cool-up",
-                "label": "COOLERS +",
-                "keys": "rctrl+np_add",
-                "scAction": "v_cooler_throttle_up",
-                "mode": "tap",
-                "color": "blue"
+                1
+              ]
+            },
+            {
+              "type": "button",
+              "id": "left-mfd-1-off",
+              "icon": "power",
+              "label": "OFF",
+              "voice": false,
+              "keys": "rctrl+v",
+              "scAction": "v_power_set_off",
+              "mode": "tap",
+              "labels": "show",
+              "color": "red",
+              "state": {
+                "group": "power",
+                "set": false,
+                "with": {
+                  "off": {
+                    "weapons-power": false,
+                    "shield-power": false,
+                    "thruster-power": false,
+                    "life-support": false
+                  }
+                }
               },
-              "down": {
-                "icon": "chev-down",
-                "id": "left-mfd-1-cool-down",
-                "label": "COOLERS −",
-                "keys": "rctrl+np_subtract",
-                "scAction": "v_cooler_throttle_down",
-                "mode": "tap",
-                "color": "blue"
-              }
+              "at": [
+                6,
+                2
+              ],
+              "span": [
+                2,
+                1
+              ]
             },
             {
               "type": "button",
@@ -769,7 +657,7 @@
               "type": "button",
               "id": "left-mfd-1-quantum",
               "icon": "quantum-mode",
-              "label": "QUANTUM DRIVE",
+              "label": "QT DRIVE",
               "voice": false,
               "labels": "show",
               "state": {
@@ -820,31 +708,39 @@
         {
           "type": "button",
           "id": "left-mfd-1-2",
-          "icon": "power-down",
-          "label": "POWER −",
-          "voice": false,
-          "keys": "f9",
-          "scAction": "v_power_throttle_down",
-          "mode": "tap",
-          "labels": "show",
-          "span": [
-            2,
-            1
-          ]
-        },
-        {
-          "type": "button",
-          "id": "left-mfd-1-3",
           "icon": "power-up",
-          "label": "POWER +",
+          "label": "PWR +",
           "voice": false,
           "keys": "f10",
           "scAction": "v_power_throttle_up",
           "mode": "tap",
           "labels": "show",
           "span": [
-            2,
-            1
+            1,
+            3
+          ],
+          "at": [
+            4,
+            0
+          ]
+        },
+        {
+          "type": "button",
+          "id": "left-mfd-1-3",
+          "icon": "power-down",
+          "label": "PWR −",
+          "voice": false,
+          "keys": "f9",
+          "scAction": "v_power_throttle_down",
+          "mode": "tap",
+          "labels": "show",
+          "span": [
+            1,
+            3
+          ],
+          "at": [
+            4,
+            3
           ]
         }
       ],
@@ -1076,152 +972,6 @@
           "at": [
             5,
             6
-          ]
-        },
-        {
-          "type": "button",
-          "id": "left-mfd-2-move-up",
-          "icon": "chev-up",
-          "label": "UP",
-          "voice": false,
-          "keys": "rctrl+1",
-          "scAction": "v_mfd_soft_select_mfd_1_short",
-          "then": [
-            {
-              "keys": "rctrl+e",
-              "scAction": "v_mfd_movement_up_short"
-            }
-          ],
-          "mode": "tap",
-          "labels": "hide",
-          "span": [
-            1,
-            1
-          ],
-          "at": [
-            4,
-            0
-          ]
-        },
-        {
-          "type": "button",
-          "id": "left-mfd-2-move-left",
-          "icon": "chev-left",
-          "label": "LEFT",
-          "voice": false,
-          "keys": "rctrl+1",
-          "scAction": "v_mfd_soft_select_mfd_1_short",
-          "then": [
-            {
-              "keys": "rctrl+a",
-              "scAction": "v_mfd_movement_left_short"
-            }
-          ],
-          "mode": "tap",
-          "labels": "hide",
-          "span": [
-            1,
-            1
-          ],
-          "at": [
-            4,
-            1
-          ]
-        },
-        {
-          "type": "button",
-          "id": "left-mfd-2-move-right",
-          "icon": "chev-right",
-          "label": "RIGHT",
-          "voice": false,
-          "keys": "rctrl+1",
-          "scAction": "v_mfd_soft_select_mfd_1_short",
-          "then": [
-            {
-              "keys": "rctrl+d",
-              "scAction": "v_mfd_movement_right_short"
-            }
-          ],
-          "mode": "tap",
-          "labels": "hide",
-          "span": [
-            1,
-            1
-          ],
-          "at": [
-            4,
-            2
-          ]
-        },
-        {
-          "type": "button",
-          "id": "left-mfd-2-move-down",
-          "icon": "chev-down",
-          "label": "DOWN",
-          "voice": false,
-          "keys": "rctrl+1",
-          "scAction": "v_mfd_soft_select_mfd_1_short",
-          "then": [
-            {
-              "keys": "rctrl+x",
-              "scAction": "v_mfd_movement_down_short"
-            }
-          ],
-          "mode": "tap",
-          "labels": "hide",
-          "span": [
-            1,
-            1
-          ],
-          "at": [
-            4,
-            3
-          ]
-        },
-        {
-          "type": "button",
-          "id": "left-mfd-2-select",
-          "icon": "target",
-          "label": "SELECT",
-          "voice": false,
-          "keys": "rctrl+1",
-          "scAction": "v_mfd_soft_select_mfd_1_short",
-          "mode": "tap",
-          "labels": "hide",
-          "span": [
-            1,
-            1
-          ],
-          "color": "blue",
-          "at": [
-            4,
-            4
-          ]
-        },
-        {
-          "type": "button",
-          "id": "left-mfd-2-repair",
-          "icon": "power-reset",
-          "label": "REPAIR",
-          "voice": false,
-          "keys": "rctrl+1",
-          "scAction": "v_mfd_soft_select_mfd_1_short",
-          "then": [
-            {
-              "keys": "rctrl+q",
-              "scAction": "v_mfd_quick_action_repair_all"
-            }
-          ],
-          "mode": "tap",
-          "labels": "hide",
-          "span": [
-            1,
-            1
-          ],
-          "color": "amber",
-          "at": [
-            4,
-            5
           ]
         },
         {
@@ -1565,291 +1315,131 @@
           ]
         },
         {
-          "type": "button",
-          "id": "left-mfd-3-move-up",
-          "icon": "chev-up",
-          "label": "UP",
-          "voice": false,
-          "keys": "rctrl+1",
-          "scAction": "v_mfd_soft_select_mfd_1_short",
-          "then": [
-            {
-              "keys": "rctrl+e",
-              "scAction": "v_mfd_movement_up_short"
-            }
-          ],
-          "mode": "tap",
-          "labels": "hide",
+          "type": "shields",
+          "id": "left-mfd-3-sh-cluster",
+          "label": "SHIELDS",
           "span": [
-            1,
-            1
-          ],
-          "at": [
             4,
+            6
+          ],
+          "faces": {
+            "front": {
+              "id": "left-mfd-3-sh-front",
+              "icon": "power-shields",
+              "label": "FRONT",
+              "keys": "ralt+np_8",
+              "scAction": "v_shield_raise_level_forward",
+              "mode": "tap",
+              "color": "green"
+            },
+            "back": {
+              "id": "left-mfd-3-sh-back",
+              "icon": "chev-down",
+              "label": "BACK",
+              "keys": "ralt+np_2",
+              "scAction": "v_shield_raise_level_back",
+              "mode": "tap",
+              "color": "green"
+            },
+            "left": {
+              "id": "left-mfd-3-sh-left",
+              "icon": "chev-left",
+              "label": "LEFT",
+              "keys": "ralt+np_4",
+              "scAction": "v_shield_raise_level_left",
+              "mode": "tap",
+              "color": "green"
+            },
+            "right": {
+              "id": "left-mfd-3-sh-right",
+              "icon": "chev-right",
+              "label": "RIGHT",
+              "keys": "ralt+np_6",
+              "scAction": "v_shield_raise_level_right",
+              "mode": "tap",
+              "color": "green"
+            },
+            "top": {
+              "id": "left-mfd-3-sh-up",
+              "icon": "chev-up",
+              "label": "TOP",
+              "keys": "ralt+np_subtract",
+              "scAction": "v_shield_raise_level_up",
+              "mode": "tap",
+              "color": "green"
+            },
+            "bottom": {
+              "id": "left-mfd-3-sh-down",
+              "icon": "chev-down",
+              "label": "BOTTOM",
+              "keys": "ralt+np_add",
+              "scAction": "v_shield_raise_level_down",
+              "mode": "tap",
+              "color": "green"
+            }
+          },
+          "reset": {
+            "id": "left-mfd-3-sh-reset",
+            "icon": "power-reset",
+            "label": "RESET",
+            "keys": "ralt+np_5",
+            "scAction": "v_shield_reset_level",
+            "mode": "tap"
+          },
+          "power": {
+            "id": "left-mfd-3-sh-power",
+            "label": "SHIELDS ON/OFF",
+            "icon": "power-shields",
+            "keys": "o",
+            "scAction": "v_power_toggle_shields",
+            "mode": "tap",
+            "color": "green",
+            "state": {
+              "group": "shield-power"
+            }
+          },
+          "at": [
+            0,
             0
           ]
         },
         {
           "type": "button",
-          "id": "left-mfd-3-move-left",
-          "icon": "chev-left",
-          "label": "LEFT",
-          "voice": false,
-          "keys": "rctrl+1",
-          "scAction": "v_mfd_soft_select_mfd_1_short",
-          "then": [
-            {
-              "keys": "rctrl+a",
-              "scAction": "v_mfd_movement_left_short"
-            }
-          ],
-          "mode": "tap",
-          "labels": "hide",
-          "span": [
-            1,
-            1
-          ],
-          "at": [
-            4,
-            1
-          ]
-        },
-        {
-          "type": "button",
-          "id": "left-mfd-3-move-right",
-          "icon": "chev-right",
-          "label": "RIGHT",
-          "voice": false,
-          "keys": "rctrl+1",
-          "scAction": "v_mfd_soft_select_mfd_1_short",
-          "then": [
-            {
-              "keys": "rctrl+d",
-              "scAction": "v_mfd_movement_right_short"
-            }
-          ],
-          "mode": "tap",
-          "labels": "hide",
-          "span": [
-            1,
-            1
-          ],
-          "at": [
-            4,
-            2
-          ]
-        },
-        {
-          "type": "button",
-          "id": "left-mfd-3-move-down",
-          "icon": "chev-down",
-          "label": "DOWN",
-          "voice": false,
-          "keys": "rctrl+1",
-          "scAction": "v_mfd_soft_select_mfd_1_short",
-          "then": [
-            {
-              "keys": "rctrl+x",
-              "scAction": "v_mfd_movement_down_short"
-            }
-          ],
-          "mode": "tap",
-          "labels": "hide",
-          "span": [
-            1,
-            1
-          ],
-          "at": [
-            4,
-            3
-          ]
-        },
-        {
-          "type": "button",
-          "id": "left-mfd-3-select",
-          "icon": "target",
-          "label": "SELECT",
-          "voice": false,
-          "keys": "rctrl+1",
-          "scAction": "v_mfd_soft_select_mfd_1_short",
-          "mode": "tap",
-          "labels": "hide",
-          "span": [
-            1,
-            1
-          ],
-          "color": "blue",
-          "at": [
-            4,
-            4
-          ]
-        },
-        {
-          "type": "button",
-          "id": "left-mfd-3-repair",
-          "icon": "power-reset",
-          "label": "REPAIR",
-          "voice": false,
-          "keys": "rctrl+1",
-          "scAction": "v_mfd_soft_select_mfd_1_short",
-          "then": [
-            {
-              "keys": "rctrl+q",
-              "scAction": "v_mfd_quick_action_repair_all"
-            }
-          ],
-          "mode": "tap",
-          "labels": "hide",
-          "span": [
-            1,
-            1
-          ],
-          "color": "amber",
-          "at": [
-            4,
-            5
-          ]
-        },
-        {
-          "type": "button",
-          "id": "left-mfd-3-1",
-          "icon": "power-shields",
-          "label": "FRONT",
-          "voice": false,
-          "keys": "ralt+np_8",
-          "scAction": "v_shield_raise_level_forward",
-          "mode": "tap",
-          "labels": "show",
-          "span": [
-            2,
-            1
-          ],
-          "color": "green"
-        },
-        {
-          "type": "button",
           "id": "left-mfd-3-2",
-          "icon": "chev-down",
-          "label": "BACK",
-          "voice": false,
-          "keys": "ralt+np_2",
-          "scAction": "v_shield_raise_level_back",
-          "mode": "tap",
-          "labels": "show",
-          "span": [
-            2,
-            1
-          ],
-          "color": "green"
-        },
-        {
-          "type": "button",
-          "id": "left-mfd-3-3",
-          "icon": "chev-left",
-          "label": "LEFT",
-          "voice": false,
-          "keys": "ralt+np_4",
-          "scAction": "v_shield_raise_level_left",
-          "mode": "tap",
-          "labels": "show",
-          "span": [
-            2,
-            1
-          ],
-          "color": "green"
-        },
-        {
-          "type": "button",
-          "id": "left-mfd-3-4",
-          "icon": "chev-right",
-          "label": "RIGHT",
-          "voice": false,
-          "keys": "ralt+np_6",
-          "scAction": "v_shield_raise_level_right",
-          "mode": "tap",
-          "labels": "show",
-          "span": [
-            2,
-            1
-          ],
-          "color": "green"
-        },
-        {
-          "type": "button",
-          "id": "left-mfd-3-5",
           "icon": "chev-up",
-          "label": "TOP",
-          "voice": false,
-          "keys": "ralt+np_subtract",
-          "scAction": "v_shield_raise_level_up",
-          "mode": "tap",
-          "labels": "show",
-          "span": [
-            2,
-            1
-          ],
-          "color": "green"
-        },
-        {
-          "type": "button",
-          "id": "left-mfd-3-6",
-          "icon": "chev-down",
-          "label": "BOTTOM",
-          "voice": false,
-          "keys": "ralt+np_add",
-          "scAction": "v_shield_raise_level_down",
-          "mode": "tap",
-          "labels": "show",
-          "span": [
-            2,
-            1
-          ],
-          "color": "green"
-        },
-        {
-          "type": "button",
-          "id": "left-mfd-3-7",
-          "icon": "power-reset",
-          "label": "RESET",
-          "voice": false,
-          "keys": "ralt+np_5",
-          "scAction": "v_shield_reset_level",
-          "mode": "tap",
-          "labels": "show",
-          "span": [
-            2,
-            1
-          ]
-        },
-        {
-          "type": "button",
-          "id": "left-mfd-3-8",
-          "icon": "chev-up",
-          "label": "SHIELDS +",
+          "label": "SHLD +",
           "voice": false,
           "keys": "f7",
           "scAction": "v_engineering_assignment_shields_increase",
           "mode": "tap",
           "labels": "show",
           "span": [
-            2,
-            1
+            1,
+            3
+          ],
+          "at": [
+            4,
+            0
           ],
           "color": "green"
         },
         {
           "type": "button",
-          "id": "left-mfd-3-9",
+          "id": "left-mfd-3-3",
           "icon": "chev-down",
-          "label": "SHIELDS −",
+          "label": "SHLD −",
           "voice": false,
           "keys": "lalt+f7",
           "scAction": "v_engineering_assignment_shields_decrease",
           "mode": "tap",
           "labels": "show",
           "span": [
-            2,
-            1
+            1,
+            3
+          ],
+          "at": [
+            4,
+            3
           ],
           "color": "green"
         }
@@ -2065,152 +1655,6 @@
           "at": [
             5,
             6
-          ]
-        },
-        {
-          "type": "button",
-          "id": "left-mfd-4-move-up",
-          "icon": "chev-up",
-          "label": "UP",
-          "voice": false,
-          "keys": "rctrl+1",
-          "scAction": "v_mfd_soft_select_mfd_1_short",
-          "then": [
-            {
-              "keys": "rctrl+e",
-              "scAction": "v_mfd_movement_up_short"
-            }
-          ],
-          "mode": "tap",
-          "labels": "hide",
-          "span": [
-            1,
-            1
-          ],
-          "at": [
-            4,
-            0
-          ]
-        },
-        {
-          "type": "button",
-          "id": "left-mfd-4-move-left",
-          "icon": "chev-left",
-          "label": "LEFT",
-          "voice": false,
-          "keys": "rctrl+1",
-          "scAction": "v_mfd_soft_select_mfd_1_short",
-          "then": [
-            {
-              "keys": "rctrl+a",
-              "scAction": "v_mfd_movement_left_short"
-            }
-          ],
-          "mode": "tap",
-          "labels": "hide",
-          "span": [
-            1,
-            1
-          ],
-          "at": [
-            4,
-            1
-          ]
-        },
-        {
-          "type": "button",
-          "id": "left-mfd-4-move-right",
-          "icon": "chev-right",
-          "label": "RIGHT",
-          "voice": false,
-          "keys": "rctrl+1",
-          "scAction": "v_mfd_soft_select_mfd_1_short",
-          "then": [
-            {
-              "keys": "rctrl+d",
-              "scAction": "v_mfd_movement_right_short"
-            }
-          ],
-          "mode": "tap",
-          "labels": "hide",
-          "span": [
-            1,
-            1
-          ],
-          "at": [
-            4,
-            2
-          ]
-        },
-        {
-          "type": "button",
-          "id": "left-mfd-4-move-down",
-          "icon": "chev-down",
-          "label": "DOWN",
-          "voice": false,
-          "keys": "rctrl+1",
-          "scAction": "v_mfd_soft_select_mfd_1_short",
-          "then": [
-            {
-              "keys": "rctrl+x",
-              "scAction": "v_mfd_movement_down_short"
-            }
-          ],
-          "mode": "tap",
-          "labels": "hide",
-          "span": [
-            1,
-            1
-          ],
-          "at": [
-            4,
-            3
-          ]
-        },
-        {
-          "type": "button",
-          "id": "left-mfd-4-select",
-          "icon": "target",
-          "label": "SELECT",
-          "voice": false,
-          "keys": "rctrl+1",
-          "scAction": "v_mfd_soft_select_mfd_1_short",
-          "mode": "tap",
-          "labels": "hide",
-          "span": [
-            1,
-            1
-          ],
-          "color": "blue",
-          "at": [
-            4,
-            4
-          ]
-        },
-        {
-          "type": "button",
-          "id": "left-mfd-4-repair",
-          "icon": "power-reset",
-          "label": "REPAIR",
-          "voice": false,
-          "keys": "rctrl+1",
-          "scAction": "v_mfd_soft_select_mfd_1_short",
-          "then": [
-            {
-              "keys": "rctrl+q",
-              "scAction": "v_mfd_quick_action_repair_all"
-            }
-          ],
-          "mode": "tap",
-          "labels": "hide",
-          "span": [
-            1,
-            1
-          ],
-          "color": "amber",
-          "at": [
-            4,
-            5
           ]
         },
         {
@@ -2490,152 +1934,6 @@
           "at": [
             5,
             6
-          ]
-        },
-        {
-          "type": "button",
-          "id": "left-mfd-5-move-up",
-          "icon": "chev-up",
-          "label": "UP",
-          "voice": false,
-          "keys": "rctrl+1",
-          "scAction": "v_mfd_soft_select_mfd_1_short",
-          "then": [
-            {
-              "keys": "rctrl+e",
-              "scAction": "v_mfd_movement_up_short"
-            }
-          ],
-          "mode": "tap",
-          "labels": "hide",
-          "span": [
-            1,
-            1
-          ],
-          "at": [
-            4,
-            0
-          ]
-        },
-        {
-          "type": "button",
-          "id": "left-mfd-5-move-left",
-          "icon": "chev-left",
-          "label": "LEFT",
-          "voice": false,
-          "keys": "rctrl+1",
-          "scAction": "v_mfd_soft_select_mfd_1_short",
-          "then": [
-            {
-              "keys": "rctrl+a",
-              "scAction": "v_mfd_movement_left_short"
-            }
-          ],
-          "mode": "tap",
-          "labels": "hide",
-          "span": [
-            1,
-            1
-          ],
-          "at": [
-            4,
-            1
-          ]
-        },
-        {
-          "type": "button",
-          "id": "left-mfd-5-move-right",
-          "icon": "chev-right",
-          "label": "RIGHT",
-          "voice": false,
-          "keys": "rctrl+1",
-          "scAction": "v_mfd_soft_select_mfd_1_short",
-          "then": [
-            {
-              "keys": "rctrl+d",
-              "scAction": "v_mfd_movement_right_short"
-            }
-          ],
-          "mode": "tap",
-          "labels": "hide",
-          "span": [
-            1,
-            1
-          ],
-          "at": [
-            4,
-            2
-          ]
-        },
-        {
-          "type": "button",
-          "id": "left-mfd-5-move-down",
-          "icon": "chev-down",
-          "label": "DOWN",
-          "voice": false,
-          "keys": "rctrl+1",
-          "scAction": "v_mfd_soft_select_mfd_1_short",
-          "then": [
-            {
-              "keys": "rctrl+x",
-              "scAction": "v_mfd_movement_down_short"
-            }
-          ],
-          "mode": "tap",
-          "labels": "hide",
-          "span": [
-            1,
-            1
-          ],
-          "at": [
-            4,
-            3
-          ]
-        },
-        {
-          "type": "button",
-          "id": "left-mfd-5-select",
-          "icon": "target",
-          "label": "SELECT",
-          "voice": false,
-          "keys": "rctrl+1",
-          "scAction": "v_mfd_soft_select_mfd_1_short",
-          "mode": "tap",
-          "labels": "hide",
-          "span": [
-            1,
-            1
-          ],
-          "color": "blue",
-          "at": [
-            4,
-            4
-          ]
-        },
-        {
-          "type": "button",
-          "id": "left-mfd-5-repair",
-          "icon": "power-reset",
-          "label": "REPAIR",
-          "voice": false,
-          "keys": "rctrl+1",
-          "scAction": "v_mfd_soft_select_mfd_1_short",
-          "then": [
-            {
-              "keys": "rctrl+q",
-              "scAction": "v_mfd_quick_action_repair_all"
-            }
-          ],
-          "mode": "tap",
-          "labels": "hide",
-          "span": [
-            1,
-            1
-          ],
-          "color": "amber",
-          "at": [
-            4,
-            5
           ]
         },
         {
@@ -2961,152 +2259,6 @@
           "at": [
             5,
             6
-          ]
-        },
-        {
-          "type": "button",
-          "id": "left-mfd-6-move-up",
-          "icon": "chev-up",
-          "label": "UP",
-          "voice": false,
-          "keys": "rctrl+1",
-          "scAction": "v_mfd_soft_select_mfd_1_short",
-          "then": [
-            {
-              "keys": "rctrl+e",
-              "scAction": "v_mfd_movement_up_short"
-            }
-          ],
-          "mode": "tap",
-          "labels": "hide",
-          "span": [
-            1,
-            1
-          ],
-          "at": [
-            4,
-            0
-          ]
-        },
-        {
-          "type": "button",
-          "id": "left-mfd-6-move-left",
-          "icon": "chev-left",
-          "label": "LEFT",
-          "voice": false,
-          "keys": "rctrl+1",
-          "scAction": "v_mfd_soft_select_mfd_1_short",
-          "then": [
-            {
-              "keys": "rctrl+a",
-              "scAction": "v_mfd_movement_left_short"
-            }
-          ],
-          "mode": "tap",
-          "labels": "hide",
-          "span": [
-            1,
-            1
-          ],
-          "at": [
-            4,
-            1
-          ]
-        },
-        {
-          "type": "button",
-          "id": "left-mfd-6-move-right",
-          "icon": "chev-right",
-          "label": "RIGHT",
-          "voice": false,
-          "keys": "rctrl+1",
-          "scAction": "v_mfd_soft_select_mfd_1_short",
-          "then": [
-            {
-              "keys": "rctrl+d",
-              "scAction": "v_mfd_movement_right_short"
-            }
-          ],
-          "mode": "tap",
-          "labels": "hide",
-          "span": [
-            1,
-            1
-          ],
-          "at": [
-            4,
-            2
-          ]
-        },
-        {
-          "type": "button",
-          "id": "left-mfd-6-move-down",
-          "icon": "chev-down",
-          "label": "DOWN",
-          "voice": false,
-          "keys": "rctrl+1",
-          "scAction": "v_mfd_soft_select_mfd_1_short",
-          "then": [
-            {
-              "keys": "rctrl+x",
-              "scAction": "v_mfd_movement_down_short"
-            }
-          ],
-          "mode": "tap",
-          "labels": "hide",
-          "span": [
-            1,
-            1
-          ],
-          "at": [
-            4,
-            3
-          ]
-        },
-        {
-          "type": "button",
-          "id": "left-mfd-6-select",
-          "icon": "target",
-          "label": "SELECT",
-          "voice": false,
-          "keys": "rctrl+1",
-          "scAction": "v_mfd_soft_select_mfd_1_short",
-          "mode": "tap",
-          "labels": "hide",
-          "span": [
-            1,
-            1
-          ],
-          "color": "blue",
-          "at": [
-            4,
-            4
-          ]
-        },
-        {
-          "type": "button",
-          "id": "left-mfd-6-repair",
-          "icon": "power-reset",
-          "label": "REPAIR",
-          "voice": false,
-          "keys": "rctrl+1",
-          "scAction": "v_mfd_soft_select_mfd_1_short",
-          "then": [
-            {
-              "keys": "rctrl+q",
-              "scAction": "v_mfd_quick_action_repair_all"
-            }
-          ],
-          "mode": "tap",
-          "labels": "hide",
-          "span": [
-            1,
-            1
-          ],
-          "color": "amber",
-          "at": [
-            4,
-            5
           ]
         },
         {
@@ -3450,152 +2602,6 @@
         },
         {
           "type": "button",
-          "id": "left-mfd-7-move-up",
-          "icon": "chev-up",
-          "label": "UP",
-          "voice": false,
-          "keys": "rctrl+1",
-          "scAction": "v_mfd_soft_select_mfd_1_short",
-          "then": [
-            {
-              "keys": "rctrl+e",
-              "scAction": "v_mfd_movement_up_short"
-            }
-          ],
-          "mode": "tap",
-          "labels": "hide",
-          "span": [
-            1,
-            1
-          ],
-          "at": [
-            4,
-            0
-          ]
-        },
-        {
-          "type": "button",
-          "id": "left-mfd-7-move-left",
-          "icon": "chev-left",
-          "label": "LEFT",
-          "voice": false,
-          "keys": "rctrl+1",
-          "scAction": "v_mfd_soft_select_mfd_1_short",
-          "then": [
-            {
-              "keys": "rctrl+a",
-              "scAction": "v_mfd_movement_left_short"
-            }
-          ],
-          "mode": "tap",
-          "labels": "hide",
-          "span": [
-            1,
-            1
-          ],
-          "at": [
-            4,
-            1
-          ]
-        },
-        {
-          "type": "button",
-          "id": "left-mfd-7-move-right",
-          "icon": "chev-right",
-          "label": "RIGHT",
-          "voice": false,
-          "keys": "rctrl+1",
-          "scAction": "v_mfd_soft_select_mfd_1_short",
-          "then": [
-            {
-              "keys": "rctrl+d",
-              "scAction": "v_mfd_movement_right_short"
-            }
-          ],
-          "mode": "tap",
-          "labels": "hide",
-          "span": [
-            1,
-            1
-          ],
-          "at": [
-            4,
-            2
-          ]
-        },
-        {
-          "type": "button",
-          "id": "left-mfd-7-move-down",
-          "icon": "chev-down",
-          "label": "DOWN",
-          "voice": false,
-          "keys": "rctrl+1",
-          "scAction": "v_mfd_soft_select_mfd_1_short",
-          "then": [
-            {
-              "keys": "rctrl+x",
-              "scAction": "v_mfd_movement_down_short"
-            }
-          ],
-          "mode": "tap",
-          "labels": "hide",
-          "span": [
-            1,
-            1
-          ],
-          "at": [
-            4,
-            3
-          ]
-        },
-        {
-          "type": "button",
-          "id": "left-mfd-7-select",
-          "icon": "target",
-          "label": "SELECT",
-          "voice": false,
-          "keys": "rctrl+1",
-          "scAction": "v_mfd_soft_select_mfd_1_short",
-          "mode": "tap",
-          "labels": "hide",
-          "span": [
-            1,
-            1
-          ],
-          "color": "blue",
-          "at": [
-            4,
-            4
-          ]
-        },
-        {
-          "type": "button",
-          "id": "left-mfd-7-repair",
-          "icon": "power-reset",
-          "label": "REPAIR",
-          "voice": false,
-          "keys": "rctrl+1",
-          "scAction": "v_mfd_soft_select_mfd_1_short",
-          "then": [
-            {
-              "keys": "rctrl+q",
-              "scAction": "v_mfd_quick_action_repair_all"
-            }
-          ],
-          "mode": "tap",
-          "labels": "hide",
-          "span": [
-            1,
-            1
-          ],
-          "color": "amber",
-          "at": [
-            4,
-            5
-          ]
-        },
-        {
-          "type": "button",
           "id": "left-mfd-7-1",
           "icon": "speed",
           "label": "SPEED LIMITER",
@@ -3911,152 +2917,6 @@
             5,
             6
           ]
-        },
-        {
-          "type": "button",
-          "id": "left-mfd-8-move-up",
-          "icon": "chev-up",
-          "label": "UP",
-          "voice": false,
-          "keys": "rctrl+1",
-          "scAction": "v_mfd_soft_select_mfd_1_short",
-          "then": [
-            {
-              "keys": "rctrl+e",
-              "scAction": "v_mfd_movement_up_short"
-            }
-          ],
-          "mode": "tap",
-          "labels": "hide",
-          "span": [
-            1,
-            1
-          ],
-          "at": [
-            4,
-            0
-          ]
-        },
-        {
-          "type": "button",
-          "id": "left-mfd-8-move-left",
-          "icon": "chev-left",
-          "label": "LEFT",
-          "voice": false,
-          "keys": "rctrl+1",
-          "scAction": "v_mfd_soft_select_mfd_1_short",
-          "then": [
-            {
-              "keys": "rctrl+a",
-              "scAction": "v_mfd_movement_left_short"
-            }
-          ],
-          "mode": "tap",
-          "labels": "hide",
-          "span": [
-            1,
-            1
-          ],
-          "at": [
-            4,
-            1
-          ]
-        },
-        {
-          "type": "button",
-          "id": "left-mfd-8-move-right",
-          "icon": "chev-right",
-          "label": "RIGHT",
-          "voice": false,
-          "keys": "rctrl+1",
-          "scAction": "v_mfd_soft_select_mfd_1_short",
-          "then": [
-            {
-              "keys": "rctrl+d",
-              "scAction": "v_mfd_movement_right_short"
-            }
-          ],
-          "mode": "tap",
-          "labels": "hide",
-          "span": [
-            1,
-            1
-          ],
-          "at": [
-            4,
-            2
-          ]
-        },
-        {
-          "type": "button",
-          "id": "left-mfd-8-move-down",
-          "icon": "chev-down",
-          "label": "DOWN",
-          "voice": false,
-          "keys": "rctrl+1",
-          "scAction": "v_mfd_soft_select_mfd_1_short",
-          "then": [
-            {
-              "keys": "rctrl+x",
-              "scAction": "v_mfd_movement_down_short"
-            }
-          ],
-          "mode": "tap",
-          "labels": "hide",
-          "span": [
-            1,
-            1
-          ],
-          "at": [
-            4,
-            3
-          ]
-        },
-        {
-          "type": "button",
-          "id": "left-mfd-8-select",
-          "icon": "target",
-          "label": "SELECT",
-          "voice": false,
-          "keys": "rctrl+1",
-          "scAction": "v_mfd_soft_select_mfd_1_short",
-          "mode": "tap",
-          "labels": "hide",
-          "span": [
-            1,
-            1
-          ],
-          "color": "blue",
-          "at": [
-            4,
-            4
-          ]
-        },
-        {
-          "type": "button",
-          "id": "left-mfd-8-repair",
-          "icon": "power-reset",
-          "label": "REPAIR",
-          "voice": false,
-          "keys": "rctrl+1",
-          "scAction": "v_mfd_soft_select_mfd_1_short",
-          "then": [
-            {
-              "keys": "rctrl+q",
-              "scAction": "v_mfd_quick_action_repair_all"
-            }
-          ],
-          "mode": "tap",
-          "labels": "hide",
-          "span": [
-            1,
-            1
-          ],
-          "color": "amber",
-          "at": [
-            4,
-            5
-          ]
         }
       ],
       "pager": {
@@ -4291,165 +3151,22 @@
         },
         {
           "type": "button",
-          "id": "left-mfd-9-move-up",
-          "icon": "chev-up",
-          "label": "UP",
-          "voice": false,
-          "keys": "rctrl+1",
-          "scAction": "v_mfd_soft_select_mfd_1_short",
-          "then": [
-            {
-              "keys": "rctrl+e",
-              "scAction": "v_mfd_movement_up_short"
-            }
-          ],
-          "mode": "tap",
-          "labels": "hide",
-          "span": [
-            1,
-            1
-          ],
-          "at": [
-            4,
-            0
-          ]
-        },
-        {
-          "type": "button",
-          "id": "left-mfd-9-move-left",
-          "icon": "chev-left",
-          "label": "LEFT",
-          "voice": false,
-          "keys": "rctrl+1",
-          "scAction": "v_mfd_soft_select_mfd_1_short",
-          "then": [
-            {
-              "keys": "rctrl+a",
-              "scAction": "v_mfd_movement_left_short"
-            }
-          ],
-          "mode": "tap",
-          "labels": "hide",
-          "span": [
-            1,
-            1
-          ],
-          "at": [
-            4,
-            1
-          ]
-        },
-        {
-          "type": "button",
-          "id": "left-mfd-9-move-right",
-          "icon": "chev-right",
-          "label": "RIGHT",
-          "voice": false,
-          "keys": "rctrl+1",
-          "scAction": "v_mfd_soft_select_mfd_1_short",
-          "then": [
-            {
-              "keys": "rctrl+d",
-              "scAction": "v_mfd_movement_right_short"
-            }
-          ],
-          "mode": "tap",
-          "labels": "hide",
-          "span": [
-            1,
-            1
-          ],
-          "at": [
-            4,
-            2
-          ]
-        },
-        {
-          "type": "button",
-          "id": "left-mfd-9-move-down",
-          "icon": "chev-down",
-          "label": "DOWN",
-          "voice": false,
-          "keys": "rctrl+1",
-          "scAction": "v_mfd_soft_select_mfd_1_short",
-          "then": [
-            {
-              "keys": "rctrl+x",
-              "scAction": "v_mfd_movement_down_short"
-            }
-          ],
-          "mode": "tap",
-          "labels": "hide",
-          "span": [
-            1,
-            1
-          ],
-          "at": [
-            4,
-            3
-          ]
-        },
-        {
-          "type": "button",
-          "id": "left-mfd-9-select",
-          "icon": "target",
-          "label": "SELECT",
-          "voice": false,
-          "keys": "rctrl+1",
-          "scAction": "v_mfd_soft_select_mfd_1_short",
-          "mode": "tap",
-          "labels": "hide",
-          "span": [
-            1,
-            1
-          ],
-          "color": "blue",
-          "at": [
-            4,
-            4
-          ]
-        },
-        {
-          "type": "button",
-          "id": "left-mfd-9-repair",
-          "icon": "power-reset",
-          "label": "REPAIR",
-          "voice": false,
-          "keys": "rctrl+1",
-          "scAction": "v_mfd_soft_select_mfd_1_short",
-          "then": [
-            {
-              "keys": "rctrl+q",
-              "scAction": "v_mfd_quick_action_repair_all"
-            }
-          ],
-          "mode": "tap",
-          "labels": "hide",
-          "span": [
-            1,
-            1
-          ],
-          "color": "amber",
-          "at": [
-            4,
-            5
-          ]
-        },
-        {
-          "type": "button",
           "id": "left-mfd-9-1",
-          "icon": "scanning",
-          "label": "SCANNING",
+          "icon": "target",
+          "label": "SCAN MODE",
           "voice": false,
-          "keys": "ralt+v",
-          "scAction": "v_set_scan_mode",
+          "keys": "v",
+          "scAction": "v_toggle_scan_mode",
           "mode": "tap",
           "labels": "show",
+          "color": "amber",
+          "state": {
+            "group": "scan-mode"
+          },
           "span": [
             2,
             1
-          ],
-          "color": "blue"
+          ]
         },
         {
           "type": "button",
@@ -4508,24 +3225,6 @@
           "scAction": "v_dec_scan_focus_level",
           "mode": "tap",
           "labels": "show",
-          "span": [
-            2,
-            1
-          ]
-        },
-        {
-          "type": "button",
-          "id": "left-mfd-9-6",
-          "icon": "target",
-          "label": "RADAR ON/OFF",
-          "voice": false,
-          "keys": "rctrl+slash",
-          "scAction": "v_radar_toggle_onoff",
-          "mode": "tap",
-          "labels": "show",
-          "state": {
-            "group": "radar"
-          },
           "span": [
             2,
             1

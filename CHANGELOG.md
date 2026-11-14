@@ -5,6 +5,20 @@ section becomes the notes of its
 [GitHub release](https://github.com/xattribution/SpoolUp/releases), so add one
 before tagging a release.
 
+## 2.2.1-hu.17 (2026-11-14)
+
+- **Shields oldal az eredeti pajzsvezérlővel:** az ívre koppintva az az oldal
+  erősödik, a hajótestre koppintva kiegyenlít, rajta a be/ki kapcsoló.
+  Mellette Shld + / Shld − (energia a pajzsra).
+- **Scanning oldal:** új SCAN MODE gomb a játék gyári V billentyűjével; a
+  szkennelés csak ebben a módban működik. A nem létező Radar gomb kikerült.
+- **Power management:** On / Off gomb került a csúszkák mellé, a Pwr + / Pwr −
+  a jobb szélre. A Coolers csúszka kikerült (a játék 4.x-ben nem reagál rá).
+- A léptető oszlop (fel, le, bal, jobb, Select, Repair) kikerült: a játék
+  MFD-kurzora billentyűre nem mozdul, élőben kipróbálva.
+- **Javítás:** a szerver nem áll le, ha egy elutasított kapcsolat hirtelen
+  megszakad (ECONNRESET).
+
 ## 2.2.1-hu.16 (2026-11-14)
 
 - **A tablet magától újratölt, ha új verzió fut a gépen.** Nem kell kézzel

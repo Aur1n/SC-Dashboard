@@ -1,15 +1,15 @@
 // Builds layouts/mfd-left.json and layouts/mfd-right.json from the HUD layout: one tablet
 // per MFD. The left half is that screen, page by page as the game shows it (Power management,
 // Weapon config, Shields, Self status...): each page has the screen's switch column on the side
-// the game puts it, a column of moves, and the buttons for what that page does. The half's
+// the game puts it and the buttons for what that page does. The half's
 // bottom arrows page the tablet and the game's screen together. The right half is the HUD's.
 //
 //   node tools/make-mfd-layouts.js      (after editing layouts/hud.json)
 //
 // Every MFD button first selects its screen (left = MFD 1, right = MFD 2). Paging to a page
 // with a direct page action (resource network, self status...) sends it, so the two can't
-// drift apart; Weapon config and Shields have none, so paging there sends « / ». The page,
-// move and other actions the game leaves unbound get Right Ctrl binds in the profile.
+// drift apart; Weapon config and Shields have none, so paging there sends « / ». The page
+// and other actions the game leaves unbound get Right Ctrl binds in the profile.
 //
 // The switch columns follow the player's ship as tested (the left screen carries the power
 // column, the right one the flight column); other ships differ, which a ship choice will
@@ -50,21 +50,20 @@ const OWN = {
   v_power_set_thrusters_off: ["Thrusters off", "power-engines", "rctrl+delete", { color: "red", state: { group: "thruster-power", set: false } }],
   v_power_set_shields_on: ["Shields on", "power-shields", "rctrl+pgdn", { color: "green", state: { group: "shield-power", set: true } }],
   v_power_set_shields_off: ["Shields off", "power-shields", "rctrl+np_0", { color: "red", state: { group: "shield-power", set: false } }],
-  v_cooler_throttle_up: ["Cooler +", "chev-up", "rctrl+np_add", { color: "blue" }],
-  v_cooler_throttle_down: ["Cooler −", "chev-down", "rctrl+np_subtract", { color: "blue" }],
+  // The game's own V (Data/Libs/Config/defaultProfile.xml): scanning works only in scan mode.
+  v_toggle_scan_mode: ["Scan mode", "target", "v", { color: "amber", state: { group: "scan-mode" } }],
   v_scanning_trigger_scan: ["Scan", "target", "rctrl+np_divide", { color: "amber" }],
   v_inc_scan_focus_level: ["Scan angle +", "chev-up", "rctrl+equals", {}],
   v_dec_scan_focus_level: ["Scan angle −", "chev-down", "rctrl+semicolon", {}],
   v_ifcs_proximity_assist_toggle: ["Proximity assist", "target", "rctrl+z", { state: { group: "proximity-assist" } }],
-  // On trial: missing from 4.10's list, still in the game's blank layout (see make-profile's ON_TRIAL).
-  v_radar_toggle_onoff: ["Radar on/off", "target", "rctrl+slash", { state: { group: "radar" } }],
 };
 
 // Power management as the HUD's power distribution: Weapons, Thrusters and Shields sliders
-// (swipe up and down, max above, min below), a Coolers slider on the cooler rate, and lamps for
-// Life Support (on with Flight Ready and Power) and the Quantum Drive (on in Quantum mode, from
-// the right half's operator modes). The game has no keys for those two, so they only show.
-function powerBlock(pid) {
+// (swipe up and down, max above, min below), Power on / off, and lamps for Life Support (on with
+// Flight Ready and Power) and the Quantum Drive (on in Quantum mode, from the right half's
+// operator modes). The game has no keys for those two or for the coolers (its cooler throttle
+// does nothing in 4.x, tested), so the lamps only show. at: the block's top left cell.
+function powerBlock(pid, pos) {
   const hudGroup = hud.panels["power-landing"].elements.find((e) => e.id === "pw-group");
   const ren = (id) => `${pid}-${id}`;
   const copy = (e) => {
@@ -82,35 +81,47 @@ function powerBlock(pid) {
   const at = (e, col, row, w, h) => ({ ...e, at: [col, row], span: [w, h] });
   const lamp = (id, label, icon, group) => ({ type: "button", id: ren(id), icon, label, voice: false, labels: "show", state: { group }, at: [6, id === "life" ? 0 : 4], span: [2, 1] });
   return {
-    type: "group", id: ren("power"), cols: 8, span: [4, 6],
+    type: "group", id: ren("power"), cols: 8, span: [4, 6], at: pos,
     elements: [
       at(byId("pw-wep-max"), 0, 0, 2, 1), at(byId("pw-thr-max"), 2, 0, 2, 1), at(byId("pw-shd-max"), 4, 0, 2, 1),
-      lamp("life", "Life Support", "power", "life-support"),
+      lamp("life", "Life", "power", "life-support"),
       at(byId("pw-wep-level"), 0, 1, 2, 3), at(byId("pw-thr-level"), 2, 1, 2, 3), at(byId("pw-shd-level"), 4, 1, 2, 3),
-      { type: "level", id: ren("cool-level"), label: "Coolers", icon: "power-reset", color: "blue", steps: 5, at: [6, 1], span: [2, 3],
-        up: { icon: "chev-up", id: ren("cool-up"), label: "Coolers +", keys: OWN.v_cooler_throttle_up[2], scAction: "v_cooler_throttle_up", mode: "tap", color: "blue" },
-        down: { icon: "chev-down", id: ren("cool-down"), label: "Coolers −", keys: OWN.v_cooler_throttle_down[2], scAction: "v_cooler_throttle_down", mode: "tap", color: "blue" } },
+      actionButton(ren("on"), "v_power_set_on", { label: "On", at: [6, 1], span: [2, 1] }),
+      actionButton(ren("off"), "v_power_set_off", { label: "Off", at: [6, 2], span: [2, 1] }),
       at(byId("pw-wep-min"), 0, 4, 2, 1), at(byId("pw-thr-min"), 2, 4, 2, 1), at(byId("pw-shd-min"), 4, 4, 2, 1),
-      lamp("quantum", "Quantum Drive", "quantum-mode", "quantum-mode"),
+      lamp("quantum", "QT drive", "quantum-mode", "quantum-mode"),
       at(byId("pw-reset"), 0, 5, 4, 1), at(byId("pw-center"), 4, 5, 4, 1),
     ],
   };
 }
 
+// Shields as the HUD's shield cluster: tap a side to raise it (the game only raises a face,
+// which lowers the others), the hull to balance them, the switch to turn them on or off.
+function shieldBlock(pid, pos) {
+  const c = JSON.parse(JSON.stringify(hud.panels.shields.elements.find((e) => e.type === "shields")));
+  (function walk(n) {
+    if (!n || typeof n !== "object") return;
+    if (typeof n.id === "string") n.id = `${pid}-${n.id}`;
+    delete n.voice;
+    for (const v of Object.values(n)) if (v && typeof v === "object") walk(v);
+  })(c);
+  delete c.size;
+  return { ...c, span: [4, 6], at: pos };
+}
+
+// Short labels for the tall buttons beside a block (the narrow column cuts longer ones).
+const TALL = { v_power_throttle_up: "Pwr +", v_power_throttle_down: "Pwr −", v_engineering_assignment_shields_increase: "Shld +", v_engineering_assignment_shields_decrease: "Shld −" };
+
 // The game's pages in its own order (« » steps through them). view: the direct page action, or
 // null. items: [scAction, label?] for what the page does.
 const PAGES = [
-  ["Power management", "resource_network", "rctrl+3", [["@power"], ["v_power_throttle_down"], ["v_power_throttle_up"]]],
+  ["Power management", "resource_network", "rctrl+3", [["@power"], ["v_power_throttle_up"], ["v_power_throttle_down"]]],
   ["Weapon config", null, null, [
     ["v_set_guns_mode"], ["v_set_missile_mode"], ["v_weapon_launch_missile"], ["v_weapon_pip_toggle_lead_lag"],
     ["v_weapon_increase_max_missiles"], ["v_weapon_decrease_max_missiles"],
     ["v_engineering_assignment_weapons_increase"], ["v_engineering_assignment_weapons_decrease"],
   ]],
-  ["Shields", null, null, [
-    ["v_shield_raise_level_forward"], ["v_shield_raise_level_back"], ["v_shield_raise_level_left"], ["v_shield_raise_level_right"],
-    ["v_shield_raise_level_up"], ["v_shield_raise_level_down"], ["v_shield_reset_level"],
-    ["v_engineering_assignment_shields_increase"], ["v_engineering_assignment_shields_decrease"],
-  ]],
+  ["Shields", null, null, [["@shields"], ["v_engineering_assignment_shields_increase"], ["v_engineering_assignment_shields_decrease"]]],
   ["Self status", "self_status", "rctrl+4", [
     ["v_weapon_countermeasure_decoy_launch"], ["v_weapon_countermeasure_noise_launch"], ["v_weapon_countermeasure_decoy_launch_panic"],
   ]],
@@ -128,8 +139,7 @@ const PAGES = [
   ]],
   ["Diagnostics", "diagnostics", "rctrl+0", []],
   ["Scanning", "scanning", "rctrl+comma", [
-    ["v_set_scan_mode"], ["v_invoke_ping"], ["v_scanning_trigger_scan"], ["v_inc_scan_focus_level"], ["v_dec_scan_focus_level"],
-    ["v_radar_toggle_onoff"],
+    ["v_toggle_scan_mode"], ["v_invoke_ping"], ["v_scanning_trigger_scan"], ["v_inc_scan_focus_level"], ["v_dec_scan_focus_level"],
   ]],
 ];
 
@@ -172,17 +182,20 @@ function actionButton(id, scAction, extra = {}) {
 
 function mfdLayout(side) {
   const n = SCREEN[side], tag = `${side}-mfd`;
-  // Beside the display: the switch column, then the column of moves; the page's buttons fill
-  // the rest two by two. Left screen: switches on the right; right screen: on the left.
-  const sw = side === "left" ? 5 : 0, mv = side === "left" ? 4 : 1;
+  // Beside the display: the switch column; the page's buttons fill the other five columns two by
+  // two. Left screen: switches on the right; right screen: on the left. (The game's MFD cursor
+  // moves don't answer keys in 4.x, tested, so there's no column of moves.)
+  const sw = side === "left" ? 5 : 0, c0 = side === "left" ? 0 : 1;
   const select = { keys: `rctrl+${n}`, scAction: `v_mfd_soft_select_mfd_${n}_short` };
   const onScreen = (id, label, icon, step, extra = {}) => ({
     type: "button", id: `${tag}-${id}`, icon, label, voice: false, ...select, ...(step ? { then: [step] } : {}), mode: "tap", labels: "show", ...extra,
   });
-  const MOVES = { up: ["chev-up", "rctrl+e"], down: ["chev-down", "rctrl+x"], left: ["chev-left", "rctrl+a"], right: ["chev-right", "rctrl+d"] };
   const panels = {};
   PAGES.forEach(([title, view, viewKeys, items], p) => {
-    const pid = `${tag}-${p + 1}`, at = (row) => [mv, row];
+    const pid = `${tag}-${p + 1}`;
+    // A page with a big block (power, shields): the block on four columns, its other two
+    // buttons stacked tall in the fifth.
+    const block = items.length && items[0][0].startsWith("@");
     const elements = [
       ...SWITCHES[side].map(([label, scAction, own], i) => {
         const from = hudButton(scAction);
@@ -192,11 +205,12 @@ function mfdLayout(side) {
         })();
         return { ...b, span: [1, 1], at: [sw, i] };
       }),
-      ...["up", "left", "right", "down"].map((dir, i) => onScreen(`${p + 1}-move-${dir}`, dir[0].toUpperCase() + dir.slice(1), MOVES[dir][0],
-        { keys: MOVES[dir][1], scAction: `v_mfd_movement_${dir}_short` }, { span: [1, 1], labels: "hide", at: at(i) })),
-      onScreen(`${p + 1}-select`, "Select", "target", null, { span: [1, 1], labels: "hide", color: "blue", at: at(4) }),
-      onScreen(`${p + 1}-repair`, "Repair", "power-reset", { keys: "rctrl+q", scAction: "v_mfd_quick_action_repair_all" }, { span: [1, 1], labels: "hide", color: "amber", at: at(5) }),
-      ...items.map(([scAction], i) => (scAction === "@power" ? powerBlock(pid) : actionButton(`${pid}-${i + 1}`, scAction, { span: [2, 1] }))),
+      ...items.map(([scAction], i) => {
+        if (scAction === "@power") return powerBlock(pid, [c0, 0]);
+        if (scAction === "@shields") return shieldBlock(pid, [c0, 0]);
+        if (block) return actionButton(`${pid}-${i + 1}`, scAction, { ...(TALL[scAction] ? { label: TALL[scAction] } : {}), span: [1, 3], at: [c0 + 4, (i - 1) * 3] });
+        return actionButton(`${pid}-${i + 1}`, scAction, { span: [2, 1] });
+      }),
     ];
     // Each page has its own pair (ids are unique per layout); they send « / » after selecting the screen.
     const pager = {

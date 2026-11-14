@@ -53,6 +53,7 @@ const ACTIONMAPS = {
   v_set_quantum_mode: ["seat_general"],
   v_set_salvage_mode: ["seat_general"],
   v_set_scan_mode: ["seat_general"],
+  v_toggle_scan_mode: ["seat_general"],
   v_view_look_behind: ["seat_general"],
 
   // Ship systems, power, doors and lights
@@ -203,13 +204,11 @@ const ACTIONMAPS = {
   // MFD switch columns (layouts/mfd-*.json).
   v_lock_rotation: ["spaceship_movement"],
   v_ifcs_proximity_assist_toggle: ["spaceship_movement"],
-  v_radar_toggle_onoff: ["spaceship_radar"],
   v_toggle_quantum_mode: ["seat_general"],
   v_power_set_on: ["spaceship_power"], v_power_set_off: ["spaceship_power"],
   v_power_set_weapons_on: ["spaceship_power"], v_power_set_weapons_off: ["spaceship_power"],
   v_power_set_thrusters_on: ["spaceship_power"], v_power_set_thrusters_off: ["spaceship_power"],
   v_power_set_shields_on: ["spaceship_power"], v_power_set_shields_off: ["spaceship_power"],
-  v_cooler_throttle_up: ["spaceship_general"], v_cooler_throttle_down: ["spaceship_general"],
   v_scanning_trigger_scan: ["spaceship_scanning"], v_inc_scan_focus_level: ["spaceship_scanning"], v_dec_scan_focus_level: ["spaceship_scanning"],
 };
 
@@ -224,6 +223,7 @@ const DEFAULTS = {
   toggle_chat: "f12",
   toggle_contact: "f11",
   v_atc_request: "lalt+n",
+  v_toggle_scan_mode: "v",
   v_autoland: "n",
   v_dock_toggle_view: "0",
   v_eject: "ralt+y",
@@ -317,7 +317,7 @@ const NOT_IN_GAME_LIST = new Set(["default"]);
 // Actions missing from the 4.10 list but still in the game's own blank layout
 // (Data/Libs/Config/Mappings/layout_all_blank.xml), bound to find out in-game whether they
 // still work. Drop each once it's known.
-const ON_TRIAL = new Set(["v_radar_toggle_onoff"]);
+const ON_TRIAL = new Set([]);
 
 // Star Citizen keyboard key names (the same names server.js sends).
 const KEY_NAMES = new Set([

@@ -186,12 +186,6 @@
   <action name="v_close_all_doors">
    <rebind input="kb1_rctrl+lbracket"/>
   </action>
-  <action name="v_cooler_throttle_down">
-   <rebind input="kb1_rctrl+np_subtract"/>
-  </action>
-  <action name="v_cooler_throttle_up">
-   <rebind input="kb1_rctrl+np_add"/>
-  </action>
   <action name="v_lock_all_doors">
    <rebind input="kb1_rctrl+rbracket"/>
   </action>
@@ -253,14 +247,17 @@
    <rebind input="kb1_ralt+insert"/>
   </action>
  </actionmap>
+ <actionmap name="spaceship_power">
+  <action name="v_power_set_off">
+   <rebind input="kb1_rctrl+v"/>
+  </action>
+  <action name="v_power_set_on">
+   <rebind input="kb1_rctrl+c"/>
+  </action>
+ </actionmap>
  <actionmap name="spaceship_quantum">
   <action name="v_toggle_qdrive_engagement">
    <rebind input="kb1_ralt+j"/>
-  </action>
- </actionmap>
- <actionmap name="spaceship_radar">
-  <action name="v_radar_toggle_onoff">
-   <rebind input="kb1_rctrl+slash"/>
   </action>
  </actionmap>
  <actionmap name="spaceship_salvage">
@@ -331,21 +328,6 @@
   </action>
  </actionmap>
  <actionmap name="vehicle_mfd">
-  <action name="v_mfd_movement_down_short">
-   <rebind input="kb1_rctrl+x"/>
-  </action>
-  <action name="v_mfd_movement_left_short">
-   <rebind input="kb1_rctrl+a"/>
-  </action>
-  <action name="v_mfd_movement_right_short">
-   <rebind input="kb1_rctrl+d"/>
-  </action>
-  <action name="v_mfd_movement_up_short">
-   <rebind input="kb1_rctrl+e"/>
-  </action>
-  <action name="v_mfd_quick_action_repair_all">
-   <rebind input="kb1_rctrl+q"/>
-  </action>
   <action name="v_mfd_select_view_comms_short">
    <rebind input="kb1_rctrl+6"/>
   </action>

@@ -1541,6 +1541,8 @@ const server = http.createServer((req, res) => {
 
 let connectedTablets = 0;
 server.on("upgrade", (req, socket) => {
+  // A refused client that drops the connection mid-answer (ECONNRESET) must not crash the server.
+  socket.on("error", () => socket.destroy());
   const url = new URL(req.url, "http://x");
   const pairing = url.pathname === "/ws" ? checkPairing(req, url.searchParams.get("t")) : "wrong";
   if (pairing === "locked") { socket.end("HTTP/1.1 429 Too Many Requests\r\n\r\n"); return; }
