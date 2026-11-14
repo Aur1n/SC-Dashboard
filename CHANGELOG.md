@@ -5,6 +5,14 @@ section becomes the notes of its
 [GitHub release](https://github.com/xattribution/SpoolUp/releases), so add one
 before tagging a release.
 
+## 2.2.1-hu.4 (2026-11-14)
+
+- **A deck fájljai nem maradnak a böngésző gyorsítótárában.** A szerver minden
+  deckfájlt `Cache-Control: no-cache` fejléccel ad ki, így frissítés után a
+  tablet biztosan az új szkripteket tölti be. Eddig egy régi `app.js`
+  megmaradhatott, és a deck „connecting"-ben ragadt (ez történt a hu.2 után).
+- A Website munkafolyamat csak kézi indításra fut: a forkon nincs GitHub Pages.
+
 ## 2.2.1-hu.3 (2026-11-14)
 
 - **Javítva: a deck nem kapcsolódott a hu.2-ben.** Az átnevezés a SpoolUp

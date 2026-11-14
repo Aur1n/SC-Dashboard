@@ -5,17 +5,8 @@
 # and by hand from the Actions tab. scripts/build-site.js puts the site together.
 name: Website
 
+# This fork has no GitHub Pages: the website builds only when run by hand.
 on:
-  push:
-    branches: [main]
-    paths:
-      - "site/**"
-      - "public/**"
-      - "layouts/**"
-      - "docs/*.jpg"
-      - "docs/*.png"
-      - "scripts/build-site.js"
-      - ".github/workflows/pages.yml"
   workflow_dispatch:
 
 permissions:
