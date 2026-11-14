@@ -9,13 +9,7 @@
     },
     "halves": {
       "left": [
-        "left-mfd",
-        "power-landing",
-        "flight-assist",
-        "shields",
-        "targets",
-        "salvage",
-        "mining"
+        "left-mfd"
       ],
       "right": [
         "qt-systems",
@@ -24,7 +18,14 @@
         "crew",
         "on-foot",
         "comms",
-        "emotes"
+        "emotes",
+        "left-mfd-power",
+        "power-landing",
+        "flight-assist",
+        "shields",
+        "targets",
+        "salvage",
+        "mining"
       ]
     },
     "full": [
@@ -664,6 +665,294 @@
           "labels": "show"
         }
       }
+    },
+    "left-mfd-power": {
+      "title": "Power systems",
+      "cols": 6,
+      "elements": [
+        {
+          "type": "button",
+          "id": "left-mfd-pw-power-on",
+          "icon": "power",
+          "label": "Power on",
+          "voice": false,
+          "keys": "rctrl+c",
+          "scAction": "v_power_set_on",
+          "mode": "tap",
+          "span": [
+            3,
+            1
+          ],
+          "labels": "show",
+          "color": "green",
+          "state": {
+            "group": "power",
+            "set": true,
+            "with": {
+              "on": {
+                "weapons-power": true,
+                "shield-power": true,
+                "thruster-power": true
+              }
+            }
+          }
+        },
+        {
+          "type": "button",
+          "id": "left-mfd-pw-power-off",
+          "icon": "power",
+          "label": "Power off",
+          "voice": false,
+          "keys": "rctrl+v",
+          "scAction": "v_power_set_off",
+          "mode": "tap",
+          "span": [
+            3,
+            1
+          ],
+          "labels": "show",
+          "color": "red",
+          "state": {
+            "group": "power",
+            "set": false,
+            "with": {
+              "off": {
+                "weapons-power": false,
+                "shield-power": false,
+                "thruster-power": false
+              }
+            }
+          }
+        },
+        {
+          "type": "button",
+          "id": "left-mfd-pw-weapons-power-on",
+          "icon": "power-weapons",
+          "label": "Weapons on",
+          "voice": false,
+          "keys": "rctrl+r",
+          "scAction": "v_power_set_weapons_on",
+          "mode": "tap",
+          "span": [
+            3,
+            1
+          ],
+          "labels": "show",
+          "color": "green",
+          "state": {
+            "group": "weapons-power",
+            "set": true
+          }
+        },
+        {
+          "type": "button",
+          "id": "left-mfd-pw-weapons-power-off",
+          "icon": "power-weapons",
+          "label": "Weapons off",
+          "voice": false,
+          "keys": "rctrl+home",
+          "scAction": "v_power_set_weapons_off",
+          "mode": "tap",
+          "span": [
+            3,
+            1
+          ],
+          "labels": "show",
+          "color": "red",
+          "state": {
+            "group": "weapons-power",
+            "set": false
+          }
+        },
+        {
+          "type": "button",
+          "id": "left-mfd-pw-thruster-power-on",
+          "icon": "power-engines",
+          "label": "Thrusters on",
+          "voice": false,
+          "keys": "rctrl+insert",
+          "scAction": "v_power_set_thrusters_on",
+          "mode": "tap",
+          "span": [
+            3,
+            1
+          ],
+          "labels": "show",
+          "color": "green",
+          "state": {
+            "group": "thruster-power",
+            "set": true
+          }
+        },
+        {
+          "type": "button",
+          "id": "left-mfd-pw-thruster-power-off",
+          "icon": "power-engines",
+          "label": "Thrusters off",
+          "voice": false,
+          "keys": "rctrl+delete",
+          "scAction": "v_power_set_thrusters_off",
+          "mode": "tap",
+          "span": [
+            3,
+            1
+          ],
+          "labels": "show",
+          "color": "red",
+          "state": {
+            "group": "thruster-power",
+            "set": false
+          }
+        },
+        {
+          "type": "button",
+          "id": "left-mfd-pw-shield-power-on",
+          "icon": "power-shields",
+          "label": "Shields on",
+          "voice": false,
+          "keys": "rctrl+pgdn",
+          "scAction": "v_power_set_shields_on",
+          "mode": "tap",
+          "span": [
+            3,
+            1
+          ],
+          "labels": "show",
+          "color": "green",
+          "state": {
+            "group": "shield-power",
+            "set": true
+          }
+        },
+        {
+          "type": "button",
+          "id": "left-mfd-pw-shield-power-off",
+          "icon": "power-shields",
+          "label": "Shields off",
+          "voice": false,
+          "keys": "rctrl+np_0",
+          "scAction": "v_power_set_shields_off",
+          "mode": "tap",
+          "span": [
+            3,
+            1
+          ],
+          "labels": "show",
+          "color": "red",
+          "state": {
+            "group": "shield-power",
+            "set": false
+          }
+        },
+        {
+          "type": "button",
+          "id": "left-mfd-pw-cooler-up",
+          "icon": "chev-up",
+          "label": "Cooler +",
+          "voice": false,
+          "keys": "rctrl+np_add",
+          "scAction": "v_cooler_throttle_up",
+          "mode": "tap",
+          "span": [
+            3,
+            1
+          ],
+          "labels": "show",
+          "color": "blue"
+        },
+        {
+          "type": "button",
+          "id": "left-mfd-pw-cooler-down",
+          "icon": "chev-down",
+          "label": "Cooler −",
+          "voice": false,
+          "keys": "rctrl+np_subtract",
+          "scAction": "v_cooler_throttle_down",
+          "mode": "tap",
+          "span": [
+            3,
+            1
+          ],
+          "labels": "show",
+          "color": "blue"
+        },
+        {
+          "type": "button",
+          "id": "left-mfd-pw-throttle-up",
+          "icon": "power-up",
+          "label": "Power Throttle +",
+          "voice": false,
+          "keys": "f10",
+          "scAction": "v_power_throttle_up",
+          "mode": "tap",
+          "span": [
+            3,
+            1
+          ],
+          "labels": "show"
+        },
+        {
+          "type": "button",
+          "id": "left-mfd-pw-throttle-down",
+          "icon": "power-down",
+          "label": "Power Throttle −",
+          "voice": false,
+          "keys": "f9",
+          "scAction": "v_power_throttle_down",
+          "mode": "tap",
+          "span": [
+            3,
+            1
+          ],
+          "labels": "show"
+        },
+        {
+          "type": "button",
+          "id": "left-mfd-pw-scan",
+          "icon": "target",
+          "label": "Scan",
+          "voice": false,
+          "keys": "rctrl+np_divide",
+          "scAction": "v_scanning_trigger_scan",
+          "mode": "tap",
+          "span": [
+            2,
+            1
+          ],
+          "labels": "show",
+          "color": "amber"
+        },
+        {
+          "type": "button",
+          "id": "left-mfd-pw-scan-wide",
+          "icon": "chev-up",
+          "label": "Scan angle +",
+          "voice": false,
+          "keys": "rctrl+equals",
+          "scAction": "v_inc_scan_focus_level",
+          "mode": "tap",
+          "span": [
+            2,
+            1
+          ],
+          "labels": "show"
+        },
+        {
+          "type": "button",
+          "id": "left-mfd-pw-scan-narrow",
+          "icon": "chev-down",
+          "label": "Scan angle −",
+          "voice": false,
+          "keys": "rctrl+semicolon",
+          "scAction": "v_dec_scan_focus_level",
+          "mode": "tap",
+          "span": [
+            2,
+            1
+          ],
+          "labels": "show"
+        }
+      ]
     },
     "power-landing": {
       "title": "Power/Landing",

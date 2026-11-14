@@ -203,6 +203,13 @@ const ACTIONMAPS = {
   // MFD switch columns (layouts/mfd-*.json).
   v_lock_rotation: ["spaceship_movement"],
   v_ifcs_proximity_assist_toggle: ["spaceship_movement"],
+  v_toggle_quantum_mode: ["seat_general"],
+  v_power_set_on: ["spaceship_power"], v_power_set_off: ["spaceship_power"],
+  v_power_set_weapons_on: ["spaceship_power"], v_power_set_weapons_off: ["spaceship_power"],
+  v_power_set_thrusters_on: ["spaceship_power"], v_power_set_thrusters_off: ["spaceship_power"],
+  v_power_set_shields_on: ["spaceship_power"], v_power_set_shields_off: ["spaceship_power"],
+  v_cooler_throttle_up: ["spaceship_general"], v_cooler_throttle_down: ["spaceship_general"],
+  v_scanning_trigger_scan: ["spaceship_scanning"], v_inc_scan_focus_level: ["spaceship_scanning"], v_dec_scan_focus_level: ["spaceship_scanning"],
 };
 
 // Buttons that send Star Citizen 4.10's own default keys (Data/Libs/Config/defaultProfile.xml).

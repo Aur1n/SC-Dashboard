@@ -152,6 +152,9 @@
   <action name="v_set_scan_mode">
    <rebind input="kb1_ralt+v"/>
   </action>
+  <action name="v_toggle_quantum_mode">
+   <rebind input="kb1_rctrl+np_multiply"/>
+  </action>
  </actionmap>
  <actionmap name="spaceship_defensive">
   <action name="v_shield_raise_level_back">
@@ -182,6 +185,12 @@
  <actionmap name="spaceship_general">
   <action name="v_close_all_doors">
    <rebind input="kb1_rctrl+lbracket"/>
+  </action>
+  <action name="v_cooler_throttle_down">
+   <rebind input="kb1_rctrl+np_subtract"/>
+  </action>
+  <action name="v_cooler_throttle_up">
+   <rebind input="kb1_rctrl+np_add"/>
   </action>
   <action name="v_lock_all_doors">
    <rebind input="kb1_rctrl+rbracket"/>
@@ -244,6 +253,32 @@
    <rebind input="kb1_ralt+insert"/>
   </action>
  </actionmap>
+ <actionmap name="spaceship_power">
+  <action name="v_power_set_off">
+   <rebind input="kb1_rctrl+v"/>
+  </action>
+  <action name="v_power_set_on">
+   <rebind input="kb1_rctrl+c"/>
+  </action>
+  <action name="v_power_set_shields_off">
+   <rebind input="kb1_rctrl+np_0"/>
+  </action>
+  <action name="v_power_set_shields_on">
+   <rebind input="kb1_rctrl+pgdn"/>
+  </action>
+  <action name="v_power_set_thrusters_off">
+   <rebind input="kb1_rctrl+delete"/>
+  </action>
+  <action name="v_power_set_thrusters_on">
+   <rebind input="kb1_rctrl+insert"/>
+  </action>
+  <action name="v_power_set_weapons_off">
+   <rebind input="kb1_rctrl+home"/>
+  </action>
+  <action name="v_power_set_weapons_on">
+   <rebind input="kb1_rctrl+r"/>
+  </action>
+ </actionmap>
  <actionmap name="spaceship_quantum">
   <action name="v_toggle_qdrive_engagement">
    <rebind input="kb1_ralt+j"/>
@@ -261,6 +296,17 @@
   </action>
   <action name="v_salvage_increase_beam_spacing">
    <rebind input="kb1_ralt+period"/>
+  </action>
+ </actionmap>
+ <actionmap name="spaceship_scanning">
+  <action name="v_dec_scan_focus_level">
+   <rebind input="kb1_rctrl+semicolon"/>
+  </action>
+  <action name="v_inc_scan_focus_level">
+   <rebind input="kb1_rctrl+equals"/>
+  </action>
+  <action name="v_scanning_trigger_scan">
+   <rebind input="kb1_rctrl+np_divide"/>
   </action>
  </actionmap>
  <actionmap name="spaceship_targeting_advanced">

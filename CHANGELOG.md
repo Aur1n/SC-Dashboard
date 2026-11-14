@@ -5,6 +5,19 @@ section becomes the notes of its
 [GitHub release](https://github.com/xattribution/SpoolUp/releases), so add one
 before tagging a release.
 
+## 2.2.1-hu.14 (2026-11-14)
+
+- **A bal fél csak az MFD.** A Bal MFD és a Jobb MFD elrendezésben a bal félen
+  egyetlen panel van, így az alsó két nyíl mindig a játék MFD-jét lapozza
+  (« »). A megszokott panelek mind a jobb félen lapozhatók.
+- **Új Energiarendszerek panel** (a jobb félen): Power, Weapons, Thrusters és
+  Shields „be" és „ki" gombja külön (ezek nem tudnak rossz irányba váltani,
+  így a fények mindig a hajót követik), Hűtés + / −, Power Throttle + / −,
+  Szkennel, Szkennelési szög + / −.
+- A jobb MFD kapcsolósorában a **QTM** most a Quantum Drive kapcsoló, a RADR
+  helyén **PING** (radar ping).
+- 14 új kötés a profilban (jobb Ctrl-lel), **a profilt újra kell betölteni**.
+
 ## 2.2.1-hu.13 (2026-11-14)
 
 - **Az MFD-panelen az alsó sáv két nyila a játék MFD-jét lapozza** (« »), mint a

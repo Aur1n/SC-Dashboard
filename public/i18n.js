@@ -558,6 +558,20 @@
     "Next tab": ["Pestaña sig.", "Onglet suiv.", "Tab vor"],
     "Repair": ["Reparar", "Réparer", "Reparieren"],
     "Select": ["Elegir", "Choisir", "Wählen"],
+    "Power systems": ["Sistemas de energía", "Systèmes d'énergie", "Energiesysteme"],
+    "Power on": ["Energía on", "Énergie on", "Energie an"],
+    "Power off": ["Energía off", "Énergie off", "Energie aus"],
+    "Weapons on": ["Armas on", "Armes on", "Waffen an"],
+    "Weapons off": ["Armas off", "Armes off", "Waffen aus"],
+    "Thrusters on": ["Propulsores on", "Propulseurs on", "Triebwerke an"],
+    "Thrusters off": ["Propulsores off", "Propulseurs off", "Triebwerke aus"],
+    "Shields on": ["Escudos on", "Boucliers on", "Schilde an"],
+    "Shields off": ["Escudos off", "Boucliers off", "Schilde aus"],
+    "Cooler +": ["Refrigeración +", "Refroidissement +", "Kühlung +"],
+    "Cooler −": ["Refrigeración −", "Refroidissement −", "Kühlung −"],
+    "Scan": ["Escanear", "Scanner", "Scannen"],
+    "Scan angle +": ["Ángulo de escaneo +", "Angle de scan +", "Scanwinkel +"],
+    "Scan angle −": ["Ángulo de escaneo −", "Angle de scan −", "Scanwinkel −"],
   };
 
   // Magyar, T's fourth column, kept apart so upstream changes to T merge without conflicts.
@@ -1007,6 +1021,20 @@
     "Next tab": "Köv. fül",
     "Repair": "Javítás",
     "Select": "Kiválaszt",
+    "Power systems": "Energiarendszerek",
+    "Power on": "Power be",
+    "Power off": "Power ki",
+    "Weapons on": "Weapons be",
+    "Weapons off": "Weapons ki",
+    "Thrusters on": "Thrusters be",
+    "Thrusters off": "Thrusters ki",
+    "Shields on": "Shields be",
+    "Shields off": "Shields ki",
+    "Cooler +": "Hűtés +",
+    "Cooler −": "Hűtés −",
+    "Scan": "Szkennel",
+    "Scan angle +": "Szkennelési szög +",
+    "Scan angle −": "Szkennelési szög −",
   };
   for (const key in HU) if (T[key]) T[key][COLUMN.hu] = HU[key];
 
