@@ -636,6 +636,17 @@ function prepareLayout(layout) {
         }
       }
       node.scancodes = parseCombo(node.keys);
+      // "then": more taps after the button's own keys (an MFD select, then its page);
+      // "whenOn": what the button presses instead while its state group is on (Flight
+      // Ready, once lit, powers the ship down). Both follow the player's keybinds too.
+      const extra = (step) => {
+        if (!step || typeof step.keys !== "string") throw new Error(`"${node.id}": a step needs "keys"`);
+        const own = step.scAction && overrides[step.scAction];
+        if (own) { try { parseCombo(own); step.keys = comboKeys(own).join("+"); } catch { /* keeps its keys */ } }
+        step.scancodes = parseCombo(step.keys);
+      };
+      if (Array.isArray(node.then)) node.then.forEach(extra);
+      if (node.whenOn) extra(node.whenOn);
       if (buttons.has(node.id)) throw new Error(`Duplicate button id "${node.id}"`);
       buttons.set(node.id, node);
     }
@@ -921,19 +932,31 @@ function applyState(btn) {
 async function tapButton(btn, client, ms = btn.ms || config.tapMs, kind = btn.mode === "timed" ? "timed" : "tap") {
   if (btn.unbound) { notBound(btn, client, kind, { ms }); return; }
   if (!(await gameFocused())) { skipped(btn, client); return; }
-  console.log(`${btn.label} (${btn.keys}) tap`);
+  const lit = Boolean(btn.whenOn && btn.state && buttonStates.get(btn.state.group));
+  const first = lit ? btn.whenOn : btn;
+  console.log(`${btn.label} (${first.keys}${btn.then ? btn.then.map((s) => `, ${s.keys}`).join("") : ""}) tap`);
   ui({ t: "press", label: btn.label });
   report(btn, kind, { ms });
   applyState(btn);
-  await pressCombo(btn.scancodes);
+  await pressCombo(first.scancodes);
   // Ends early if Star Citizen loses focus meanwhile (a long press is up to a few seconds).
   await new Promise((resolve) => {
     const cut = () => { clearTimeout(timer); tapCuts.delete(cut); resolve(); };
     const timer = setTimeout(cut, ms);
     tapCuts.add(cut);
   });
-  await releaseCombo(btn.scancodes);
+  await releaseCombo(first.scancodes);
+  // The game reads each step as its own press, so they go one after another with a gap.
+  if (lit || !Array.isArray(btn.then)) return;
+  for (const step of btn.then) {
+    await sleep(STEP_GAP_MS);
+    if (!(await gameFocused())) return;
+    await pressCombo(step.scancodes);
+    await sleep(step.ms || config.tapMs);
+    await releaseCombo(step.scancodes);
+  }
 }
+const STEP_GAP_MS = 120;
 
 // The keyboard is shared, so presses that overlap can mix: Weapons + (F5) pressed while
 // Shields − (LAlt+F7) holds LAlt reaches the game as LAlt+F5, Weapons −, and two taps of one

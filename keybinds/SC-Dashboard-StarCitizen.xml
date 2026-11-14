@@ -302,4 +302,21 @@
    <rebind input="kb1_lalt+u"/>
   </action>
  </actionmap>
+ <actionmap name="vehicle_mfd">
+  <action name="v_mfd_select_view_resource_network_short">
+   <rebind input="kb1_rctrl+f1"/>
+  </action>
+  <action name="v_mfd_select_view_self_status_short">
+   <rebind input="kb1_rctrl+f2"/>
+  </action>
+  <action name="v_mfd_select_view_target_status_short">
+   <rebind input="kb1_rctrl+f3"/>
+  </action>
+  <action name="v_mfd_soft_select_mfd_1_short">
+   <rebind input="kb1_rctrl+1"/>
+  </action>
+  <action name="v_mfd_soft_select_mfd_2_short">
+   <rebind input="kb1_rctrl+2"/>
+  </action>
+ </actionmap>
 </ActionMaps>

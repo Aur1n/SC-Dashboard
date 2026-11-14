@@ -816,7 +816,11 @@
           "x": 9,
           "y": 111,
           "w": 461,
-          "h": 54
+          "h": 54,
+          "whenOn": {
+            "keys": "u",
+            "scAction": "v_power_toggle"
+          }
         },
         {
           "type": "rotary",

@@ -5,6 +5,20 @@ section becomes the notes of its
 [GitHub release](https://github.com/xattribution/SpoolUp/releases), so add one
 before tagging a release.
 
+## 2.2.1-hu.8 (2026-11-14)
+
+- **MFD-oldalak a tabletről (próbaverzió).** Új „MFD" panel a bal fél első
+  lapján: `MFD 1 · Power / Self status / Target` és ugyanez `MFD 2`-re, plusz
+  `MFD ◀ / ▶` lapozás. Egy gomb két lépést küld: kiválasztja az MFD-képernyőt,
+  majd átváltja a kért oldalra. Az ehhez kellő akciók gyárilag kötetlenek, ezért
+  a profil jobb Ctrl-es kötéseket kap rájuk (Ctrl+1/2, Ctrl+F1–F3). **A profilt
+  újra kell telepíteni és betölteni** (Keybind profil telepítése…, „your binds").
+- **A Flight Ready be/ki kapcsoló.** A játékban a Flight Ready csak bekapcsol;
+  a tableten világító gomb második nyomásra Powert (U) küld, ami leállítja a
+  hajót, és minden fény kialszik.
+- Új gombmezők a fejlesztőknek: `then` (billentyűsor) és `whenOn` (más
+  billentyű, amíg a gomb állapota be van kapcsolva).
+
 ## 2.2.1-hu.7 (2026-11-14)
 
 - **A telepítő elpakolja a régi név maradványait.** Minden telepítés törli a

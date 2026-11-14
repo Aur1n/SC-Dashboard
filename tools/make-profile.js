@@ -181,6 +181,15 @@ const ACTIONMAPS = {
   v_weapon_countermeasure_decoy_burst_increase: ["spaceship_defensive"],
   v_weapon_increase_max_missiles: ["spaceship_missiles"],
   v_weapon_reset_max_missiles: ["spaceship_missiles"],
+
+  // MFD pages (SC-Dashboard): pick a screen, then its page; unbound in the game by default.
+  v_mfd_soft_select_mfd_1_short: ["vehicle_mfd"],
+  v_mfd_soft_select_mfd_2_short: ["vehicle_mfd"],
+  v_mfd_select_view_resource_network_short: ["vehicle_mfd"],
+  v_mfd_select_view_self_status_short: ["vehicle_mfd"],
+  v_mfd_select_view_target_status_short: ["vehicle_mfd"],
+  v_mfd_interact_cycle_forwards_short: ["vehicle_mfd"],
+  v_mfd_interact_cycle_backwards_short: ["vehicle_mfd"],
 };
 
 // Buttons that send Star Citizen 4.10's own default keys (Data/Libs/Config/defaultProfile.xml).
@@ -269,6 +278,8 @@ const DEFAULTS = {
   v_weapon_countermeasure_decoy_burst_increase: "ralt+h",
   v_weapon_increase_max_missiles: "g",
   v_weapon_reset_max_missiles: "lalt+g",
+  v_mfd_interact_cycle_forwards_short: "lalt+e",
+  v_mfd_interact_cycle_backwards_short: "lalt+q",
 };
 
 // Maps that are active together (data/sc-contexts.json, shared with the merged profile in
@@ -313,15 +324,21 @@ function collectBinds() {
     (function walk(node) {
       if (Array.isArray(node)) { node.forEach(walk); return; }
       if (!node || typeof node !== "object") return;
-      if (typeof node.id === "string" && typeof node.keys === "string" && node.scAction) {
-        const where = `${file}:${node.id}`;
-        const keys = node.keys.trim().toLowerCase();
+      // A button's own keys, its "then" steps and its "whenOn" press each bind their scAction.
+      const add = (item, where) => {
+        if (typeof item?.keys !== "string" || !item.scAction) return;
+        const keys = item.keys.trim().toLowerCase();
         const bad = keys.split("+").filter((k) => !KEY_NAMES.has(k));
-        if (!keys || bad.length) errors.push(`${where}: unknown key "${bad.join("+") || keys}" in "${node.keys}"`);
-        const bind = binds[node.scAction];
-        if (!bind) binds[node.scAction] = { keys, from: [where] };
-        else if (bind.keys !== keys) errors.push(`${where}: ${node.scAction} is "${keys}" here but "${bind.keys}" in ${bind.from[0]}`);
+        if (!keys || bad.length) errors.push(`${where}: unknown key "${bad.join("+") || keys}" in "${item.keys}"`);
+        const bind = binds[item.scAction];
+        if (!bind) binds[item.scAction] = { keys, from: [where] };
+        else if (bind.keys !== keys) errors.push(`${where}: ${item.scAction} is "${keys}" here but "${bind.keys}" in ${bind.from[0]}`);
         else bind.from.push(where);
+      };
+      if (typeof node.id === "string" && typeof node.keys === "string") {
+        add(node, `${file}:${node.id}`);
+        if (Array.isArray(node.then)) node.then.forEach((s, i) => add(s, `${file}:${node.id}>then${i + 1}`));
+        add(node.whenOn, `${file}:${node.id}>whenOn`);
       }
       for (const v of Object.values(node)) if (v && typeof v === "object") walk(v);
     })(layout);

@@ -904,7 +904,11 @@
           "x": 0,
           "y": 84,
           "w": 359,
-          "h": 62
+          "h": 62,
+          "whenOn": {
+            "keys": "u",
+            "scAction": "v_power_toggle"
+          }
         },
         {
           "type": "button",
