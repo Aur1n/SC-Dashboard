@@ -114,8 +114,24 @@ static class KeySender
         catch { return ""; }
     }
 
+    static uint Send(ushort scan, uint flags)
+    {
+        var input = new INPUT[1];
+        input[0].type = INPUT_KEYBOARD;
+        input[0].u.ki = new KEYBDINPUT { wVk = 0, wScan = scan, dwFlags = flags, time = 0, dwExtraInfo = IntPtr.Zero };
+        return SendInput(1, input, Marshal.SizeOf(typeof(INPUT)));
+    }
+
+    const ushort SCAN_ALT = 0x38, SCAN_CTRL = 0x1D;
+
     static void Main()
     {
+        // Keyboard layouts with AltGr (Hungarian, German, Polish...) turn Right Alt into
+        // Ctrl+Alt: Windows adds a Left Ctrl press of its own before an injected Right Alt,
+        // so the game saw LCtrl+RAlt+R instead of RAlt+R and binds such as Flight Ready
+        // never fired. Right after Right Alt goes down, that Ctrl is let go again, unless
+        // this sender pressed Left Ctrl itself (a combo that really wants it).
+        bool ctrlHeld = false;
         string line;
         while ((line = Console.ReadLine()) != null)
         {
@@ -149,12 +165,13 @@ static class KeySender
             ushort scan = Convert.ToUInt16(parts[1], 16);
             uint flags = KEYEVENTF_SCANCODE;
             if (parts[2] == "1") flags |= KEYEVENTF_EXTENDEDKEY;
-            if (parts[0] == "u") flags |= KEYEVENTF_KEYUP;
+            bool down = parts[0] == "d", extended = parts[2] == "1";
+            if (!down) flags |= KEYEVENTF_KEYUP;
 
-            var input = new INPUT[1];
-            input[0].type = INPUT_KEYBOARD;
-            input[0].u.ki = new KEYBDINPUT { wVk = 0, wScan = scan, dwFlags = flags, time = 0, dwExtraInfo = IntPtr.Zero };
-            uint sent = SendInput(1, input, Marshal.SizeOf(typeof(INPUT)));
+            uint sent = Send(scan, flags);
+            if (scan == SCAN_CTRL && !extended) ctrlHeld = down;
+            if (sent == 1 && down && scan == SCAN_ALT && extended && !ctrlHeld)
+                Send(SCAN_CTRL, KEYEVENTF_SCANCODE | KEYEVENTF_KEYUP); // AltGr's own Left Ctrl
             Console.WriteLine(sent == 1 ? "ok" : "err " + Marshal.GetLastWin32Error());
             Console.Out.Flush();
         }

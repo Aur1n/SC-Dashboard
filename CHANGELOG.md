@@ -5,6 +5,16 @@ section becomes the notes of its
 [GitHub release](https://github.com/xattribution/SpoolUp/releases), so add one
 before tagging a release.
 
+## 2.2.1-hu.6 (2026-11-14)
+
+- **Működnek a jobb Altos gombok magyar billentyűzetkiosztással.** Az AltGr-es
+  kiosztásokon (magyar, német, lengyel...) a Windows minden küldött jobb Alt
+  elé egy bal Ctrl-t is odatesz, így a játék Ctrl+Alt+R-t kapott jobb Alt+R
+  helyett, és a Flight Ready, a dokkolás kérése, az operátor módok és a többi
+  jobb Altos gomb nem csinált semmit. A billentyűküldő ezt a Ctrl-t a jobb Alt
+  lenyomása után azonnal elengedi. A játék kiosztásán nem kell változtatni, és
+  a valódi Ctrl+jobb Alt kombinációk érintetlenek maradnak.
+
 ## 2.2.1-hu.5 (2026-11-14)
 
 - **Nincs több SpoolUp-utalás a felületen.** Az appablak Hálózat részén a
