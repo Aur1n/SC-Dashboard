@@ -58,7 +58,7 @@ function create({ files, onChange = () => {}, log = () => {} }) {
   let st = fresh();
   let fightTimer = null;
   let lastHit = 0;
-  // Reading what the log already held when SpoolUp started: the name, the ship and the
+  // Reading what the log already held when SC-Dashboard started: the name, the ship and the
   // kills count, quietly; old hits aren't news.
   let catchingUp = false;
 

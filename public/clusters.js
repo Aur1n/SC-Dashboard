@@ -1,4 +1,4 @@
-// Cockpit clusters (SpoolUp 2.1): each grouping of controls drawn as one instrument you can
+// Cockpit clusters (SC-Dashboard 2.1): each grouping of controls drawn as one instrument you can
 // place on any panel or dashboard. Shields, targeting, the hull's lights and doors, the
 // turret seats, countermeasures, the quantum spool, the mining head, the salvage head and
 // the switch banks.
@@ -7,8 +7,8 @@
 // button. A tap on a part sends its button once, on lift, when the finger stayed put and
 // no page swipe took the touch. A drag that steps sends one tap per step, at most
 // ctx.steps.PER_DRAG per drag and ctx.steps.GAP_MS apart. Timers only ever change the
-// picture (a cover dropping, a ring filling). The art shows what SpoolUp sent ("steps
-// sent"), never a reading of the game, which SpoolUp can't see.
+// picture (a cover dropping, a ring filling). The art shows what SC-Dashboard sent ("steps
+// sent"), never a reading of the game, which SC-Dashboard can't see.
 //
 // Parts that are plain buttons are real bound buttons (ctx.hudButton). Parts that are
 // shapes (a shield arc, a reticle corner) are zones: role="button", a translated label,

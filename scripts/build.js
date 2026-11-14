@@ -1,18 +1,18 @@
-// Builds the Windows installer, dist/SpoolUp-Setup-<version>.exe, so players don't
+// Builds the Windows installer, dist/SC-Dashboard-Setup-<version>.exe, so players don't
 // need Node.js. Developers keep using `node server.js` or start.bat.
 //
 //   npm install      (once: the build-only tools postject and rcedit)
 //   npm run build
 //
-// 1. Checks keybinds/TabletDeck-StarCitizen.xml is up to date with the layouts.
+// 1. Checks keybinds/SC-Dashboard-StarCitizen.xml is up to date with the layouts.
 // 2. Makes the app icon from public/icon-512.png.
-// 3. Compiles the app window (native/launcher.cs -> TabletDeck.exe), the key sender, the
+// 3. Compiles the app window (native/launcher.cs -> SC-Dashboard.exe), the key sender, the
 //    voice listener and the sound player, with version info.
-// 4. Packs server.js, qr.js, gamelog.js, discovery.js, public/, layouts/, keybinds/ and data/ into TabletDeckServer.exe, a
+// 4. Packs server.js, qr.js, gamelog.js, discovery.js, public/, layouts/, keybinds/ and data/ into SC-DashboardServer.exe, a
 //    Node single executable application made from the node.exe running this script, and
 //    writes THIRD-PARTY-NOTICES.txt with that Node.js's license.
 // 5. Signs the .exe files, if SIGN_CMD is set (see below).
-// 6. Runs Inno Setup on installer/TabletDeck.iss (which signs the installer too, with
+// 6. Runs Inno Setup on installer/SC-Dashboard.iss (which signs the installer too, with
 //    SIGN_CMD) and writes the installer's SHA-256 checksum next to it.
 //
 // A signing service that signs files between steps (SignPath, in release.yml) runs the
@@ -44,7 +44,7 @@ const VERSION = JSON.parse(fs.readFileSync(path.join(ROOT, "package.json"), "utf
 const FILE_VERSION = `${VERSION.replace(/[-+].*$/, "")}.0`;
 const COPYRIGHT = "Copyright (c) 2026 nodieCode and xattribution. MIT License.";
 const SIGN_CMD = process.env.SIGN_CMD || "";
-const SETUP_NAME = `SpoolUp-Setup-${VERSION}.exe`;
+const SETUP_NAME = `SC-Dashboard-Setup-${VERSION}.exe`;
 
 const step = (text) => console.log(`\n== ${text}`);
 const run = (file, args) => execFileSync(file, args, { stdio: "inherit" });
@@ -115,8 +115,8 @@ async function buildApp() {
       "using System.Reflection;",
       `[assembly: AssemblyTitle("${title}")]`,
       `[assembly: AssemblyDescription("${title}")]`,
-      '[assembly: AssemblyProduct("SpoolUp")]',
-      '[assembly: AssemblyCompany("xattribution")]',
+      '[assembly: AssemblyProduct("SC-Dashboard")]',
+      '[assembly: AssemblyCompany("Aur1n")]',
       `[assembly: AssemblyCopyright("${COPYRIGHT}")]`,
       `[assembly: AssemblyVersion("${FILE_VERSION}")]`,
       `[assembly: AssemblyFileVersion("${FILE_VERSION}")]`,
@@ -127,19 +127,19 @@ async function buildApp() {
       ...refs.map((r) => `/r:${r}`), ...(icon ? [`/win32icon:${icon}`] : []), `/out:${out}`, path.join(ROOT, "native", `${name}.cs`), info]);
     return out;
   }
-  const window = compileCs("launcher", path.join(APP, "TabletDeck.exe"), "SpoolUp",
+  const window = compileCs("launcher", path.join(APP, "SC-Dashboard.exe"), "SC-Dashboard",
     { target: "winexe", refs: ["System.Windows.Forms.dll", "System.Drawing.dll", "System.Web.Extensions.dll"], icon: ico });
   const natives = [
-    compileCs("keysender", path.join(APP, "native", "keysender.exe"), "SpoolUp key sender"),
-    compileCs("voice", path.join(APP, "native", "voice.exe"), "SpoolUp voice commands", { refs: ["System.Speech.dll"] }),
-    compileCs("sound", path.join(APP, "native", "sound.exe"), "SpoolUp sounds"),
+    compileCs("keysender", path.join(APP, "native", "keysender.exe"), "SC-Dashboard key sender"),
+    compileCs("voice", path.join(APP, "native", "voice.exe"), "SC-Dashboard voice commands", { refs: ["System.Speech.dll"] }),
+    compileCs("sound", path.join(APP, "native", "sound.exe"), "SC-Dashboard sounds"),
   ];
 
   // The keybind profile, for the window's "Install keybind profile" and the installer's option.
   fs.mkdirSync(path.join(APP, "keybinds"), { recursive: true });
-  fs.copyFileSync(path.join(ROOT, "keybinds", "TabletDeck-StarCitizen.xml"), path.join(APP, "keybinds", "TabletDeck-StarCitizen.xml"));
+  fs.copyFileSync(path.join(ROOT, "keybinds", "SC-Dashboard-StarCitizen.xml"), path.join(APP, "keybinds", "SC-Dashboard-StarCitizen.xml"));
 
-  step("Packing TabletDeckServer.exe");
+  step("Packing SC-DashboardServer.exe");
   // A single executable runs one script and can only require Node's built-in modules, so
   // qr.js is inlined where server.js requires it.
   const qrRequire = 'const qr = require("./qr");';
@@ -178,7 +178,7 @@ async function buildApp() {
   execFileSync(process.execPath, ["--experimental-sea-config", "build/sea-config.json"], { cwd: ROOT, stdio: "inherit" });
   console.log(`${assets.length} bundled files`);
 
-  const exe = path.join(APP, "TabletDeckServer.exe");
+  const exe = path.join(APP, "SC-DashboardServer.exe");
   fs.copyFileSync(process.execPath, exe);
 
   // node.exe's signature stops matching once the app is added, so remove it first.
@@ -188,24 +188,24 @@ async function buildApp() {
     ...(fs.existsSync(kits) ? fs.readdirSync(kits).filter((d) => /^10\./.test(d)).sort().reverse().map((d) => path.join(kits, d, "x64", "signtool.exe")) : []),
   ]);
   if (signtool) run(signtool, ["remove", "/s", exe]);
-  else console.log("signtool not found (Windows SDK); TabletDeckServer.exe keeps node.exe's old signature.");
+  else console.log("signtool not found (Windows SDK); SC-DashboardServer.exe keeps node.exe's old signature.");
 
   // Icon and version info before the app goes in; rcedit rewrites the resources.
   run(path.join(ROOT, "node_modules", "rcedit", "bin", "rcedit-x64.exe"), [exe,
     "--set-icon", ico,
     "--set-file-version", FILE_VERSION,
     "--set-product-version", VERSION,
-    "--set-version-string", "FileDescription", "SpoolUp server",
-    "--set-version-string", "ProductName", "SpoolUp",
-    "--set-version-string", "CompanyName", "xattribution",
+    "--set-version-string", "FileDescription", "SC-Dashboard server",
+    "--set-version-string", "ProductName", "SC-Dashboard",
+    "--set-version-string", "CompanyName", "Aur1n",
     "--set-version-string", "LegalCopyright", COPYRIGHT,
-    "--set-version-string", "OriginalFilename", "TabletDeckServer.exe",
-    "--set-version-string", "InternalName", "TabletDeckServer",
+    "--set-version-string", "OriginalFilename", "SC-DashboardServer.exe",
+    "--set-version-string", "InternalName", "SC-DashboardServer",
   ]);
   await inject(exe, "NODE_SEA_BLOB", fs.readFileSync(blob), { sentinelFuse: "NODE_SEA_FUSE_fce680ab2cc467b6e072b8b5df1996b2" });
 
   step("Writing the third-party notices");
-  // TabletDeckServer.exe contains the Node.js runtime, whose license (covering the
+  // SC-DashboardServer.exe contains the Node.js runtime, whose license (covering the
   // libraries Node bundles, like OpenSSL and V8) has to ship with every copy. The
   // Node.js download from nodejs.org has it next to node.exe (one folder up on Linux and
   // macOS); NODE_LICENSE overrides.
@@ -216,10 +216,10 @@ async function buildApp() {
       "(it's in the Node.js zip from nodejs.org).");
   }
   fs.writeFileSync(path.join(APP, "THIRD-PARTY-NOTICES.txt"), [
-    "SpoolUp includes the third-party software below. SpoolUp itself is",
+    "SC-Dashboard includes the third-party software below. SC-Dashboard itself is",
     "MIT licensed (LICENSE.txt). See THIRD-PARTY-NOTICES.md in the source for details.",
     "",
-    `== Node.js ${process.version}, in TabletDeckServer.exe (https://nodejs.org)`,
+    `== Node.js ${process.version}, in SC-DashboardServer.exe (https://nodejs.org)`,
     "",
     fs.readFileSync(nodeLicense, "utf8"),
   ].join("\n").replace(/\r?\n/g, "\r\n"));
@@ -230,7 +230,7 @@ async function buildApp() {
 
 // Step 6: the installer, from build/app.
 function buildInstaller() {
-  if (!fs.existsSync(path.join(APP, "TabletDeck.exe"))) throw new Error("build/app is missing; run the --app stage first.");
+  if (!fs.existsSync(path.join(APP, "SC-Dashboard.exe"))) throw new Error("build/app is missing; run the --app stage first.");
   fs.mkdirSync(DIST, { recursive: true });
   step("Building the installer");
   const iscc = firstExisting([
@@ -246,7 +246,7 @@ function buildInstaller() {
   if (SIGN_CMD) fs.writeFileSync(signIss, `SignTool=signtool ${SIGN_CMD}\nSignedUninstaller=yes\n`);
   else fs.rmSync(signIss, { force: true });
   run(iscc, ["/Q", `/DAppVersion=${VERSION}`, `/DFileVersion=${FILE_VERSION}`, `/DBuildDir=${BUILD}`, `/O${DIST}`,
-    ...(SIGN_CMD ? ["/Ssigntool=$p"] : []), path.join(ROOT, "installer", "TabletDeck.iss")]);
+    ...(SIGN_CMD ? ["/Ssigntool=$p"] : []), path.join(ROOT, "installer", "SC-Dashboard.iss")]);
 }
 
 // dist/<installer>.sha256, which the app's updater checks downloads against.
@@ -259,7 +259,7 @@ function writeChecksum() {
 (async () => {
   if (process.platform !== "win32") throw new Error("The installer can only be built on Windows.");
   const stage = ["--app", "--installer", "--checksum"].find((s) => process.argv.includes(s)) || "all";
-  console.log(`Building SpoolUp ${VERSION}${SIGN_CMD ? "" : " (unsigned)"}${stage === "all" ? "" : ` (${stage.slice(2)} stage)`}`);
+  console.log(`Building SC-Dashboard ${VERSION}${SIGN_CMD ? "" : " (unsigned)"}${stage === "all" ? "" : ` (${stage.slice(2)} stage)`}`);
   if (stage === "all" || stage === "--app") await buildApp();
   if (stage === "all" || stage === "--installer") buildInstaller();
   if (stage !== "--app") writeChecksum();

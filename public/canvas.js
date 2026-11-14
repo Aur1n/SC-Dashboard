@@ -2,7 +2,7 @@
 // with regions that page through panels. Element coordinates are canvas pixels;
 // panel elements are relative to their region.
 //
-// It also renders grid layouts (layout.grid, SpoolUp 2.1): there the canvas is the screen
+// It also renders grid layouts (layout.grid, SC-Dashboard 2.1): there the canvas is the screen
 // itself, at 1:1, and every panel is packed on a grid of cells (grid.js) that follows the
 // screen's size class, its density and the halves or one-panel view. Each placed cell
 // becomes an ordinary box, so the 2.0 controls below and the widgets registered with
@@ -342,8 +342,8 @@
       },
 
       // Level slider (the power triangle's Weapons, Thrusters, Shields): each step up or down
-      // taps its Step up or Step down button once. It shows the steps SpoolUp sent from the
-      // center, not the game's value, which SpoolUp can't read; Center sliders sets it back
+      // taps its Step up or Step down button once. It shows the steps SC-Dashboard sent from the
+      // center, not the game's value, which SC-Dashboard can't read; Center sliders sets it back
       // without pressing anything, and the buttons in "follows" (Max, Min, Reset All) move
       // it to the end or the center when they're pressed.
       level(e) {
@@ -378,14 +378,14 @@
       },
 
       // Puts every level slider and fader back in the center. Sends nothing: they only count
-      // what SpoolUp sent, so this is for when they no longer match the game. 2.0 layouts
+      // what SC-Dashboard sent, so this is for when they no longer match the game. 2.0 layouts
       // call it "recentre" (and their label "Centre sliders"); both still work.
       recenter(e) {
         const el = box(make("button", "hud-btn s-std s-recenter", `<span class="hud-ico">${D.deckIcon("power-reset")}</span><span class="hud-lbl"></span><span class="fx-state"></span>`), e);
         el.type = "button";
         text(el, ".hud-lbl", !e.label || e.label === "Centre sliders" ? "Center sliders" : e.label);
         text(el, ".fx-state", "Sends no keys");
-        el.title = tr("The sliders count the taps SpoolUp sent; SpoolUp can't read the game.");
+        el.title = tr("The sliders count the taps SC-Dashboard sent; SC-Dashboard can't read the game.");
         if (D.placeControl) { D.placeControl(el, e); return el; }
         el.addEventListener("click", () => {
           state.levels = {};
@@ -400,7 +400,7 @@
       // Operator-mode dial: the modes sit round a face with a needle, and the hub in the
       // middle is its own button (SCM/NAV). Turning the needle to a mode and letting go, or
       // tapping the mode, is one tap of that mode's button. The needle shows the mode last
-      // picked here, since SpoolUp can't see the game's.
+      // picked here, since SC-Dashboard can't see the game's.
       rotary(e) {
         const el = box(make("div", "hud-rotary", `<div class="rt-face"><svg class="rt-ticks" aria-hidden="true"></svg><i class="rt-needle"></i></div>`), e);
         el.dataset.drag = "xy";
@@ -477,7 +477,7 @@
     R.recentre = R.recenter; // the 2.0 name
 
     // An element type nothing draws yet (a widget whose script didn't load, or one from a
-    // newer SpoolUp): its buttons, as a plain grid, so every key stays reachable.
+    // newer SC-Dashboard): its buttons, as a plain grid, so every key stays reachable.
     function fallback(e) {
       const defs = [], seen = new Set();
       (function walk(n, top) {

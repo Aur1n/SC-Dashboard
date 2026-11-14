@@ -1,4 +1,4 @@
-// Battle alerts (SpoolUp 2.2): what the PC reads from Star Citizen's Game.log (gamelog.js),
+// Battle alerts (SC-Dashboard 2.2): what the PC reads from Star Citizen's Game.log (gamelog.js),
 // shown quietly. A thin strip at the top says when your ship is under fire, disabled or
 // destroyed, when you die and when you get a kill; the "Last hits" readout, a widget you
 // can place like a cluster, lists who hit you last, your ship and its state, and your kills.

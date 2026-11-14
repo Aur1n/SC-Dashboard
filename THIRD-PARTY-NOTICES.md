@@ -1,16 +1,16 @@
 # Third-party software
 
-SpoolUp itself is [MIT licensed](LICENSE). This page lists the third-party
+SC-Dashboard itself is [MIT licensed](LICENSE). This page lists the third-party
 software it ships or uses, and where their licenses are.
 
-## Shipped with SpoolUp
+## Shipped with SC-Dashboard
 
 | software | where | license |
 |---|---|---|
-| [Node.js](https://nodejs.org) | inside `TabletDeckServer.exe`, which packs the Node.js runtime with the server | [Node.js license](https://github.com/nodejs/node/blob/main/LICENSE): MIT, plus the licenses of the libraries Node.js bundles (OpenSSL, V8, ICU, libuv, zlib and others) |
+| [Node.js](https://nodejs.org) | inside `SC-DashboardServer.exe`, which packs the Node.js runtime with the server | [Node.js license](https://github.com/nodejs/node/blob/main/LICENSE): MIT, plus the licenses of the libraries Node.js bundles (OpenSSL, V8, ICU, libuv, zlib and others) |
 
 The installer puts the full license text of the exact Node.js version it
-contains in `THIRD-PARTY-NOTICES.txt`, next to `LICENSE.txt` in SpoolUp's
+contains in `THIRD-PARTY-NOTICES.txt`, next to `LICENSE.txt` in SC-Dashboard's
 install folder. The build writes that file from the Node.js it packs (see
 [Building the installer](docs/DEVELOPMENT.md#building-the-installer)).
 
@@ -21,7 +21,7 @@ Windows and aren't shipped.
 
 ### The Android app
 
-The Android app (`android/`, `SpoolUp-<version>.apk`) includes these libraries,
+The Android app (`android/`, `SC-Dashboard-<version>.apk`) includes these libraries,
 all under the [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0):
 [AndroidX](https://developer.android.com/jetpack/androidx) (Core, Activity,
 SplashScreen and CameraX, by Google) and [ZXing](https://github.com/zxing/zxing)
@@ -33,7 +33,7 @@ iPad app (`ios/`) uses only Apple's frameworks.
 
 `data/sc-actions-4.10.json` lists Star Citizen 4.10's action names, English
 labels and default keys, as the game's own `defaultProfile.xml` and
-`global.ini` give them; they belong to Cloud Imperium Games. SpoolUp uses them
+`global.ini` give them; they belong to Cloud Imperium Games. SC-Dashboard uses them
 only to check and place its own keybinds, and never shows them to players.
 
 ## Used, but not shipped
@@ -41,7 +41,7 @@ only to check and place its own keybinds, and never shows them to players.
 - **Theme fonts:** Black Ops One, Chakra Petch, Cinzel, Comfortaa, Exo 2,
   Marcellus, Montserrat, Oxanium, Rajdhani, Saira Condensed and Saira Stencil One,
   under the [SIL Open Font License](https://openfontlicense.org). The tablet
-  loads them from [Google Fonts](https://fonts.google.com); SpoolUp doesn't
+  loads them from [Google Fonts](https://fonts.google.com); SC-Dashboard doesn't
   include the font files.
 - **Build tools:** [postject](https://github.com/nodejs/postject) and
   [rcedit](https://github.com/electron/rcedit) (the `devDependencies` in

@@ -1,6 +1,6 @@
 {
   "game": "4.10",
-  "source": "Star Citizen 4.10: Data/Libs/Config/defaultProfile.xml and Data/Localization/english/global.ini (inside Data.p4k), as read by the go-rebuild reference app (internal/sc/actions-4.10.json). Leaves out maps for menus, debug and cameras (default, debug, flycam, spectator, ui_textfield and so on) and actions with no name in the keybind menu. kb is the default keyboard bind, lowercased. Action names, labels and binds are Cloud Imperium Games data, used only to check and place SpoolUp's own binds (tools/make-profile.js, the merged keybind profile in server.js).",
+  "source": "Star Citizen 4.10: Data/Libs/Config/defaultProfile.xml and Data/Localization/english/global.ini (inside Data.p4k), as read by the go-rebuild reference app (internal/sc/actions-4.10.json). Leaves out maps for menus, debug and cameras (default, debug, flycam, spectator, ui_textfield and so on) and actions with no name in the keybind menu. kb is the default keyboard bind, lowercased. Action names, labels and binds are Cloud Imperium Games data, used only to check and place SC-Dashboard's own binds (tools/make-profile.js, the merged keybind profile in server.js).",
   "actions": [
     {"map":"seat_general","name":"v_emergency_exit","label":"Emergency Exit Seat","kb":"u+lshift","mode":"tap"},
     {"map":"seat_general","name":"v_eject","label":"Eject","kb":"ralt+y","mode":"press"},

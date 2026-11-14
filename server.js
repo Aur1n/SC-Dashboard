@@ -1,11 +1,11 @@
-// SpoolUp: serve a touch button page to a tablet on the LAN and turn button
+// SC-Dashboard: serve a touch button page to a tablet on the LAN and turn button
 // presses into keyboard scancodes on this PC. No dependencies beyond Node itself.
 //
 //   node server.js            normal mode
 //   node server.js --dry-run  log key events instead of sending them, and stream them
 //                             to the sandbox page (public/showcase.html)
 //
-// The installer ships this as TabletDeck.exe, a Node single executable (scripts/build.js).
+// The installer ships this as SC-Dashboard.exe, a Node single executable (scripts/build.js).
 "use strict";
 const http = require("http");
 const fs = require("fs");
@@ -21,10 +21,16 @@ const discovery = require("./discovery");
 const sea = (() => { try { return require("node:sea"); } catch { return null; } })();
 const INSTALLED = Boolean(sea && sea.isSea());
 // Running from source, everything lives in the repo folder. The installed app keeps
-// public/, layouts/ and keybinds/ inside TabletDeckServer.exe, the native helpers next to
+// public/, layouts/ and keybinds/ inside SC-DashboardServer.exe, the native helpers next to
 // it in Program Files (read-only), and config.json plus the player's own files in %APPDATA%.
 const APP_DIR = INSTALLED ? path.dirname(process.execPath) : __dirname;
-const DATA_DIR = INSTALLED ? path.join(process.env.APPDATA || os.homedir(), "TabletDeck") : __dirname;
+const DATA_DIR = INSTALLED ? path.join(process.env.APPDATA || os.homedir(), "SC-Dashboard") : __dirname;
+// Settings from the app's earlier names carry over: the first run copies %APPDATA%\TabletDeck
+// (where Tablet Deck and SpoolUp kept them) to the new folder, so pairing and layouts stay.
+if (INSTALLED && !fs.existsSync(DATA_DIR)) {
+  const oldDir = path.join(process.env.APPDATA || os.homedir(), "TabletDeck");
+  if (fs.existsSync(oldDir)) { try { fs.cpSync(oldDir, DATA_DIR, { recursive: true }); } catch { /* starts fresh */ } }
+}
 const DRY_RUN = process.argv.includes("--dry-run");
 // --ui: run under the app window (native/launcher.cs), which shows the console output as
 // its log and reads "@ui {json}" status lines. It sends "quit" on stdin to stop the server.
@@ -48,7 +54,7 @@ function ui(event) {
   if (UI) console.log(`@ui ${JSON.stringify(event)}`);
 }
 if (INSTALLED) {
-  process.title = "SpoolUp";
+  process.title = "SC-Dashboard";
   process.on("uncaughtException", (err) => fatal(err.stack || String(err)));
 }
 
@@ -94,7 +100,7 @@ function channelDirFromExe(exe) {
 }
 
 // The usual StarCitizen folders on drives C to Z that exist. Looked up once: a mapped
-// network drive that's offline can stall each look, and a new install while SpoolUp runs
+// network drive that's offline can stall each look, and a new install while SC-Dashboard runs
 // is found anyway through the running game or a picked folder.
 let driveRoots = null;
 function scDriveRoots() {
@@ -176,7 +182,7 @@ function loadConfig() {
   // loading a profile in-game copies it there, and later rebinds land there too. Before
   // 2.2 the server wrote the LIVE file it found on first start (or none) here; that list,
   // left as written, becomes "auto" so other channels and drives are found as well.
-  const PROFILE = "keybinds/TabletDeck-StarCitizen.xml";
+  const PROFILE = "keybinds/SC-Dashboard-StarCitizen.xml";
   const oldAuto = Array.isArray(config.actionmaps) && config.actionmaps[0] === PROFILE && (config.actionmaps.length === 1
     || (config.actionmaps.length === 2 && /StarCitizen[\\/]LIVE[\\/]user[\\/]client[\\/]0[\\/]Profiles[\\/]default[\\/]actionmaps\.xml$/i.test(String(config.actionmaps[1]))));
   if (config.actionmaps === undefined || oldAuto) { config.actionmaps = [PROFILE, AUTO_ACTIONMAPS]; changed = true; }
@@ -274,7 +280,7 @@ if (process.argv.includes("--find-game")) {
 
 // ---------- merged keybind profile (--merge-profile) ----------
 
-// --merge-profile <out.xml> [actionmaps.xml]: write "SpoolUp Keyboard (your binds)" and exit
+// --merge-profile <out.xml> [actionmaps.xml]: write "SC-Dashboard Keyboard (your binds)" and exit
 // without starting. The app window's "Install keybind profile..." runs this for each copy of
 // the game that has an actionmaps.xml; a copy without one gets the plain profile. Without a
 // path, the actionmaps.xml findActionmaps() finds is used.
@@ -282,10 +288,10 @@ if (process.argv.includes("--find-game")) {
 // Loading a profile in-game replaces every bind with the profile's, so the merged profile
 // carries the player's whole profile over (keyboard, mouse, joystick and gamepad binds, device
 // options, binds they cleared on purpose) and only adds keyboard binds: one for each action in
-// SpoolUp's profile that the player has no keyboard bind for in that map. A new bind keeps
-// SpoolUp's key when nothing active at the same time uses it (the player's binds and the
+// SC-Dashboard's profile that the player has no keyboard bind for in that map. A new bind keeps
+// SC-Dashboard's key when nothing active at the same time uses it (the player's binds and the
 // game's defaults, by data/sc-contexts.json), else it takes the first free right-hand combo.
-const MERGED_PROFILE_NAME = "SpoolUp Keyboard (your binds)";
+const MERGED_PROFILE_NAME = "SC-Dashboard Keyboard (your binds)";
 
 // Free combos for the merged profile, in the order they're handed out: right-hand modifiers,
 // which the game leaves almost unused, on ordinary keys. F4 is left out (Alt+F4 closes windows).
@@ -381,10 +387,10 @@ function mergeAddToMap(body, map, rows) {
   return body.slice(0, found.index) + opening(found[0], found[1]) + inner + "</actionmap>" + body.slice(found.index + found[0].length);
 }
 
-// Builds the merged profile. current: the player's actionmaps.xml; spoolup: SpoolUp's plain
+// Builds the merged profile. current: the player's actionmaps.xml; spoolup: SC-Dashboard's plain
 // profile; game: data/sc-actions-4.10.json's actions; contexts: data/sc-contexts.json's map.
 // Returns { xml, added: [{ action, keys, maps, moved }], kept } or null for a file that isn't
-// a profile. `moved` says the bind isn't SpoolUp's usual key.
+// a profile. `moved` says the bind isn't SC-Dashboard's usual key.
 function mergeKeybindProfile(current, spoolup, game, contexts) {
   const profile = mergeProfileBody(current);
   if (!profile) return null;
@@ -396,7 +402,7 @@ function mergeKeybindProfile(current, spoolup, game, contexts) {
     if (!/^kb\d*_/.test(b.input)) continue;
     theirs.set(`${b.map}/${b.action}`, b.input.slice(b.input.indexOf("_") + 1).trim());
   }
-  // SpoolUp's binds, by action: its key and the maps it goes in.
+  // SC-Dashboard's binds, by action: its key and the maps it goes in.
   const needs = new Map();
   for (const b of mergeReadBinds(spoolup)) {
     const keys = b.input.startsWith("kb1_") ? b.input.slice(4).trim() : "";
@@ -441,7 +447,7 @@ function mergeKeybindProfile(current, spoolup, game, contexts) {
     });
   };
 
-  // First the player's own key for the action (from another map) or SpoolUp's, then free combos.
+  // First the player's own key for the action (from another map) or SC-Dashboard's, then free combos.
   const chosen = new Map();
   for (const t of todo) {
     const pick = [t.own, t.keys].find((k) => mergeIsKeyboard(k) && !taken(k, t.maps, t.action));
@@ -490,14 +496,14 @@ if (mergeArg > -1) {
     process.exit(1);
   }
   if (!source || !fs.existsSync(source)) {
-    console.error("No actionmaps.xml found, so there are no binds of yours to keep. Install the plain SpoolUp Keyboard profile instead.");
+    console.error("No actionmaps.xml found, so there are no binds of yours to keep. Install the plain SC-Dashboard Keyboard profile instead.");
     process.exit(3);
   }
   if (path.resolve(source).toLowerCase() === path.resolve(out).toLowerCase()) {
     console.error("The merged profile can't replace the file it's made from.");
     process.exit(1);
   }
-  const merged = mergeKeybindProfile(fs.readFileSync(source, "utf8"), readBundled("keybinds/TabletDeck-StarCitizen.xml").toString("utf8"),
+  const merged = mergeKeybindProfile(fs.readFileSync(source, "utf8"), readBundled("keybinds/SC-Dashboard-StarCitizen.xml").toString("utf8"),
     JSON.parse(readBundled("data/sc-actions-4.10.json")).actions, JSON.parse(readBundled("data/sc-contexts.json")).contexts);
   if (!merged) {
     console.error(`${source} isn't a Star Citizen keybind file.`);
@@ -506,7 +512,7 @@ if (mergeArg > -1) {
   fs.mkdirSync(path.dirname(path.resolve(out)), { recursive: true });
   fs.writeFileSync(out, merged.xml);
   // First line for the app window: how many binds were added and how many of those aren't
-  // SpoolUp's usual keys; then one line per added bind.
+  // SC-Dashboard's usual keys; then one line per added bind.
   console.log(`added ${merged.added.length} moved ${merged.added.filter((a) => a.moved).length}`);
   for (const a of merged.added) console.log(`${a.action} ${a.keys}${a.moved ? " (moved)" : ""}`);
   process.exit(0);
@@ -603,7 +609,7 @@ function loadLayout(device, chosen) {
 // Gives every button its keys (from the keybind files when it has an scAction) and
 // scancodes, and returns them by id. Throws on an unknown key or a duplicate id, so the
 // layout editor's saves get the same checks as loading. A keybind file's key that can't
-// be pressed (one SpoolUp has no scancode for) only costs that button its rebind: it
+// be pressed (one SC-Dashboard has no scancode for) only costs that button its rebind: it
 // keeps the layout's keys, and the server says so once instead of refusing to start.
 const unpressableRebinds = new Set();
 function prepareLayout(layout) {
@@ -645,12 +651,12 @@ function prepareLayout(layout) {
 const GAME_PROCESS = "StarCitizen";
 
 // Returns the path to native/<name>.exe. The installer ships it prebuilt next to
-// TabletDeck.exe. From source, it's built from <name>.cs with the C# compiler that ships
+// SC-Dashboard.exe. From source, it's built from <name>.cs with the C# compiler that ships
 // with Windows, and rebuilt when the .cs is newer, so an update's changes reach it.
 function buildNative(name, what, refs = []) {
   const exe = path.join(APP_DIR, "native", `${name}.exe`);
   if (INSTALLED) {
-    if (!fs.existsSync(exe)) throw new Error(`${exe} is missing; reinstall SpoolUp`);
+    if (!fs.existsSync(exe)) throw new Error(`${exe} is missing; reinstall SC-Dashboard`);
     return exe;
   }
   const src = path.join(APP_DIR, "native", `${name}.cs`);
@@ -891,7 +897,7 @@ function report(btn, kind, extra = {}) {
 // lights on). The state is kept here, per group, so every tablet, voice commands and
 // redrawn panels agree; buttons light up while their group is on. "set": true or false
 // sets it (Open/Close Doors), otherwise a press flips it. The deck can't see the game, so
-// this is only what SpoolUp pressed: it starts all off, and tablets can reset it.
+// this is only what SC-Dashboard pressed: it starts all off, and tablets can reset it.
 // "with": { "on": { group: true|false }, "off": {...} } sets other groups too, once this
 // one turned on or off (power off takes weapons, shields and thrusters down with it).
 const buttonStates = new Map(); // group -> true while on
@@ -1060,7 +1066,7 @@ function startVoice() {
         for (const c of tablets) c.send({ t: "listening", on: line === "ptt 1", chime: config.pttSound !== false });
         emit({ t: "voice", result: line === "ptt 1" ? "listen" : "stop", running: true });
       } else if (line.startsWith("err")) {
-        console.error(`Voice commands unavailable: ${line.slice(4)}. See "Voice commands" at https://github.com/xattribution/SpoolUp#voice-commands`);
+        console.error(`Voice commands unavailable: ${line.slice(4)}. See "Voice commands" at https://github.com/Aur1n/SC-Dashboard#voice-commands`);
         ui({ t: "voice", state: "error", text: line.slice(4) });
         setTabletVoice("unavailable", line.slice(4));
       } else if (line.startsWith("heard ")) {
@@ -1361,7 +1367,7 @@ const reloadTablets = () => { for (const client of tablets) client.send({ t: "re
 // device on the network can't change files even with the pairing code.
 function handleEditor(req, res, url) {
   if (url.searchParams.get("t") !== config.token) return sendJson(res, 403, { error: "Wrong pairing code." });
-  if (!fromThisPC(req)) return sendJson(res, 403, { error: "The layout editor only works on the PC running SpoolUp (open it at http://localhost)." });
+  if (!fromThisPC(req)) return sendJson(res, 403, { error: "The layout editor only works on the PC running SC-Dashboard (open it at http://localhost)." });
 
   if (url.pathname === "/editor/layouts") {
     const layouts = [];
@@ -1751,7 +1757,7 @@ startVoice();
 buildSoundPlayer();
 server.on("error", (err) => {
   if (err.code !== "EADDRINUSE") throw err;
-  fatal(`Port ${config.port} is already in use. Is SpoolUp already running? Otherwise change "port" in ${CONFIG_PATH}.`);
+  fatal(`Port ${config.port} is already in use. Is SC-Dashboard already running? Otherwise change "port" in ${CONFIG_PATH}.`);
 });
 // Adapters a tablet can't be on: VPNs, virtual machines, WSL and Docker. Matched on the
 // name Windows gives the adapter ("vEthernet (WSL)", "NordLynx", "Tailscale", ...).
@@ -1851,7 +1857,7 @@ server.listen(config.port, "0.0.0.0", () => {
   if (!UI) checkNetwork(); // with the window, sendReady checks
   setDiscovery(config.discovery !== false);
   const { all, ips, lan } = addresses();
-  console.log(`\nSpoolUp${VERSION ? ` ${VERSION}` : ""} running${DRY_RUN ? " (DRY RUN: no keys are sent)" : ""}.`);
+  console.log(`\nSC-Dashboard${VERSION ? ` ${VERSION}` : ""} running${DRY_RUN ? " (DRY RUN: no keys are sent)" : ""}.`);
   if (UI) { sendReady(); return; }
   if (INSTALLED) console.log(`Settings: ${CONFIG_PATH}`);
   console.log("Open this on your tablet (same Wi-Fi/network):");

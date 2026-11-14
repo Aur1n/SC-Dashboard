@@ -1,6 +1,6 @@
 // Writes layouts/hud-phone.json, a hidden copy of layouts/hud.json.
 //
-// Since SpoolUp 2.1, hud.json is a grid layout that fits every screen, so there's no
+// Since SC-Dashboard 2.1, hud.json is a grid layout that fits every screen, so there's no
 // separate phone design any more. The file stays, because players' settings (config.json's
 // phoneLayout, a phone's saved choice) name it; "hidden" keeps it out of the layout lists.
 // The 2.0 phone layout is kept as it was in layouts/hud-classic-phone.json.

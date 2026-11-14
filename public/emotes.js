@@ -1,4 +1,4 @@
-// The emote board (grid layouts, SpoolUp 2.1): every emote in the layout, with favorites
+// The emote board (grid layouts, SC-Dashboard 2.1): every emote in the layout, with favorites
 // and groups of this device's own. Hold an emote to star it, tap to play it, and Arrange
 // to reorder the favorites and groups or drag an emote onto a tab to add it there.
 //

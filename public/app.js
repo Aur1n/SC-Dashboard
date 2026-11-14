@@ -100,12 +100,12 @@
   // Grid layouts fit every screen, so phones and tablets get the same files; only the
   // 2.0 HUD kept as it was has a phone version of its own.
   const DEMO_LAYOUTS = [
-    ["layouts/hud.json", "SpoolUp HUD"],
+    ["layouts/hud.json", "SC-Dashboard HUD"],
     ["layouts/dashboards.json", "Dashboards"],
     ...[["combat", "Combat"], ["mining-salvage", "Mining & Salvage"], ["hauling-exploration", "Hauling & Exploration"],
       ["prospector", "Prospector"], ["vulture", "Vulture"]]
       .map(([id, name]) => [`layouts/${id}.json`, name]),
-    [device === "phone" ? "layouts/hud-classic-phone.json" : "layouts/hud-classic.json", "SpoolUp HUD 2.0"],
+    [device === "phone" ? "layouts/hud-classic-phone.json" : "layouts/hud-classic.json", "SC-Dashboard HUD 2.0"],
     ["layouts/star-citizen.json", "Star Citizen (tabbed grid)"],
   ];
   // ?viewport=small|large forces a grid layout's size class (canvas.js), e.g. to try the
@@ -836,11 +836,11 @@
     }
   }
 
-  // Inside the SpoolUp iPhone/iPad and Android apps, window.SpoolUpApp plays the device's own
+  // Inside the SC-Dashboard iPhone/iPad and Android apps, window.SC-DashboardApp plays the device's own
   // haptics (iOS Safari has no navigator.vibrate). The browser deck never has it.
   const appHaptic = (ms) => (Array.isArray(ms) ? (ms[0] >= 30 ? "error" : "press") : ms >= 30 ? "press" : "tap");
   const buzz = (ms = 12) => {
-    const app = window.SpoolUpApp;
+    const app = window.SC-DashboardApp;
     if (app && typeof app.haptic === "function") { try { app.haptic(appHaptic(ms)); } catch {} return; }
     if (navigator.vibrate) navigator.vibrate(ms);
   };
@@ -1005,7 +1005,7 @@
       el.classList.add("listening");
       buzz();
       window.DeckSound.play("listen");
-      if (DEMO) toast("Voice commands work with SpoolUp on your PC", 2600);
+      if (DEMO) toast("Voice commands work with SC-Dashboard on your PC", 2600);
       send({ t: "voice", on: true });
     });
     const end = (e) => {
@@ -1079,9 +1079,9 @@
     // The live status from the PC wins over the one the list was loaded with.
     const state = DEMO ? "ready" : voiceStatus.state;
     const reason = voiceStatus.reason || voiceData.reason;
-    if (!voiceData.on || state === "off") { voiceNote("Voice commands are turned off on the PC. Turn them on in the SpoolUp window's Settings."); return; }
+    if (!voiceData.on || state === "off") { voiceNote("Voice commands are turned off on the PC. Turn them on in the SC-Dashboard window's Settings."); return; }
     if (state === "unavailable") {
-      voiceNote(tr("Voice commands can't run on this PC{0}. The SpoolUp window shows what to do.", reason ? `: ${reason}` : ""));
+      voiceNote(tr("Voice commands can't run on this PC{0}. The SC-Dashboard window shows what to do.", reason ? `: ${reason}` : ""));
       return;
     }
     const q = $("voiceSearch").value.trim().toLowerCase();
@@ -1128,13 +1128,13 @@
       <form id="pair" novalidate>
         <div class="pair-emblem"></div>
         <h2><b>//</b> ${tr("Pair this device")}</h2>
-        <p class="pair-help">${tr("Open {0} on your gaming PC and type the pairing code its window shows.", "<strong>SpoolUp</strong>")}</p>
+        <p class="pair-help">${tr("Open {0} on your gaming PC and type the pairing code its window shows.", "<strong>SC-Dashboard</strong>")}</p>
         <label for="code">${tr("Pairing code")}</label>
         <input id="code" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" maxlength="32"
           placeholder="${tr("e.g. 1a2b3c4d")}" aria-describedby="pairError">
         <p id="pairError" class="pair-error" role="alert" hidden></p>
         <button type="submit">${tr("Connect")}</button>
-        <p class="pair-hint">${tr("Quicker: scan the QR code in the SpoolUp window with this device's camera.")}</p>
+        <p class="pair-hint">${tr("Quicker: scan the QR code in the SC-Dashboard window with this device's camera.")}</p>
       </form>`;
     grid.querySelector(".pair-emblem").innerHTML = emblemSvg((themeById[document.documentElement.dataset.theme] || THEMES[0]).emblem);
     const input = $("code"), error = $("pairError"), button = grid.querySelector("#pair button");
@@ -1148,8 +1148,8 @@
     input.value = wrong === "changed" ? "" : token; // a typo is easier to fix in place
     input.oninput = () => { input.classList.remove("bad"); input.removeAttribute("aria-invalid"); error.hidden = true; };
     if (wrong === "locked") fail("Too many wrong codes. Wait a minute, then try again.");
-    else if (wrong === "changed") fail("The pairing code on the PC has changed. Type the new one from the SpoolUp window.");
-    else if (wrong) fail("That code didn't match. Check the code in the SpoolUp window on your PC and try again.");
+    else if (wrong === "changed") fail("The pairing code on the PC has changed. Type the new one from the SC-Dashboard window.");
+    else if (wrong) fail("That code didn't match. Check the code in the SC-Dashboard window on your PC and try again.");
     input.focus();
     $("pair").onsubmit = (e) => {
       e.preventDefault();
@@ -1249,13 +1249,13 @@
   }
   $("fs").onclick = toggleFullscreen;
   // Inside the SpoolUp apps, Deck settings gets the way back to the app's list of PCs.
-  if (window.SpoolUpApp && typeof window.SpoolUpApp.switchPC === "function") {
+  if (window.SC-DashboardApp && typeof window.SC-DashboardApp.switchPC === "function") {
     const back = document.createElement("button");
     back.id = "switchPcBtn";
     back.type = "button";
     back.className = "sheet-action";
     back.innerHTML = `<span class="sw-text"><b>Switch PC</b><span>Leaves the deck for the app's list of PCs.</span></span>`;
-    back.onclick = () => window.SpoolUpApp.switchPC();
+    back.onclick = () => window.SC-DashboardApp.switchPC();
     $("langPick").after(back);
   }
 

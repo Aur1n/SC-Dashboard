@@ -1,17 +1,17 @@
-; SpoolUp installer, for Inno Setup 6. Build it with `npm run build`
+; SC-Dashboard installer, for Inno Setup 6. Build it with `npm run build`
 ; (scripts/build.js), which passes AppVersion, FileVersion and BuildDir.
 
 #ifndef AppVersion
   #error Build the installer with "npm run build", not by compiling this file directly.
 #endif
 
-#define AppName "SpoolUp"
+#define AppName "SC-Dashboard"
 ; The app window (native/launcher.cs), and the server it runs hidden (server.js).
-#define AppExe "TabletDeck.exe"
-#define ServerExe "TabletDeckServer.exe"
+#define AppExe "SC-Dashboard.exe"
+#define ServerExe "SC-DashboardServer.exe"
 #define RepoUrl "https://github.com/Aur1n/SC-Dashboard"
 ; The app's old name, so upgrades replace the rule older versions added.
-#define FirewallRule "Tablet Deck"
+#define FirewallRule "SC-Dashboard"
 
 [Setup]
 ; Never change AppId: Windows uses it to recognize upgrades of the same app.
@@ -19,7 +19,7 @@ AppId={{A7A9440D-F358-4D02-81DE-04193AAA6A52}
 AppName={#AppName}
 AppVersion={#AppVersion}
 AppVerName={#AppName} {#AppVersion}
-AppPublisher=xattribution
+AppPublisher=Aur1n
 AppPublisherURL={#RepoUrl}
 AppSupportURL={#RepoUrl}/issues
 AppUpdatesURL={#RepoUrl}/releases
@@ -28,8 +28,8 @@ VersionInfoProductName={#AppName}
 VersionInfoDescription={#AppName} Setup
 VersionInfoCopyright=Copyright (c) 2026 nodieCode and xattribution. MIT License.
 SourceDir=..
-; The app's old name, so new installs and upgrades of older versions share one folder.
-DefaultDirName={autopf}\Tablet Deck
+; Upgrades keep the folder picked at the first install (UsePreviousAppDir).
+DefaultDirName={autopf}\SC-Dashboard
 DisableProgramGroupPage=yes
 DisableWelcomePage=no
 ; Program Files and the firewall rule need administrator rights.
@@ -38,7 +38,7 @@ UsedUserAreasWarning=no
 ArchitecturesAllowed=x64compatible
 ArchitecturesInstallIn64BitMode=x64compatible
 MinVersion=10.0
-OutputBaseFilename=SpoolUp-Setup-{#AppVersion}
+OutputBaseFilename=SC-Dashboard-Setup-{#AppVersion}
 SetupIconFile={#BuildDir}\icon.ico
 UninstallDisplayIcon={app}\{#AppExe}
 UninstallDisplayName={#AppName}
@@ -57,21 +57,21 @@ RestartApplications=no
 Name: "english"; MessagesFile: "compiler:Default.isl"
 
 [Messages]
-WelcomeLabel2=This will install [name/ver] on your computer.%n%nSpoolUp turns a tablet or phone on your home network into a touch control panel for Star Citizen.%n%nFan project. Not affiliated with or endorsed by Cloud Imperium Games.
+WelcomeLabel2=This will install [name/ver] on your computer.%n%nSC-Dashboard turns a tablet or phone on your home network into a touch control panel for Star Citizen.%n%nFan project. Not affiliated with or endorsed by Cloud Imperium Games.
 
 [Tasks]
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
-Name: "scprofile"; Description: "Install the Star Citizen keybind profile (SpoolUp Keyboard)"; GroupDescription: "Star Citizen:"
+Name: "scprofile"; Description: "Install the Star Citizen keybind profile (SC-Dashboard Keyboard)"; GroupDescription: "Star Citizen:"
 
 [Files]
 Source: "{#BuildDir}\app\{#AppExe}"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#BuildDir}\app\{#ServerExe}"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#BuildDir}\app\native\*.exe"; DestDir: "{app}\native"; Flags: ignoreversion
-Source: "{#BuildDir}\app\keybinds\TabletDeck-StarCitizen.xml"; DestDir: "{app}\keybinds"; Flags: ignoreversion
+Source: "{#BuildDir}\app\keybinds\SC-Dashboard-StarCitizen.xml"; DestDir: "{app}\keybinds"; Flags: ignoreversion
 Source: "LICENSE"; DestDir: "{app}"; DestName: "LICENSE.txt"; Flags: ignoreversion
 Source: "{#BuildDir}\app\THIRD-PARTY-NOTICES.txt"; DestDir: "{app}"; Flags: ignoreversion
 ; The copy in the game folder stays on uninstall: the player may have it loaded in-game.
-Source: "{#BuildDir}\app\keybinds\TabletDeck-StarCitizen.xml"; DestDir: "{code:MappingsDir}"; Tasks: scprofile; Check: HasStarCitizen and ProfileAllowed; Flags: ignoreversion uninsneveruninstall
+Source: "{#BuildDir}\app\keybinds\SC-Dashboard-StarCitizen.xml"; DestDir: "{code:MappingsDir}"; Tasks: scprofile; Check: HasStarCitizen and ProfileAllowed; Flags: ignoreversion uninsneveruninstall
 
 [Icons]
 Name: "{autoprograms}\{#AppName}"; Filename: "{app}\{#AppExe}"; WorkingDir: "{app}"
@@ -85,8 +85,10 @@ Type: files; Name: "{autodesktop}\Tablet Deck.lnk"
 [Run]
 ; Let tablets reach the server on private (home) networks only, so Windows doesn't ask.
 ; Deleting first keeps reinstalls and upgrades from adding a second rule.
+; The rule older versions added under the app's old name.
+Filename: "{sys}\netsh.exe"; Parameters: "advfirewall firewall delete rule name=""Tablet Deck"""; Flags: runhidden
 Filename: "{sys}\netsh.exe"; Parameters: "advfirewall firewall delete rule name=""{#FirewallRule}"""; Flags: runhidden
-Filename: "{sys}\netsh.exe"; Parameters: "advfirewall firewall add rule name=""{#FirewallRule}"" dir=in action=allow program=""{app}\{#ServerExe}"" enable=yes profile=private"; Flags: runhidden; StatusMsg: "Allowing SpoolUp through Windows Firewall on private networks..."
+Filename: "{sys}\netsh.exe"; Parameters: "advfirewall firewall add rule name=""{#FirewallRule}"" dir=in action=allow program=""{app}\{#ServerExe}"" enable=yes profile=private"; Flags: runhidden; StatusMsg: "Allowing SC-Dashboard through Windows Firewall on private networks..."
 Filename: "{app}\{#AppExe}"; Description: "{cm:LaunchProgram,{#AppName}}"; Flags: postinstall nowait skipifsilent runasoriginaluser
 ; An update started from the app's Update now button runs quietly with /RELAUNCH=1: start it again.
 Filename: "{app}\{#AppExe}"; Flags: nowait runasoriginaluser; Check: UpdatingFromApp
@@ -132,7 +134,7 @@ end;
 function RegisterWindowMessage(Name: String): Cardinal;
   external 'RegisterWindowMessageW@user32.dll stdcall';
 
-// Asks a running SpoolUp window to quit (it stops the server, which releases held
+// Asks a running SC-Dashboard window to quit (it stops the server, which releases held
 // keys), and waits up to 10 s for it. See Program.QuitMessage in native/launcher.cs.
 procedure CloseRunningApp();
 var
@@ -234,9 +236,9 @@ begin
   // Settings stay unless the player says otherwise; silent uninstalls always keep them.
   if CurUninstallStep = usPostUninstall then
   begin
-    Settings := ExpandConstant('{userappdata}\TabletDeck');
+    Settings := ExpandConstant('{userappdata}\SC-Dashboard');
     if DirExists(Settings) and not UninstallSilent and
-       (MsgBox('Also delete your SpoolUp settings (pairing code, port and any layouts you added)?' + #13#10#13#10 + Settings,
+       (MsgBox('Also delete your SC-Dashboard settings (pairing code, port and any layouts you added)?' + #13#10#13#10 + Settings,
                mbConfirmation, MB_YESNO or MB_DEFBUTTON2) = IDYES) then
       DelTree(Settings, True, True, True);
   end;

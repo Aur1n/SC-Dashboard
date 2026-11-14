@@ -1,6 +1,6 @@
 # Builds the Windows installer and publishes it as a GitHub Release.
 #
-#   git tag v1.0.0 && git push origin v1.0.0    build and publish "SpoolUp 1.0.0"
+#   git tag v1.0.0 && git push origin v1.0.0    build and publish "SC-Dashboard 1.0.0"
 #   Actions tab -> Release -> Run workflow       build only; download it from the run's artifacts
 #   ... -> Run workflow with "Publish" ticked     build and publish the version in package.json,
 #                                                tagging the commit it ran on
@@ -103,7 +103,7 @@ jobs:
       # from a branch, stay unsigned and never send a signing request.
       #
       # ---- Code signing, option A: certificate in repo secrets ----
-      # Runs only when SIGNING_CERT_PFX_BASE64 is set. scripts/build.js signs TabletDeck.exe
+      # Runs only when SIGNING_CERT_PFX_BASE64 is set. scripts/build.js signs SC-Dashboard.exe
       # and the native helpers with SIGN_CMD, and Inno Setup signs the installer and
       # uninstaller with it ($f is the file to sign).
       - name: Set up signing (certificate)
@@ -226,7 +226,7 @@ jobs:
 
       - uses: actions/upload-artifact@v7
         with:
-          name: SpoolUp-Setup
+          name: SC-Dashboard-Setup
           path: |
             dist/*.exe
             dist/*.sha256
@@ -238,7 +238,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           $version = $env:RELEASE_TAG.TrimStart("v")
-          $setup = "dist/SpoolUp-Setup-$version.exe"
+          $setup = "dist/SC-Dashboard-Setup-$version.exe"
           $hash = (Get-Content "$setup.sha256").Split(" ")[0]
           $changes = (node scripts/release-notes.js $version) -join "`n"
           $notes = @"
@@ -248,7 +248,7 @@ jobs:
 
           ## Download
 
-          Töltsd le a lenti **SpoolUp-Setup-$version.exe** fájlt, és futtasd. Node.js nem kell hozzá. Ha már van SpoolUp vagy Tablet Deck a gépen, települj rá; a beállítások megmaradnak. Utána a frissítéseket maga ajánlja fel.
+          Töltsd le a lenti **SC-Dashboard-Setup-$version.exe** fájlt, és futtasd. Node.js nem kell hozzá. Ha már van SC-Dashboard vagy Tablet Deck a gépen, települj rá; a beállítások megmaradnak. Utána a frissítéseket maga ajánlja fel.
 
           Ez a magyar kiadás (SC-Dashboard) **nincs kódaláírással ellátva**, ezért a Windows SmartScreen „ismeretlen kiadó" figyelmeztetést mutat: **További információ → Futtatás mindenképp**. A fájl épségét a lenti SHA-256 ellenőrzőösszeggel tudod megnézni.
 
@@ -257,10 +257,10 @@ jobs:
           > Fan project. Not affiliated with or endorsed by Cloud Imperium Games.
           "@
           # --target tags this commit when the tag doesn't exist yet (a run by hand).
-          gh release create $env:RELEASE_TAG $setup "$setup.sha256" --target "${{ github.sha }}" --title "SpoolUp $version" --notes $notes
+          gh release create $env:RELEASE_TAG $setup "$setup.sha256" --target "${{ github.sha }}" --title "SC-Dashboard $version" --notes $notes
 
   # ---- The Android app (android/, docs/ANDROID.md) ----
-  # Builds a signed APK, SpoolUp-<version>.apk, and attaches it to the release the build job
+  # Builds a signed APK, SC-Dashboard-<version>.apk, and attaches it to the release the build job
   # just published (or keeps it as a run artifact on a build-only run), with the bundle
   # (.aab) for Google Play as a run artifact. Runs only when the upload key is set up as
   # repository secrets; without them it skips, and the release is Windows only:
@@ -325,14 +325,14 @@ jobs:
           apk=android/app/build/outputs/apk/release/app-release.apk
           "$ANDROID_HOME/build-tools/36.0.0/apksigner" verify --print-certs "$apk"
           mkdir -p dist
-          cp "$apk" "dist/SpoolUp-$VERSION.apk"
-          cp android/app/build/outputs/bundle/release/app-release.aab "dist/SpoolUp-$VERSION.aab"
-          (cd dist && sha256sum "SpoolUp-$VERSION.apk" > "SpoolUp-$VERSION.apk.sha256")
+          cp "$apk" "dist/SC-Dashboard-$VERSION.apk"
+          cp android/app/build/outputs/bundle/release/app-release.aab "dist/SC-Dashboard-$VERSION.aab"
+          (cd dist && sha256sum "SC-Dashboard-$VERSION.apk" > "SC-Dashboard-$VERSION.apk.sha256")
 
       - uses: actions/upload-artifact@v7
         if: env.ANDROID_SIGNING == 'true'
         with:
-          name: SpoolUp-Android
+          name: SC-Dashboard-Android
           path: |
             dist/*.apk
             dist/*.apk.sha256
@@ -342,4 +342,4 @@ jobs:
         if: env.ANDROID_SIGNING == 'true' && env.RELEASE_TAG != ''
         env:
           GH_TOKEN: ${{ github.token }}
-        run: gh release upload "$RELEASE_TAG" "dist/SpoolUp-$VERSION.apk" "dist/SpoolUp-$VERSION.apk.sha256" --clobber
+        run: gh release upload "$RELEASE_TAG" "dist/SC-Dashboard-$VERSION.apk" "dist/SC-Dashboard-$VERSION.apk.sha256" --clobber

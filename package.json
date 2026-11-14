@@ -1,8 +1,8 @@
 {
-  "name": "spoolup",
-  "version": "2.2.1-hu.1",
+  "name": "sc-dashboard",
+  "version": "2.2.1-hu.2",
   "private": true,
-  "description": "Turn any tablet into a touch control panel for Star Citizen. Fan project, not affiliated with Cloud Imperium Games.",
+  "description": "Magyar nyelvű érintőképernyős műszerfal Star Citizenhez tableten vagy telefonon. A SpoolUp forkja. Rajongói projekt, nem a Cloud Imperium Games terméke.",
   "license": "MIT",
   "repository": "github:Aur1n/SC-Dashboard",
   "scripts": {

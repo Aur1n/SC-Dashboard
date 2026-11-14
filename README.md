@@ -1,13 +1,15 @@
 <p align="center">
-  <img src="docs/banner.jpg" alt="SpoolUp: turn any tablet or phone into a touch control panel for Star Citizen" width="100%">
+  <img src="docs/banner.jpg" alt="SC-Dashboard: turn any tablet or phone into a touch control panel for Star Citizen" width="100%">
 </p>
 
 <p align="center">
-  <a href="https://github.com/xattribution/SpoolUp/releases/latest"><img alt="Latest release" src="https://img.shields.io/github/v/release/xattribution/SpoolUp?style=for-the-badge&label=download&color=4fb3ff&labelColor=0b1726"></a>
+  <a href="https://github.com/Aur1n/SC-Dashboard/releases/latest"><img alt="Latest release" src="https://img.shields.io/github/v/release/Aur1n/SC-Dashboard?style=for-the-badge&label=download&color=4fb3ff&labelColor=0b1726"></a>
   <img alt="Windows 10 and 11" src="https://img.shields.io/badge/Windows-10%20%7C%2011-4fb3ff?style=for-the-badge&labelColor=0b1726">
-  <a href="https://github.com/xattribution/SpoolUp/releases"><img alt="Downloads" src="https://img.shields.io/github/downloads/xattribution/SpoolUp/total?style=for-the-badge&color=4fb3ff&labelColor=0b1726"></a>
-  <a href="LICENSE"><img alt="MIT license" src="https://img.shields.io/github/license/xattribution/SpoolUp?style=for-the-badge&color=4fb3ff&labelColor=0b1726"></a>
+  <a href="https://github.com/Aur1n/SC-Dashboard/releases"><img alt="Downloads" src="https://img.shields.io/github/downloads/Aur1n/SC-Dashboard/total?style=for-the-badge&color=4fb3ff&labelColor=0b1726"></a>
+  <a href="LICENSE"><img alt="MIT license" src="https://img.shields.io/github/license/Aur1n/SC-Dashboard?style=for-the-badge&color=4fb3ff&labelColor=0b1726"></a>
 </p>
+
+> **SC-Dashboard** a [SpoolUp](https://github.com/xattribution/SpoolUp) magyar nyelvű forkja: magyar felület a tableten és az appablakban, összekapcsolt gombfények, és a frissítések ebből a tárolóból jönnek. Az alábbi leírás a SpoolUp dokumentációja az új névvel; a változásokat a [CHANGELOG](CHANGELOG.md) sorolja.
 
 <h3 align="center">Turn any tablet or phone into a touch control panel for Star Citizen.</h3>
 
@@ -17,7 +19,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/xattribution/SpoolUp/releases/latest"><b>⬇&nbsp;Download for Windows</b></a>
+  <a href="https://github.com/Aur1n/SC-Dashboard/releases/latest"><b>⬇&nbsp;Download for Windows</b></a>
   &nbsp;&nbsp;·&nbsp;&nbsp;
   <a href="https://xattribution.github.io/SpoolUp/try/"><b>▶&nbsp;Try it in your browser</b></a>
   &nbsp;&nbsp;·&nbsp;&nbsp;
@@ -34,7 +36,7 @@
 > are original designs, not the companies' logos.
 
 **Contents:** [Features](#features) · [Get started](#get-started) ·
-[Troubleshooting](#troubleshooting) · [Using SpoolUp](#using-spoolup) ·
+[Troubleshooting](#troubleshooting) · [Using SC-Dashboard](#using-spoolup) ·
 [Settings](#settings) · [How it works](#how-it-works) ·
 [Pairing and network](#pairing-and-network) · [Developers](#developers)
 
@@ -108,9 +110,9 @@ start with Windows, and updates with one click.
 <td colspan="2" valign="top">
 
 ### 🎛️ Stream Deck
-SpoolUp for Stream Deck, sold on the Elgato Marketplace, brings profiles for
+SC-Dashboard for Stream Deck, sold on the Elgato Marketplace, brings profiles for
 every Stream Deck in all 12 themes, icon packs and a plugin that presses
-through SpoolUp and keeps your tablet and Stream Deck on the same scene.
+through SC-Dashboard and keeps your tablet and Stream Deck on the same scene.
 [More](#stream-deck)
 
 </td>
@@ -126,19 +128,19 @@ through SpoolUp and keeps your tablet and Stream Deck on the same scene.
 You need **Windows 10 or 11** on the gaming PC and a **tablet or phone on the
 same Wi-Fi**.
 
-1. **Download** `SpoolUp-Setup-<version>.exe` from the
-   [latest release](https://github.com/xattribution/SpoolUp/releases/latest)
+1. **Download** `SC-Dashboard-Setup-<version>.exe` from the
+   [latest release](https://github.com/Aur1n/SC-Dashboard/releases/latest)
    and run it. (Windows may warn about an unknown publisher; see
    [Troubleshooting](#troubleshooting).)
-2. **Install.** Setup adds SpoolUp to the Start menu and lets it through
+2. **Install.** Setup adds SC-Dashboard to the Start menu and lets it through
    Windows Firewall on private networks. Tick **Install the Star Citizen keybind
    profile** if Setup finds your game.
-3. **Open SpoolUp** from the Start menu. Its window shows a QR code, an
+3. **Open SC-Dashboard** from the Start menu. Its window shows a QR code, an
    address like `http://192.168.1.20:8765` and a pairing code.
 4. **Pair your tablet:** scan the QR code with its camera, or open the address
    and type the code. Use "Add to Home Screen" for a full-screen app. On
    Android you can use the **SpoolUp app** instead (the APK on the release
-   page, when attached): it lists the SpoolUp PCs on your network by itself,
+   page, when attached): it lists the SC-Dashboard PCs on your network by itself,
    takes the QR code or the address, and opens the deck full screen with the
    screen kept on and a haptic tick on every press. See
    [docs/ANDROID.md](docs/ANDROID.md).
@@ -146,7 +148,7 @@ same Wi-Fi**.
    the window in front; otherwise the tablet shows "Star Citizen not focused"
    and the button flashes red.
 
-In Star Citizen, load the **SpoolUp Keyboard** profile once (see
+In Star Citizen, load the **SC-Dashboard Keyboard** profile once (see
 [Keybinds](#keybinds)) so the buttons for actions without a default key work.
 
 ## Troubleshooting
@@ -169,21 +171,21 @@ source code is here.
 - Make sure the tablet is on the same Wi-Fi or network as the PC.
 - Check that Windows treats your network as **Private** (Settings → Network &
   Internet → your network). The firewall rule only covers private networks.
-  SpoolUp checks this itself: when the network is Public, an amber banner
+  SC-Dashboard checks this itself: when the network is Public, an amber banner
   across the top of the window says so, and its **Open network settings**
   button opens Windows' page for that network, where you choose **Private
   network**. The banner goes once it's Private.
-- Type the address exactly as the SpoolUp window shows it, including the
+- Type the address exactly as the SC-Dashboard window shows it, including the
   port (`:8765`).
 - **The QR code opens nothing:** with a VPN, WSL or a virtual machine, your PC
   has more than one address, and the QR code may use one the tablet can't
-  reach. SpoolUp skips VPN and virtual adapters it recognizes, and running
+  reach. SC-Dashboard skips VPN and virtual adapters it recognizes, and running
   from source lists each address with its adapter's name. To choose it
   yourself, open the **Settings folder**, set `"host"` in `config.json` to the
   address of your Wi-Fi or Ethernet (e.g. `"host": "192.168.1.20"`) and restart
-  SpoolUp. `ipconfig` in a Command Prompt shows which address belongs to
+  SC-Dashboard. `ipconfig` in a Command Prompt shows which address belongs to
   which adapter.
-- **"Too many wrong codes":** after 5 wrong pairing codes in a minute, SpoolUp
+- **"Too many wrong codes":** after 5 wrong pairing codes in a minute, SC-Dashboard
   ignores that device for a minute. Wait, then type the code again.
 </details>
 
@@ -192,9 +194,9 @@ source code is here.
 
 - Click into Star Citizen first: keys are only sent while it's the window in
   front.
-- If Star Citizen runs as administrator, run SpoolUp as administrator too.
+- If Star Citizen runs as administrator, run SC-Dashboard as administrator too.
   Windows blocks keypresses from a normal program into an elevated one.
-- For actions with no default key, load the **SpoolUp Keyboard** profile in
+- For actions with no default key, load the **SC-Dashboard Keyboard** profile in
   the game (see [Keybinds](#keybinds)).
 </details>
 
@@ -203,7 +205,7 @@ source code is here.
 
 Commands are in English and need the English speech recognizer in Windows. If
 the window says "no en-US speech recognizer installed", add it under
-**Settings → Time & Language → Speech**, then restart SpoolUp. If commands
+**Settings → Time & Language → Speech**, then restart SC-Dashboard. If commands
 are often missed or misheard, try a headset mic, or move the **Voice
 strictness** slider in the window.
 </details>
@@ -211,26 +213,26 @@ strictness** slider in the window.
 <details>
 <summary><b>"Port 8765 is already in use"</b></summary>
 
-Another program (or another copy of SpoolUp) uses that port. Open
-**Settings** in the SpoolUp window and pick another port.
+Another program (or another copy of SC-Dashboard) uses that port. Open
+**Settings** in the SC-Dashboard window and pick another port.
 </details>
 
 <details>
-<summary><b>SpoolUp closes with "ran into a problem"</b></summary>
+<summary><b>SC-Dashboard closes with "ran into a problem"</b></summary>
 
 The details are saved in `crash.log` in the Settings folder
 (`%APPDATA%\TabletDeck`). Please
 [open an issue](https://github.com/xattribution/SpoolUp/issues) and attach
 that file. Meanwhile, the previous version's installer on the
-[releases page](https://github.com/xattribution/SpoolUp/releases) gets you
+[releases page](https://github.com/Aur1n/SC-Dashboard/releases) gets you
 going again; your settings are kept.
 </details>
 
-## Using SpoolUp
+## Using SC-Dashboard
 
 ### The app window
 
-<img src="docs/app-window.png" alt="The SpoolUp window: HUD panels with the QR code, address and pairing code, telemetry of tablets, where keys go and presses, voice status, settings and a log" width="460" align="right">
+<img src="docs/app-window.png" alt="The SC-Dashboard window: HUD panels with the QR code, address and pairing code, telemetry of tablets, where keys go and presses, voice status, settings and a log" width="460" align="right">
 
 The window shows the QR code, address and pairing code, and live telemetry: how
 many tablets are connected, where keys go, and the presses of the last minute,
@@ -240,7 +242,7 @@ graphite look, with color only on status dots, the status pill and banners. A
 thin band of stars drifts in the title strip while the window is in front (it
 stands still if Windows' "Show animations" is off).
 
-- **Minimize** it to keep SpoolUp running in the tray; double-click the tray
+- **Minimize** it to keep SC-Dashboard running in the tray; double-click the tray
   icon to bring it back. **Closing** the window quits.
 - **Settings:** pairing code, port, the "only while Star Citizen is in front"
   check, tap length, voice on/off and language, what to do about a Public
@@ -249,7 +251,7 @@ stands still if Windows' "Show animations" is off).
 - **Edit layout** opens the [layout editor](#layout-editor).
 - **Start with Windows** starts it in the tray when you log in. **Settings
   folder** opens the folder with `config.json` and your own layouts.
-- **Updates:** SpoolUp checks for a new version when it starts and once a
+- **Updates:** SC-Dashboard checks for a new version when it starts and once a
   day, and shows **What's new** and **Update now**, which installs it and keeps
   your settings. [CHANGELOG.md](CHANGELOG.md) lists every
   version's changes.
@@ -260,34 +262,34 @@ stands still if Windows' "Show animations" is off).
 
 The deck uses Star Citizen's default keys where they exist. Actions with no
 default keyboard key (operator modes, shield facings, doors, emotes, targeting
-and so on) get keys from the **SpoolUp Keyboard** profile. To install it:
+and so on) get keys from the **SC-Dashboard Keyboard** profile. To install it:
 
 1. Tick it in Setup, or use **Settings → Install keybind profile...** in the
    window. It lists the LIVE, PTU and other copies of the game in your
    [Star Citizen folder](#star-citizen-folder), or lets you pick another.
 2. In-game, open **Options → Keybindings → Control Profiles** and load the
    profile the window names:
-   - **SpoolUp Keyboard (your binds)**, for a copy of the game where you've set
+   - **SC-Dashboard Keyboard (your binds)**, for a copy of the game where you've set
      binds of your own. It keeps all of them (keyboard, mouse, joystick and
      gamepad) and adds keys only for the deck's actions you haven't bound,
      picking free keys where yours already use the deck's usual ones. Load it
      right after installing: if you change binds in the game first, install it
      again.
-   - **SpoolUp Keyboard**, for a copy with no binds of your own yet. Loading it
+   - **SC-Dashboard Keyboard**, for a copy with no binds of your own yet. Loading it
      replaces any custom binds.
 
-SpoolUp also reads your own `actionmaps.xml`, and your binds win: rebind an
+SC-Dashboard also reads your own `actionmaps.xml`, and your binds win: rebind an
 action in-game and its button follows. While the game runs it reads that
 copy's binds, otherwise LIVE's. A bind you cleared
 in-game leaves its button dimmed with a **BIND** badge: it presses nothing
 until you bind it again (then reconnect the deck, or reload the page).
 
-While you hold a button, SpoolUp lets go of its keys when Star Citizen loses
+While you hold a button, SC-Dashboard lets go of its keys when Star Citizen loses
 focus, and after 2 minutes at most.
 
 #### Star Citizen folder
 
-SpoolUp finds Star Citizen by itself: the running game's folder first,
+SC-Dashboard finds Star Citizen by itself: the running game's folder first,
 wherever it is, then these folders on every drive from C to Z, each with its
 channels (LIVE, PTU, EPTU, TECH-PREVIEW, HOTFIX):
 
@@ -337,14 +339,14 @@ choose under **Layout**. Each tablet and phone remembers its own choice:
 
 | Layout | Opens on |
 |---|---|
-| **SpoolUp HUD** (default) | Power/Landing, Flight Assist, Shields, Targeting, Salvage and Mining on the left; QT/Systems, Operator Modes, Combat, Crew/Doors, On Foot, Comms and Emotes on the right; the Pilot, Combat and Industry dashboards in the one-panel view |
+| **SC-Dashboard HUD** (default) | Power/Landing, Flight Assist, Shields, Targeting, Salvage and Mining on the left; QT/Systems, Operator Modes, Combat, Crew/Doors, On Foot, Comms and Emotes on the right; the Pilot, Combat and Industry dashboards in the one-panel view |
 | **Dashboards** | Only the wide dashboards: Pilot, Combat, Industry and Hauling |
 | **Combat** | Power/Landing, Shields, Targeting and Flight Assist first; Combat, QT/Systems, Operator Modes and Crew first |
 | **Mining & Salvage** | Mining and Salvage first; Operator Modes, QT/Systems, Crew and On Foot first |
 | **Hauling & Exploration** | Power/Landing, Flight Assist and Targeting first; QT/Systems, Crew, On Foot and Emotes first |
 | **Prospector** | A Prospector panel first (laser, modules, flight ready, gear, lights, quantum), then Mining; Operator Modes first |
 | **Vulture** | A Vulture panel first (salvage, flight ready, gear, VTOL, quantum, doors), then Salvage; Operator Modes first |
-| **SpoolUp HUD 2.0** | The 2.0 HUD as it was, with its free placement |
+| **SC-Dashboard HUD 2.0** | The 2.0 HUD as it was, with its free placement |
 | **Star Citizen** | A simpler tabbed grid of buttons |
 
 The starter and ship layouts have every panel too; they just put the ones for that
@@ -421,18 +423,18 @@ can place on any panel or dashboard:
   beside the PWR, WEP, THR and SHLD switches, and gives the rest of the panel
   to the quantum spool. The Pilot, Industry and Hauling dashboards start with
   the same group.
-- Like the lit buttons, the clusters show what SpoolUp pressed.
+- Like the lit buttons, the clusters show what SC-Dashboard pressed.
 
 The 2.0 controls:
 
 - **Landing-gear lever** (Power/Landing): pull the knob down to deploy, push it
   up to retract. Each pull or push taps the gear key once. The three lamps
   blink red while the gear is in transit and turn green when it's down; like
-  the lit buttons, they follow what SpoolUp pressed.
+  the lit buttons, they follow what SC-Dashboard pressed.
 - **Power sliders** (Power/Landing): Weapons, Thrusters and Shields. Drag a
   knob up or down: each step taps that system's up or down key once, at most
   five per drag. Tap the track beside the knob for a single step. Max and Min
-  sit above and below. The sliders count the steps SpoolUp sent from the
+  sit above and below. The sliders count the steps SC-Dashboard sent from the
   center (it can't read the game), so **Center sliders** puts them back in
   the middle without pressing anything; Max, Min and **Reset All** move them
   too.
@@ -458,12 +460,12 @@ Each device keeps its own favorites and groups.
 
 ### Battle alerts
 
-While you play, SpoolUp reads Star Citizen's Game.log, the text log the game
+While you play, SC-Dashboard reads Star Citizen's Game.log, the text log the game
 writes next to its install, and shows hits on your ship (and who fired), your
 ship disabled or destroyed, your death and your kills: in a thin strip at the
 top of the deck and in the **Last hits** readout on the Combat panel (add it to
 any panel or dashboard in the layout editor). The game doesn't log shield or
-hull levels, so SpoolUp can't show those. SpoolUp finds Game.log in the same
+hull levels, so SC-Dashboard can't show those. SC-Dashboard finds Game.log in the same
 Star Citizen folder as your keybinds (see [Star Citizen folder](#star-citizen-folder)).
 Turn it off with **Battle alerts** in Deck
 settings (on each device) or with `"gameLog": false` in `config.json`.
@@ -476,9 +478,9 @@ DEPLOYED, and the power toggles, lights, VTOL, flight ready, speed limiter, deco
 ESP, G-safety and door locks light up while they're on. Every tablet shows the same,
 voice commands count too, and a press the focus check skips changes nothing.
 
-The lights follow what SpoolUp pressed. If you use the keyboard, the game changes something by itself, or you
+The lights follow what SC-Dashboard pressed. If you use the keyboard, the game changes something by itself, or you
 respawn, they can be wrong: **Reset button lights** under **Display** in Deck
-settings turns them all off. They also start off whenever SpoolUp starts.
+settings turns them all off. They also start off whenever SC-Dashboard starts.
 
 ### Open websites on the PC
 
@@ -523,11 +525,11 @@ deck exactly as the tablet does, but clicking selects instead of pressing:
   **Follow game keybind** to set your own key.
 - **Duplicate**, **Delete**, **Undo** and **Redo** are in the toolbar.
 
-Layouts made with SpoolUp 2.0 keep their free placement and open as before;
+Layouts made with SC-Dashboard 2.0 keep their free placement and open as before;
 **Convert to grid** makes a grid copy of one under a new name.
 
 **Save** stores your own copy (e.g. `my-hud`) beside the built-in layouts. With **Use on tablets and phones** ticked, connected tablets and
-phones switch to it and reload by themselves. The editor only works on the PC running SpoolUp.
+phones switch to it and reload by themselves. The editor only works on the PC running SC-Dashboard.
 
 **Share your layout:** **Export** saves the open layout as a `.json` file to
 send to friends. **Import…** opens such a file in the editor, not saved yet, so
@@ -657,15 +659,15 @@ language, please say so on [GitHub](https://github.com/xattribution/SpoolUp/issu
 
 ### Stream Deck
 
-<!-- Owner: replace https://marketplace.elgato.com below (and in site/index.html) with the SpoolUp for Stream Deck product page once it's live. -->
-SpoolUp works with **SpoolUp for Stream Deck**: the plugin, an icon pack and
+<!-- Owner: replace https://marketplace.elgato.com below (and in site/index.html) with the SC-Dashboard for Stream Deck product page once it's live. -->
+SC-Dashboard works with **SC-Dashboard for Stream Deck**: the plugin, an icon pack and
 profiles for every Stream Deck from the Mini to the + XL, in all 12
 manufacturer themes. It's a separate paid product, available on the
 [Elgato Marketplace](https://marketplace.elgato.com).
-With the plugin, presses go through SpoolUp like a tablet's, with the same
+With the plugin, presses go through SC-Dashboard like a tablet's, with the same
 focus check, and a tablet with **Follow Stream Deck scenes** on (under
 **Display** in Deck settings) flips to the scene picked on the Stream Deck.
-The Stream Deck downloads from SpoolUp 2.0 and earlier releases keep working.
+The Stream Deck downloads from SC-Dashboard 2.0 and earlier releases keep working.
 
 ## Settings
 
@@ -682,7 +684,7 @@ Uninstalling keeps them unless you choose to delete them.
 | `token` | the pairing code; delete it to get a new random one | random |
 | `layout` | the layout tablets show unless they pick their own | `layouts/hud.json` |
 | `phoneLayout` | the same for phones | `layouts/hud-phone.json` |
-| `actionmaps` | keybind files to read, in order (later files win); `"auto"` is your `actionmaps.xml`, from the running game's channel, else LIVE | `["keybinds/TabletDeck-StarCitizen.xml", "auto"]` |
+| `actionmaps` | keybind files to read, in order (later files win); `"auto"` is your `actionmaps.xml`, from the running game's channel, else LIVE | `["keybinds/SC-Dashboard-StarCitizen.xml", "auto"]` |
 | `gameFolders` | the Star Citizen folder to use instead of finding it automatically: a `StarCitizen` folder, the folder holding it, or one channel's folder (`D:\Games\StarCitizen\PTU`); set with Settings → Star Citizen → **Change...** | `[]` (automatic) |
 | `gameLog` | `false` stops reading Star Citizen's Game.log for battle alerts | on |
 | `discovery` | answers the SpoolUp apps on your local network so they can list this PC (mDNS, `_spoolup._tcp`, UDP 5353), with its name, port and version; `false` turns it off (Settings → Network → Let the SpoolUp app find this PC) | on |
@@ -708,7 +710,7 @@ flowchart LR
     tablet["📱 Tablet or phone<br/>any browser"]
     mic["🎙️ PC microphone"]
     subgraph pc["Gaming PC"]
-        server["SpoolUp"]
+        server["SC-Dashboard"]
         voice["Voice listener<br/>Windows speech recognition"]
         keys["Key sender"]
     end
@@ -729,9 +731,9 @@ flowchart LR
 ```
 
 The tablet shows the buttons, and the PC does the rest. A press
-travels over your home network to SpoolUp, which checks that Star Citizen is
+travels over your home network to SC-Dashboard, which checks that Star Citizen is
 the window in front and has the key sender type the button's keys, like a
-second keyboard, one press per tap. SpoolUp reads your keybinds and the game's
+second keyboard, one press per tap. SC-Dashboard reads your keybinds and the game's
 log from your Star Citizen folder, and copies the keybind profile there when you
 install it.
 
@@ -739,12 +741,12 @@ install it.
 
 - Only devices with the pairing code can press keys. After 5 wrong codes in a
   minute, a device is ignored for a minute. Changing the code in **Settings** disconnects every device paired
-  with the old one. Keep SpoolUp on your home network; don't expose its port
+  with the old one. Keep SC-Dashboard on your home network; don't expose its port
   to the internet.
 - The tablet talks to the PC over plain `http`, so the connection isn't
   encrypted. On your own home Wi-Fi that's fine, but on shared networks (LAN
   parties, dorms, hotels) others on the same Wi-Fi could see your pairing code
-  and taps. The firewall rule only allows private networks, so SpoolUp is
+  and taps. The firewall rule only allows private networks, so SC-Dashboard is
   blocked on networks Windows marks as public.
 - Held keys are released at once if the tablet disconnects (or after 5 seconds
   if it goes quiet), when Star Citizen loses focus, and after 2 minutes at
@@ -760,8 +762,8 @@ install it.
   round trip to the PC ("Connected · 8 ms").
 - The app window checks GitHub for updates (Settings can turn this off), and
   the tablet loads the theme fonts from Google Fonts. With discovery on,
-  SpoolUp answers the apps over multicast DNS with the PC's name, the deck's
-  port and SpoolUp's version.
+  SC-Dashboard answers the apps over multicast DNS with the PC's name, the deck's
+  port and SC-Dashboard's version.
 - Ideas, problems or a layout to share? **Feedback & ideas** in the window's
   System panel, at the bottom of Deck settings on the tablet, or the
   [issue forms](https://github.com/xattribution/SpoolUp/issues/new/choose).
@@ -781,7 +783,7 @@ Google Play in [docs/ANDROID.md](docs/ANDROID.md)) and `ios/` (SwiftUI,
 generated with XcodeGen on a Mac; building and the App Store in
 [docs/IOS.md](docs/IOS.md)). Both open the same deck the browser gets.
 
-SpoolUp is [MIT licensed](LICENSE); the third-party software it ships is
+SC-Dashboard is [MIT licensed](LICENSE); the third-party software it ships is
 listed in [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md). Contributions and
 layout ideas are welcome; please
 [open an issue](https://github.com/xattribution/SpoolUp/issues/new/choose) first

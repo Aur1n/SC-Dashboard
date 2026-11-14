@@ -1,4 +1,4 @@
-// Checks the built-in grid layouts (SpoolUp 2.1) the way the deck lays them out, at the
+// Checks the built-in grid layouts (SC-Dashboard 2.1) the way the deck lays them out, at the
 // screen sizes players have, in both size classes and both views (two halves, one panel):
 //
 // - every element has an id, and no id is used twice (buttons, clusters, groups, refs);

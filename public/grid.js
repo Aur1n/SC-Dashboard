@@ -1,4 +1,4 @@
-// Grid layouts (layout.grid, SpoolUp 2.1): panels are arrangements of buttons and widgets on
+// Grid layouts (layout.grid, SC-Dashboard 2.1): panels are arrangements of buttons and widgets on
 // a grid of cells that follows the screen. A panel is authored on 6 columns (12 for a wide
 // dashboard); each item has a span in cells and may be pinned to a cell. The deck works out
 // how many columns fit the screen, scales spans down when there are fewer, never stretches

@@ -2014,7 +2014,7 @@
     $("useLabel").textContent = useText(layout);
     document.body.classList.toggle("grid-layout", isGrid());
     $("lib").hidden = !isGrid(); // before the first draw, which fits the pane
-    document.title = `${layout.name || saveName} - SpoolUp layout editor`;
+    document.title = `${layout.name || saveName} - SC-Dashboard layout editor`;
     $("canvas").innerHTML = "";
     if (isGrid()) {
       preview.mode = (layout.grid.start && layout.grid.start[sizeClass()]) || (sizeClass() === "small" ? "full" : "halves");

@@ -5,7 +5,7 @@
 //
 //   node tools/make-starter-layouts.js
 //
-// Writes layouts/<id>.json for each starter, ship and Dashboards. Since SpoolUp 2.1 these
+// Writes layouts/<id>.json for each starter, ship and Dashboards. Since SC-Dashboard 2.1 these
 // are grid layouts that fit every screen, so each layouts/<id>-phone.json is the same
 // layout marked "hidden": players' settings that name a phone file keep working, and the
 // layout lists show it once. The buttons, keys and voice phrases are the HUD's own (ship

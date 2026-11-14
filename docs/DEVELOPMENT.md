@@ -1,8 +1,8 @@
-# Developing SpoolUp
+# Developing SC-Dashboard
 
-Everything for changing SpoolUp itself: running it from source, editing
+Everything for changing SC-Dashboard itself: running it from source, editing
 layouts by hand, the keybind profile, building the installer, releasing, code
-signing, the website and the demo recording. For using SpoolUp, see the
+signing, the website and the demo recording. For using SC-Dashboard, see the
 [README](../README.md).
 
 - [Run from source](#run-from-source)
@@ -38,13 +38,13 @@ and keeps `config.json` next to `server.js` instead of in `%APPDATA%`. The
 console also prints a link to the layout editor.
 
 Options (they work with `start.bat`, `node server.js` and the installed
-`TabletDeck.exe`):
+`SC-Dashboard.exe`):
 
 | option | does |
 |---|---|
 | `--dry-run` | log button presses instead of sending keys; skips the focus check |
 | `--port <n>` | use another port than the one in `config.json` |
-| `--ui` | status lines for the app window (used by `TabletDeck.exe`) |
+| `--ui` | status lines for the app window (used by `SC-Dashboard.exe`) |
 | `--set name=value ...` | save settings to `config.json` and exit |
 | `--find-game` | print the Star Citizen folder as JSON and exit (see [The Star Citizen folder](#the-star-citizen-folder)) |
 | `--merge-profile <out.xml> [actionmaps.xml]` | write the merged keybind profile and exit (see [Your binds kept](#your-binds-kept)) |
@@ -129,7 +129,7 @@ layout from `layouts/`, and presses only play their animations. The website's
 | `discovery.js` | the mDNS answers the SpoolUp apps find the PC by |
 | `public/` | the deck (`index.html`, `app.js`, `canvas.js`, `grid.js`, the widgets in `dial.js`, `clusters.js`, `emotes.js` and `battle.js`, `i18n.js`, themes, icons, animations, `sound.js`), the layout editor (`editor.*`) and the showcase |
 | `layouts/` | built-in layouts; `hud.json` is the source, `hud-phone.json` and the starter layouts are generated, `hud-classic*.json` keep the 2.0 HUD as it was |
-| `keybinds/` | the SpoolUp Keyboard profile for Star Citizen (generated) |
+| `keybinds/` | the SC-Dashboard Keyboard profile for Star Citizen (generated) |
 | `data/` | Star Citizen 4.10's actions and default keys (`sc-actions-4.10.json`) and which action maps are active together (`sc-contexts.json`), for the profile check and the merged profile |
 | `native/` | C# sources: `launcher.cs` (the app window), `keysender.cs`, `voice.cs`, `sound.cs` |
 | `tools/` | generators for the phone layout, starter layouts and keybind profile, the grid layout check (`check-grid.js`) and the demo recorder |
@@ -180,13 +180,13 @@ them per device with the page positions.
 
 ### Grid layouts
 
-A grid layout (SpoolUp 2.1) has a `grid` object and no `canvas` or `regions`;
+A grid layout (SC-Dashboard 2.1) has a `grid` object and no `canvas` or `regions`;
 `chrome` and `panels` keep their names, so the server, voice, the keybind
 profile and the Stream Deck plugin find every button as before:
 
 ```jsonc
 {
-  "name": "SpoolUp HUD",
+  "name": "SC-Dashboard HUD",
   "grid": {
     "version": 3,
     "density": { "small": "default", "large": "default" },  // compact | default | roomy
@@ -393,7 +393,7 @@ so check the deck (`?demo`) and the window in the new language.
 
 ## The keybind profile
 
-`keybinds/TabletDeck-StarCitizen.xml` is generated from the layouts. After you
+`keybinds/SC-Dashboard-StarCitizen.xml` is generated from the layouts. After you
 add or change a button that has an `scAction`, rebuild it, then copy it into the
 game and load it again:
 
@@ -442,9 +442,9 @@ and in `{ t: "game", game }` when it changes, and Deck settings shows it.
 ### Your binds kept
 
 For a copy of the game with an `actionmaps.xml`, **Install keybind profile...**
-writes `SpoolUp-YourBinds.xml` (in-game: **SpoolUp Keyboard (your binds)**)
+writes `SC-Dashboard-YourBinds.xml` (in-game: **SC-Dashboard Keyboard (your binds)**)
 instead of the plain profile. The window runs
-`TabletDeckServer.exe --merge-profile <profile.xml> [actionmaps.xml]`
+`SC-DashboardServer.exe --merge-profile <profile.xml> [actionmaps.xml]`
 (`node server.js --merge-profile ...` from source), which copies the player's
 whole default profile (keyboard, mouse, joystick and gamepad binds, device
 options, binds they cleared) and adds a keyboard bind for each action in the
@@ -471,8 +471,8 @@ held press hasn't been tried in the game.
 
 ## The Stream Deck connection
 
-SpoolUp for Stream Deck (the plugin, icon pack and profiles) is a separate paid
-product on the Elgato Marketplace, built in a private repository. SpoolUp's side
+SC-Dashboard for Stream Deck (the plugin, icon pack and profiles) is a separate paid
+product on the Elgato Marketplace, built in a private repository. SC-Dashboard's side
 of it is the server's WebSocket: the plugin connects with `device=streamdeck`,
 presses buttons by their id in `layouts/hud.json`, and relays scenes to and from
 tablets. [STREAMDECK-API.md](STREAMDECK-API.md) describes the messages, the
@@ -485,12 +485,12 @@ Stream Deck keys and scenes that use it.
 `android/` and `ios/` are thin native apps around the same deck: they find the
 PC (`discovery.js`), take its QR code or address (home network addresses),
 keep the screen on and add haptics. The deck talks to them through
-`window.SpoolUpApp`, which exists inside an app:
+`window.SC-DashboardApp`, which exists inside an app:
 
 | call | does |
 |---|---|
-| `SpoolUpApp.haptic(kind)` | `tick`, `tap`, `press`, `heavy` or `error`; `buzz()` in `app.js` maps its vibration lengths onto these |
-| `SpoolUpApp.switchPC()` | leaves the deck for the app's list of PCs (Deck settings → Switch PC) |
+| `SC-DashboardApp.haptic(kind)` | `tick`, `tap`, `press`, `heavy` or `error`; `buzz()` in `app.js` maps its vibration lengths onto these |
+| `SC-DashboardApp.switchPC()` | leaves the deck for the app's list of PCs (Deck settings → Switch PC) |
 
 Inside an app, `awake.js` does nothing and Deck settings hides Keep screen on.
 The pairing code goes into the deck's address (`?t=`) once; the deck keeps it
@@ -505,22 +505,22 @@ npm install
 npm run build
 ```
 
-This makes `dist/SpoolUp-Setup-<version>.exe` (the version comes from
+This makes `dist/SC-Dashboard-Setup-<version>.exe` (the version comes from
 `package.json`). It needs [Inno Setup 6](https://jrsoftware.org/isinfo.php)
 and Node.js 20 or newer. `scripts/build.js`:
 
 1. checks the keybind profile is up to date;
 2. makes the icon from `public/icon-512.png`;
-3. compiles the app window (`native/launcher.cs` → `TabletDeck.exe`), the key
+3. compiles the app window (`native/launcher.cs` → `SC-Dashboard.exe`), the key
    sender, the voice listener and the sound player, with version info;
 4. packs `server.js`, `qr.js`, `gamelog.js`, `discovery.js`, `public/`, `layouts/`, `keybinds/` and `data/` into
-   `TabletDeckServer.exe` with Node's
+   `SC-DashboardServer.exe` with Node's
    [single executable application](https://nodejs.org/api/single-executable-applications.html)
    feature, and writes `THIRD-PARTY-NOTICES.txt` with that Node.js's license (see
    [THIRD-PARTY-NOTICES.md](../THIRD-PARTY-NOTICES.md); set `NODE_LICENSE` if the
    build can't find Node's `LICENSE` file);
 5. signs the files when `SIGN_CMD` is set;
-6. runs Inno Setup on `installer/TabletDeck.iss` and writes the checksum.
+6. runs Inno Setup on `installer/SC-Dashboard.iss` and writes the checksum.
 
 The window runs the server hidden with `--ui` and reads its `@ui {json}` status
 lines. `npm run build -- --app`, `-- --installer` and `-- --checksum` run the
@@ -552,7 +552,7 @@ Published releases are always signed: a run with **Publish** (or a version tag)
 stops before building when no signing is set up. Test builds stay unsigned, so
 Windows SmartScreen warns about an "unknown publisher" there, and antivirus tools
 are warier of the key sender, which types keys into other programs. The workflow
-signs `TabletDeck.exe`, `TabletDeckServer.exe`, the native helpers, the installer
+signs `SC-Dashboard.exe`, `SC-DashboardServer.exe`, the native helpers, the installer
 and its uninstaller, in one of three ways:
 
 - **Azure Artifact Signing** (option C in `release.yml`), the way Quartermaster's

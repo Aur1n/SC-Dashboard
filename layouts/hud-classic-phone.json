@@ -1,6 +1,6 @@
 {
-  "name": "SpoolUp HUD 2.0",
-  "notes": "SpoolUp 2.0 small-screen layout, kept as it was. Canvas 734x372 = a 393 x 852 phone's landscape safe area.",
+  "name": "SC-Dashboard HUD 2.0",
+  "notes": "SC-Dashboard 2.0 small-screen layout, kept as it was. Canvas 734x372 = a 393 x 852 phone's landscape safe area.",
   "canvas": [
     734,
     372

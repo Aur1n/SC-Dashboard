@@ -1,6 +1,6 @@
 {
-  "name": "SpoolUp",
-  "short_name": "SpoolUp",
+  "name": "SC-Dashboard",
+  "short_name": "SC-Dashboard",
   "description": "Star Citizen touch control panel",
   "display": "fullscreen",
   "orientation": "landscape",

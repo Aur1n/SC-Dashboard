@@ -5,6 +5,22 @@ section becomes the notes of its
 [GitHub release](https://github.com/xattribution/SpoolUp/releases), so add one
 before tagging a release.
 
+## 2.2.1-hu.2 (2026-11-14)
+
+- **Új név: SC-Dashboard.** A telepítő (`SC-Dashboard-Setup-<verzió>.exe`), a
+  telepítési mappa (alapból `C:\Program Files\SC-Dashboard`), a programfájlok
+  (`SC-Dashboard.exe`, `SC-DashboardServer.exe`), a Start menü, a tálca, az
+  ablakcím, a tűzfalszabály és a felület szövegei mind az új nevet viselik.
+- **A beállítások átköltöznek** `%APPDATA%\SC-Dashboard` alá: az első indítás
+  átmásolja a Tablet Deck / SpoolUp `%APPDATA%\TabletDeck` mappáját, így a
+  párosítókód, a port és a saját elrendezések megmaradnak.
+- **A játékbeli kiosztásprofil neve `SC-Dashboard Keyboard`** (a fájl
+  `SC-Dashboard-StarCitizen.xml`). Telepítés után a Star Citizenben egyszer
+  újra be kell tölteni: Options > Keybindings > Control Profiles.
+- Változatlan marad, ami a frissítéshez és a SpoolUp mobilappjaihoz kell: a
+  telepítő azonosítója, a Windows beállításkulcs és a hálózati hirdetés
+  (`_spoolup._tcp`).
+
 ## 2.2.1-hu.1 (2026-11-14)
 
 A SpoolUp 2.2.1 magyar kiadása (SC-Dashboard), az Aur1n/SC-Dashboard forkból.

@@ -1,7 +1,7 @@
-// Builds the "SpoolUp Keyboard" Star Citizen control profile from the layouts, so
+// Builds the "SC-Dashboard Keyboard" Star Citizen control profile from the layouts, so
 // every button with an scAction has a keyboard bind without any third-party profile.
 //
-//   node tools/make-profile.js           write keybinds/TabletDeck-StarCitizen.xml
+//   node tools/make-profile.js           write keybinds/SC-Dashboard-StarCitizen.xml
 //   node tools/make-profile.js --check   exit 1 if that file is missing or out of date
 //
 // Each button's `keys` becomes the bind for its `scAction`, unless DEFAULTS says that's
@@ -13,8 +13,8 @@ const fs = require("fs");
 const path = require("path");
 
 const ROOT = path.join(__dirname, "..");
-const OUT = path.join(ROOT, "keybinds", "TabletDeck-StarCitizen.xml");
-const PROFILE_NAME = "SpoolUp Keyboard";
+const OUT = path.join(ROOT, "keybinds", "SC-Dashboard-StarCitizen.xml");
+const PROFILE_NAME = "SC-Dashboard Keyboard";
 
 // Star Citizen actionmap(s) for each action the layouts use. Some actions exist in more
 // than one map (doors work in ships and ground vehicles) and are bound in each.

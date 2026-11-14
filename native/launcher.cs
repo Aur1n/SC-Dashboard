@@ -1,9 +1,9 @@
-// SpoolUp's app window. It starts TabletDeckServer.exe (server.js packed by
+// SC-Dashboard's app window. It starts SC-DashboardServer.exe (server.js packed by
 // scripts/build.js) hidden, with --ui, and shows its address, pairing code, QR code,
 // status and log instead of a console window. Minimizing hides it to a tray icon; closing
 // it stops the server, which releases any held keys first.
 //
-//   TabletDeck.exe [--minimized] [server options such as --dry-run or --port 8791]
+//   SC-Dashboard.exe [--minimized] [server options such as --dry-run or --port 8791]
 //
 // The server reports status as "@ui {json}" lines on stdout (see ui() in server.js); every
 // other line goes to the log. "quit" on its stdin stops it. Only the installed app uses
@@ -12,7 +12,7 @@
 // Updates: unless turned off, the window asks GitHub for the latest release when it starts
 // and once a day. A newer version shows a banner; "Update now" downloads the installer,
 // checks it against the release's SHA-256 file and runs it quietly. The installer asks this
-// window to quit (TabletDeck.Quit), installs, and starts SpoolUp again.
+// window to quit (TabletDeck.Quit), installs, and starts SC-Dashboard again.
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -43,9 +43,9 @@ static class Program
     [DllImport("user32.dll")]
     static extern bool PostMessage(IntPtr hWnd, int msg, IntPtr wParam, IntPtr lParam);
 
-    // Sent to every window when SpoolUp is opened a second time; the running copy shows itself.
+    // Sent to every window when SC-Dashboard is opened a second time; the running copy shows itself.
     public static readonly int ShowWindowMessage = RegisterWindowMessage("TabletDeck.ShowWindow");
-    // Sent by the installer (installer/TabletDeck.iss) before it updates or removes the files.
+    // Sent by the installer (installer/SC-Dashboard.iss) before it updates or removes the files.
     public static readonly int QuitMessage = RegisterWindowMessage("TabletDeck.Quit");
 
     [STAThread]
@@ -59,6 +59,7 @@ static class Program
                 PostMessage((IntPtr)0xffff, ShowWindowMessage, IntPtr.Zero, IntPtr.Zero); // HWND_BROADCAST
                 return;
             }
+            MigrateSettings();
             SetProcessDPIAware();
             ServicePointManager.SecurityProtocol |= (SecurityProtocolType)3072; // TLS 1.2, which GitHub requires
             Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
@@ -72,11 +73,33 @@ static class Program
         }
     }
 
+    // Settings from the app's earlier names carry over: the first run copies
+    // %APPDATA%\TabletDeck (where Tablet Deck and SpoolUp kept them) to %APPDATA%\SC-Dashboard,
+    // so the pairing code, port and the player's layouts stay. server.js does the same.
+    static void MigrateSettings()
+    {
+        try
+        {
+            string appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+            string oldDir = Path.Combine(appData, "TabletDeck"), newDir = Path.Combine(appData, "SC-Dashboard");
+            if (Directory.Exists(newDir) || !Directory.Exists(oldDir)) return;
+            CopyTree(oldDir, newDir);
+        }
+        catch (Exception) { } // starts fresh
+    }
+
+    static void CopyTree(string from, string to)
+    {
+        Directory.CreateDirectory(to);
+        foreach (string f in Directory.GetFiles(from)) File.Copy(f, Path.Combine(to, Path.GetFileName(f)), true);
+        foreach (string d in Directory.GetDirectories(from)) CopyTree(d, Path.Combine(to, Path.GetFileName(d)));
+    }
+
     // Where Fail saves what went wrong, next to config.json.
-    public static readonly string CrashLog = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "TabletDeck", "crash.log");
+    public static readonly string CrashLog = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "SC-Dashboard", "crash.log");
     static bool failing;
 
-    // Any error nothing else caught: saved to crash.log, shown, and SpoolUp closes. The
+    // Any error nothing else caught: saved to crash.log, shown, and SC-Dashboard closes. The
     // server notices its window is gone and stops, releasing any held keys.
     static void Fail(Exception ex)
     {
@@ -86,15 +109,15 @@ static class Program
         try
         {
             Directory.CreateDirectory(Path.GetDirectoryName(CrashLog));
-            File.AppendAllText(CrashLog, DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture) + "  SpoolUp " + Application.ProductVersion
+            File.AppendAllText(CrashLog, DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture) + "  SC-Dashboard " + Application.ProductVersion
                 + " on " + Environment.OSVersion + "\r\n" + text + "\r\n\r\n");
         }
         catch (Exception) { }
         try
         {
-            MessageBox.Show("SpoolUp ran into a problem and has to close:\n\n" + (ex == null ? text : ex.Message) +
+            MessageBox.Show("SC-Dashboard ran into a problem and has to close:\n\n" + (ex == null ? text : ex.Message) +
                 "\n\nThe details are saved in " + CrashLog + ". Please attach that file to an issue on GitHub " +
-                "(github.com/xattribution/SpoolUp/issues).", "SpoolUp", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                "(github.com/Aur1n/SC-Dashboard/issues).", "SC-Dashboard", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
         catch (Exception) { }
         Environment.Exit(1);
@@ -206,7 +229,7 @@ static class Lang
         { "Running", new[] { "En marcha", "En marche", "Läuft" } },
         { "Running in test mode (dry run): no keys are sent", new[] { "En modo de prueba (dry run): no se envían teclas", "En mode test (dry run) : aucune touche n'est envoyée", "Läuft im Testmodus (Dry Run): Es werden keine Tasten gesendet" } },
         { "Stopped: {0}", new[] { "Detenido: {0}", "Arrêté : {0}", "Gestoppt: {0}" } },
-        { "{0} is missing. Reinstall SpoolUp.", new[] { "Falta {0}. Reinstala SpoolUp.", "{0} est introuvable. Réinstallez SpoolUp.", "{0} fehlt. Installiere SpoolUp neu." } },
+        { "{0} is missing. Reinstall SC-Dashboard.", new[] { "Falta {0}. Reinstala SC-Dashboard.", "{0} est introuvable. Réinstallez SC-Dashboard.", "{0} fehlt. Installiere SC-Dashboard neu." } },
         { "Couldn't start the server: {0}", new[] { "No se pudo iniciar el servidor: {0}", "Impossible de démarrer le serveur : {0}", "Der Server konnte nicht starten: {0}" } },
         { "The server stopped (exit code {0}). See the log below.", new[] { "El servidor se detuvo (código {0}). Mira el registro de abajo.", "Le serveur s'est arrêté (code {0}). Voir le journal ci-dessous.", "Der Server wurde beendet (Code {0}). Siehe das Protokoll unten." } },
         { "Off", new[] { "Desactivado", "Désactivé", "Aus" } },
@@ -218,19 +241,19 @@ static class Lang
         { "Last heard: \"{0}\", {1}% sure. Pressed {2}.", new[] { "Último oído: \"{0}\", {1} % seguro. Pulsado: {2}.", "Dernière écoute : \"{0}\", sûr à {1} %. Appuyé : {2}.", "Zuletzt gehört: \"{0}\", {1} % sicher. Gedrückt: {2}." } },
         { "Last heard: \"{0}\", {1}% sure. Below {2}%, so it was ignored.", new[] { "Último oído: \"{0}\", {1} % seguro. Por debajo del {2} %, así que se ignoró.", "Dernière écoute : \"{0}\", sûr à {1} %. Sous {2} %, donc ignoré.", "Zuletzt gehört: \"{0}\", {1} % sicher. Unter {2} %, daher ignoriert." } },
         { "Last heard: something that isn't one of the commands.", new[] { "Último oído: algo que no es uno de los comandos.", "Dernière écoute : quelque chose qui n'est pas une commande.", "Zuletzt gehört: etwas, das kein Befehl ist." } },
-        { "SpoolUp (stopped)", new[] { "SpoolUp (detenido)", "SpoolUp (arrêté)", "SpoolUp (gestoppt)" } },
+        { "SC-Dashboard (stopped)", new[] { "SC-Dashboard (detenido)", "SC-Dashboard (arrêté)", "SC-Dashboard (gestoppt)" } },
         { " (test mode)", new[] { " (modo prueba)", " (mode test)", " (Testmodus)" } },
         { "Windows treats \"{0}\" as a Public network, so tablets can't connect. In Windows: Settings > Network & Internet > {0} > set it to Private.", new[] { "Windows trata \"{0}\" como red pública, así que las tablets no pueden conectarse. En Windows: Configuración > Red e Internet > {0} > ponla como privada.", "Windows considère \"{0}\" comme un réseau public, donc les tablettes ne peuvent pas se connecter. Dans Windows : Paramètres > Réseau et Internet > {0} > réglez-le sur Privé.", "Windows behandelt \"{0}\" als öffentliches Netzwerk, daher können Tablets sich nicht verbinden. In Windows: Einstellungen > Netzwerk und Internet > {0} > auf Privat stellen." } },
         { "Tablets can't connect", new[] { "Las tablets no pueden conectarse", "Les tablettes ne peuvent pas se connecter", "Tablets können sich nicht verbinden" } },
-        { "Windows treats \"{0}\" as a Public network. Set it to Private so tablets on your network can reach SpoolUp.", new[] { "Windows trata \"{0}\" como red pública. Ponla como privada para que las tablets de tu red puedan llegar a SpoolUp.", "Windows considère \"{0}\" comme un réseau public. Passez-le en privé pour que les tablettes de votre réseau puissent joindre SpoolUp.", "Windows behandelt \"{0}\" als öffentliches Netzwerk. Stelle es auf Privat, damit Tablets in deinem Netzwerk SpoolUp erreichen." } },
-        { "Choose your network, then Private network. SpoolUp checks again every 20 seconds.", new[] { "Elige tu red y luego Red privada. SpoolUp vuelve a comprobarlo cada 20 segundos.", "Choisissez votre réseau, puis Réseau privé. SpoolUp vérifie à nouveau toutes les 20 secondes.", "Wähle dein Netzwerk, dann Privates Netzwerk. SpoolUp prüft alle 20 Sekunden erneut." } },
+        { "Windows treats \"{0}\" as a Public network. Set it to Private so tablets on your network can reach SC-Dashboard.", new[] { "Windows trata \"{0}\" como red pública. Ponla como privada para que las tablets de tu red puedan llegar an SC-Dashboard.", "Windows considère \"{0}\" comme un réseau public. Passez-le en privé pour que les tablettes de votre réseau puissent joindre SC-Dashboard.", "Windows behandelt \"{0}\" als öffentliches Netzwerk. Stelle es auf Privat, damit Tablets in deinem Netzwerk SC-Dashboard erreichen." } },
+        { "Choose your network, then Private network. SC-Dashboard checks again every 20 seconds.", new[] { "Elige tu red y luego Red privada. SC-Dashboard vuelve a comprobarlo cada 20 segundos.", "Choisissez votre réseau, puis Réseau privé. SC-Dashboard vérifie à nouveau toutes les 20 secondes.", "Wähle dein Netzwerk, dann Privates Netzwerk. SC-Dashboard prüft alle 20 Sekunden erneut." } },
         { "Open network settings", new[] { "Abrir configuración de red", "Ouvrir les paramètres réseau", "Netzwerkeinstellungen öffnen" } },
-        { "Windows treats \"{0}\" as a Public network. Open SpoolUp to fix it.", new[] { "Windows trata \"{0}\" como red pública. Abre SpoolUp para arreglarlo.", "Windows considère \"{0}\" comme un réseau public. Ouvrez SpoolUp pour corriger cela.", "Windows behandelt \"{0}\" als öffentliches Netzwerk. Öffne SpoolUp, um das zu beheben." } },
+        { "Windows treats \"{0}\" as a Public network. Open SC-Dashboard to fix it.", new[] { "Windows trata \"{0}\" como red pública. Abre SC-Dashboard para arreglarlo.", "Windows considère \"{0}\" comme un réseau public. Ouvrez SC-Dashboard pour corriger cela.", "Windows behandelt \"{0}\" als öffentliches Netzwerk. Öffne SC-Dashboard, um das zu beheben." } },
         { "Restarting the server for the new settings...", new[] { "Reiniciando el servidor con los nuevos ajustes...", "Redémarrage du serveur avec les nouveaux réglages...", "Server startet mit den neuen Einstellungen neu..." } },
         { "Couldn't save the settings: {0}", new[] { "No se pudieron guardar los ajustes: {0}", "Impossible d'enregistrer les réglages : {0}", "Die Einstellungen konnten nicht gespeichert werden: {0}" } },
-        { "SpoolUp isn't running", new[] { "SpoolUp no está en marcha", "SpoolUp n'est pas lancé", "SpoolUp läuft nicht" } },
+        { "SC-Dashboard isn't running", new[] { "SC-Dashboard no está en marcha", "SC-Dashboard n'est pas lancé", "SC-Dashboard läuft nicht" } },
         { "Start it first; the layout editor is part of the server.", new[] { "Inícialo primero; el editor de diseños forma parte del servidor.", "Lancez-le d'abord ; l'éditeur de disposition fait partie du serveur.", "Starte es zuerst; der Layout-Editor gehört zum Server." } },
-        { "SpoolUp is still running", new[] { "SpoolUp sigue en marcha", "SpoolUp tourne toujours", "SpoolUp läuft weiter" } },
+        { "SC-Dashboard is still running", new[] { "SC-Dashboard sigue en marcha", "SC-Dashboard tourne toujours", "SC-Dashboard läuft weiter" } },
         { "Double-click the tray icon to open it, or right-click it to quit.", new[] { "Haz doble clic en el icono de la bandeja para abrirlo, o clic derecho para salir.", "Double-cliquez sur l'icône de la zone de notification pour l'ouvrir, ou faites un clic droit pour quitter.", "Doppelklicke auf das Symbol im Infobereich, um es zu öffnen, oder klicke rechts, um es zu beenden." } },
 
         // ---- the main window's buttons, switches and links ----
@@ -249,14 +272,14 @@ static class Lang
         { "Update now", new[] { "Actualizar ahora", "Mettre à jour", "Jetzt aktualisieren" } },
         { "Later", new[] { "Más tarde", "Plus tard", "Später" } },
         { "Close", new[] { "Cerrar", "Fermer", "Schließen" } },
-        { "Show SpoolUp", new[] { "Mostrar SpoolUp", "Afficher SpoolUp", "SpoolUp anzeigen" } },
+        { "Show SC-Dashboard", new[] { "Mostrar SC-Dashboard", "Afficher SC-Dashboard", "SC-Dashboard anzeigen" } },
         { "Quit", new[] { "Salir", "Quitter", "Beenden" } },
         { "Opens the deck in this PC's browser", new[] { "Abre el deck en el navegador de este PC", "Ouvre le deck dans le navigateur de ce PC", "Öffnet das Deck im Browser dieses PCs" } },
         { "Copies the address with the pairing code, to send to a tablet", new[] { "Copia la dirección con el código de emparejamiento, para enviarla a una tablet", "Copie l'adresse avec le code d'appairage, à envoyer à une tablette", "Kopiert die Adresse mit dem Kopplungscode, um sie an ein Tablet zu schicken" } },
         { "Pairing code, port, focus check, tap length, voice language and the Star Citizen keybind profile", new[] { "Código de emparejamiento, puerto, control de foco, duración del toque, idioma de voz y el perfil de teclas de Star Citizen", "Code d'appairage, port, contrôle du focus, durée d'appui, langue vocale et profil de touches Star Citizen", "Kopplungscode, Port, Fokusprüfung, Tippdauer, Sprachbefehl-Sprache und das Star-Citizen-Tastenprofil" } },
         { "Opens the layout editor in your browser: move buttons, change their keys, labels and icons", new[] { "Abre el editor de diseños en tu navegador: mueve botones y cambia sus teclas, nombres e iconos", "Ouvre l'éditeur de disposition dans votre navigateur : déplacez les boutons, changez leurs touches, libellés et icônes", "Öffnet den Layout-Editor im Browser: Tasten verschieben, ihre Tasten, Beschriftungen und Symbole ändern" } },
         { "Everything you can say, and the button each one presses", new[] { "Todo lo que puedes decir y el botón que pulsa cada frase", "Tout ce que vous pouvez dire, et le bouton que chaque phrase active", "Alles, was du sagen kannst, und welche Taste jeder Befehl drückt" } },
-        { "Looks for a new version on GitHub when SpoolUp starts and once a day. Click Update now to install it.", new[] { "Busca una versión nueva en GitHub al iniciar SpoolUp y una vez al día. Pulsa Actualizar ahora para instalarla.", "Cherche une nouvelle version sur GitHub au démarrage de SpoolUp et une fois par jour. Cliquez sur Mettre à jour pour l'installer.", "Sucht beim Start von SpoolUp und einmal am Tag auf GitHub nach einer neuen Version. Klicke auf Jetzt aktualisieren, um sie zu installieren." } },
+        { "Looks for a new version on GitHub when SC-Dashboard starts and once a day. Click Update now to install it.", new[] { "Busca una versión nueva en GitHub al iniciar SC-Dashboard y una vez al día. Pulsa Actualizar ahora para instalarla.", "Cherche une nouvelle version sur GitHub au démarrage de SC-Dashboard et une fois par jour. Cliquez sur Mettre à jour pour l'installer.", "Sucht beim Start von SC-Dashboard und einmal am Tag auf GitHub nach einer neuen Version. Klicke auf Jetzt aktualisieren, um sie zu installieren." } },
         { "Opens the folder with config.json and your own layouts", new[] { "Abre la carpeta con config.json y tus propios diseños", "Ouvre le dossier contenant config.json et vos propres dispositions", "Öffnet den Ordner mit config.json und deinen eigenen Layouts" } },
         { "Report a problem or suggest an idea on GitHub", new[] { "Informa de un problema o propón una idea en GitHub", "Signalez un problème ou proposez une idée sur GitHub", "Melde ein Problem oder schlag eine Idee auf GitHub vor" } },
         { "Pick your network there and set its network profile to Private", new[] { "Elige ahí tu red y pon su perfil de red como privado", "Choisissez votre réseau et réglez son profil réseau sur Privé", "Wähle dort dein Netzwerk und stelle sein Netzwerkprofil auf Privat" } },
@@ -264,16 +287,16 @@ static class Lang
         // ---- updates ----
         { "Couldn't check for updates", new[] { "No se pudo buscar actualizaciones", "Impossible de rechercher les mises à jour", "Konnte nicht nach Updates suchen" } },
         { "GitHub didn't answer.", new[] { "GitHub no respondió.", "GitHub n'a pas répondu.", "GitHub hat nicht geantwortet." } },
-        { "SpoolUp is up to date", new[] { "SpoolUp está actualizado", "SpoolUp est à jour", "SpoolUp ist aktuell" } },
+        { "SC-Dashboard is up to date", new[] { "SC-Dashboard está actualizado", "SC-Dashboard est à jour", "SC-Dashboard ist aktuell" } },
         { "You have version {0}, the latest.", new[] { "Tienes la versión {0}, la más reciente.", "Vous avez la version {0}, la plus récente.", "Du hast Version {0}, die neueste." } },
         { "Update not ready yet", new[] { "La actualización aún no está lista", "Mise à jour pas encore prête", "Update noch nicht bereit" } },
         { "Version {0} is out, but its installer isn't attached yet. Try again in a few minutes.", new[] { "La versión {0} ya salió, pero su instalador aún no está adjunto. Inténtalo en unos minutos.", "La version {0} est sortie, mais son installateur n'est pas encore joint. Réessayez dans quelques minutes.", "Version {0} ist erschienen, aber der Installer ist noch nicht angehängt. Versuch es in ein paar Minuten erneut." } },
-        { "SpoolUp {0} is available (you have {1}).", new[] { "SpoolUp {0} está disponible (tienes la {1}).", "SpoolUp {0} est disponible (vous avez la {1}).", "SpoolUp {0} ist verfügbar (du hast {1})." } },
-        { "SpoolUp {0} is available", new[] { "SpoolUp {0} está disponible", "SpoolUp {0} est disponible", "SpoolUp {0} ist verfügbar" } },
-        { "Open SpoolUp and click Update now.", new[] { "Abre SpoolUp y pulsa Actualizar ahora.", "Ouvrez SpoolUp et cliquez sur Mettre à jour.", "Öffne SpoolUp und klicke auf Jetzt aktualisieren." } },
-        { "Downloading SpoolUp {0}...", new[] { "Descargando SpoolUp {0}...", "Téléchargement de SpoolUp {0}...", "SpoolUp {0} wird heruntergeladen..." } },
+        { "SC-Dashboard {0} is available (you have {1}).", new[] { "SC-Dashboard {0} está disponible (tienes la {1}).", "SC-Dashboard {0} est disponible (vous avez la {1}).", "SC-Dashboard {0} ist verfügbar (du hast {1})." } },
+        { "SC-Dashboard {0} is available", new[] { "SC-Dashboard {0} está disponible", "SC-Dashboard {0} est disponible", "SC-Dashboard {0} ist verfügbar" } },
+        { "Open SC-Dashboard and click Update now.", new[] { "Abre SC-Dashboard y pulsa Actualizar ahora.", "Ouvrez SC-Dashboard et cliquez sur Mettre à jour.", "Öffne SC-Dashboard und klicke auf Jetzt aktualisieren." } },
+        { "Downloading SC-Dashboard {0}...", new[] { "Descargando SC-Dashboard {0}...", "Téléchargement de SC-Dashboard {0}...", "SC-Dashboard {0} wird heruntergeladen..." } },
         { "Checking the download...", new[] { "Comprobando la descarga...", "Vérification du téléchargement...", "Download wird geprüft..." } },
-        { "Installing SpoolUp {0}. Allow the Windows prompt to continue.", new[] { "Instalando SpoolUp {0}. Acepta el aviso de Windows para continuar.", "Installation de SpoolUp {0}. Autorisez la demande de Windows pour continuer.", "SpoolUp {0} wird installiert. Bestätige die Windows-Abfrage, um fortzufahren." } },
+        { "Installing SC-Dashboard {0}. Allow the Windows prompt to continue.", new[] { "Instalando SC-Dashboard {0}. Acepta el aviso de Windows para continuar.", "Installation de SC-Dashboard {0}. Autorisez la demande de Windows pour continuer.", "SC-Dashboard {0} wird installiert. Bestätige die Windows-Abfrage, um fortzufahren." } },
         { "the download failed ({0})", new[] { "la descarga falló ({0})", "le téléchargement a échoué ({0})", "der Download ist fehlgeschlagen ({0})" } },
         { "the download didn't match its checksum, so it wasn't installed", new[] { "la descarga no coincidía con su suma de comprobación, así que no se instaló", "le téléchargement ne correspondait pas à sa somme de contrôle, il n'a donc pas été installé", "der Download passte nicht zu seiner Prüfsumme und wurde daher nicht installiert" } },
         { "couldn't check the download ({0})", new[] { "no se pudo comprobar la descarga ({0})", "impossible de vérifier le téléchargement ({0})", "der Download konnte nicht geprüft werden ({0})" } },
@@ -281,7 +304,7 @@ static class Lang
         { "the installer finished without updating", new[] { "el instalador terminó sin actualizar", "l'installateur s'est terminé sans mettre à jour", "der Installer wurde ohne Update beendet" } },
         { "the installer stopped (code {0}). Was the Windows prompt canceled?", new[] { "el instalador se detuvo (código {0}). ¿Se canceló el aviso de Windows?", "l'installateur s'est arrêté (code {0}). La demande de Windows a-t-elle été annulée ?", "der Installer wurde beendet (Code {0}). Wurde die Windows-Abfrage abgebrochen?" } },
         { "Update failed: {0}", new[] { "La actualización falló: {0}", "Échec de la mise à jour : {0}", "Update fehlgeschlagen: {0}" } },
-        { "Updated to SpoolUp {0}.", new[] { "Actualizado a SpoolUp {0}.", "Mis à jour vers SpoolUp {0}.", "Auf SpoolUp {0} aktualisiert." } },
+        { "Updated to SC-Dashboard {0}.", new[] { "Actualizado an SC-Dashboard {0}.", "Mis à jour vers SC-Dashboard {0}.", "Auf SC-Dashboard {0} aktualisiert." } },
 
         // ---- Voice commands window ----
         { "Voice commands", new[] { "Comandos de voz", "Commandes vocales", "Sprachbefehle" } },
@@ -297,22 +320,22 @@ static class Lang
         // ---- Install keybind profile window ----
         { "Install keybind profile", new[] { "Instalar perfil de teclas", "Installer le profil de touches", "Tastenprofil installieren" } },
         { "STAR CITIZEN COPIES", new[] { "COPIAS DE STAR CITIZEN", "COPIES DE STAR CITIZEN", "STAR-CITIZEN-KOPIEN" } },
-        { "Copies the SpoolUp Keyboard profile into Star Citizen, so buttons for actions with no default key work. A copy of the game with binds of your own gets \"SpoolUp Keyboard (your binds)\" instead: all of your binds, plus keys only for the deck's actions you haven't bound. Tick the copies to install it into.", new[] { "Copia el perfil SpoolUp Keyboard en Star Citizen, para que funcionen los botones de acciones sin tecla por defecto. Una copia del juego con asignaciones propias recibe \"SpoolUp Keyboard (your binds)\": todas tus asignaciones, más teclas solo para las acciones del panel que no tengas asignadas. Marca las copias donde instalarlo.", "Copie le profil SpoolUp Keyboard dans Star Citizen, pour que les boutons des actions sans touche par défaut fonctionnent. Une copie du jeu avec vos propres raccourcis reçoit plutôt \"SpoolUp Keyboard (your binds)\" : tous vos raccourcis, plus des touches seulement pour les actions du panneau que vous n'avez pas attribuées. Cochez les copies où l'installer.", "Kopiert das Profil SpoolUp Keyboard in Star Citizen, damit Tasten für Aktionen ohne Standardbelegung funktionieren. Eine Spielkopie mit eigenen Belegungen bekommt stattdessen \"SpoolUp Keyboard (your binds)\": alle deine Belegungen, dazu Tasten nur für die Deck-Aktionen, die du nicht belegt hast. Hake die Kopien an, in die es soll." } },
+        { "Copies the SC-Dashboard Keyboard profile into Star Citizen, so buttons for actions with no default key work. A copy of the game with binds of your own gets \"SC-Dashboard Keyboard (your binds)\" instead: all of your binds, plus keys only for the deck's actions you haven't bound. Tick the copies to install it into.", new[] { "Copia el perfil SC-Dashboard Keyboard en Star Citizen, para que funcionen los botones de acciones sin tecla por defecto. Una copia del juego con asignaciones propias recibe \"SC-Dashboard Keyboard (your binds)\": todas tus asignaciones, más teclas solo para las acciones del panel que no tengas asignadas. Marca las copias donde instalarlo.", "Copie le profil SC-Dashboard Keyboard dans Star Citizen, pour que les boutons des actions sans touche par défaut fonctionnent. Une copie du jeu avec vos propres raccourcis reçoit plutôt \"SC-Dashboard Keyboard (your binds)\" : tous vos raccourcis, plus des touches seulement pour les actions du panneau que vous n'avez pas attribuées. Cochez les copies où l'installer.", "Kopiert das Profil SC-Dashboard Keyboard in Star Citizen, damit Tasten für Aktionen ohne Standardbelegung funktionieren. Eine Spielkopie mit eigenen Belegungen bekommt stattdessen \"SC-Dashboard Keyboard (your binds)\": alle deine Belegungen, dazu Tasten nur für die Deck-Aktionen, die du nicht belegt hast. Hake die Kopien an, in die es soll." } },
         { "Choose game folder...", new[] { "Elegir carpeta del juego...", "Choisir le dossier du jeu...", "Spielordner wählen..." } },
         { "STATUS", new[] { "ESTADO", "ÉTAT", "STATUS" } },
         { "Install", new[] { "Instalar", "Installer", "Installieren" } },
-        { "The profile file is missing ({0}). Reinstall SpoolUp.", new[] { "Falta el archivo del perfil ({0}). Reinstala SpoolUp.", "Le fichier du profil est introuvable ({0}). Réinstallez SpoolUp.", "Die Profildatei fehlt ({0}). Installiere SpoolUp neu." } },
+        { "The profile file is missing ({0}). Reinstall SC-Dashboard.", new[] { "Falta el archivo del perfil ({0}). Reinstala SC-Dashboard.", "Le fichier du profil est introuvable ({0}). Réinstallez SC-Dashboard.", "Die Profildatei fehlt ({0}). Installiere SC-Dashboard neu." } },
         { "Star Citizen wasn't found. Click \"Choose game folder...\" and pick the StarCitizen folder (the one with LIVE in it).", new[] { "No se encontró Star Citizen. Pulsa \"Elegir carpeta del juego...\" y elige la carpeta StarCitizen (la que contiene LIVE).", "Star Citizen est introuvable. Cliquez sur \"Choisir le dossier du jeu...\" et choisissez le dossier StarCitizen (celui qui contient LIVE).", "Star Citizen wurde nicht gefunden. Klicke auf \"Spielordner wählen...\" und wähle den Ordner StarCitizen (der mit LIVE darin)." } },
         { "Found {0} copy of the game. Missing one? Click \"Choose game folder...\".", new[] { "Se encontró {0} copia del juego. ¿Falta alguna? Pulsa \"Elegir carpeta del juego...\".", "{0} copie du jeu trouvée. Il en manque une ? Cliquez sur \"Choisir le dossier du jeu...\".", "{0} Spielkopie gefunden. Fehlt eine? Klicke auf \"Spielordner wählen...\"." } },
         { "Found {0} copies of the game. Missing one? Click \"Choose game folder...\".", new[] { "Se encontraron {0} copias del juego. ¿Falta alguna? Pulsa \"Elegir carpeta del juego...\".", "{0} copies du jeu trouvées. Il en manque une ? Cliquez sur \"Choisir le dossier du jeu...\".", "{0} Spielkopien gefunden. Fehlt eine? Klicke auf \"Spielordner wählen...\"." } },
         { "not installed", new[] { "no instalado", "non installé", "nicht installiert" } },
         { "already up to date", new[] { "ya actualizado", "déjà à jour", "bereits aktuell" } },
         { "older copy, will be replaced", new[] { "copia antigua, se reemplazará", "ancienne copie, sera remplacée", "ältere Kopie, wird ersetzt" } },
-        { "your binds found, gets SpoolUp Keyboard (your binds)", new[] { "tus asignaciones encontradas, recibe SpoolUp Keyboard (your binds)", "vos raccourcis trouvés, reçoit SpoolUp Keyboard (your binds)", "eigene Belegungen gefunden, bekommt SpoolUp Keyboard (your binds)" } },
+        { "your binds found, gets SC-Dashboard Keyboard (your binds)", new[] { "tus asignaciones encontradas, recibe SC-Dashboard Keyboard (your binds)", "vos raccourcis trouvés, reçoit SC-Dashboard Keyboard (your binds)", "eigene Belegungen gefunden, bekommt SC-Dashboard Keyboard (your binds)" } },
         { "{0} ({1} keys added)", new[] { "{0} ({1} teclas añadidas)", "{0} ({1} touches ajoutées)", "{0} ({1} Tasten hinzugefügt)" } },
         { "{0} (1 key added)", new[] { "{0} (1 tecla añadida)", "{0} (1 touche ajoutée)", "{0} (1 Taste hinzugefügt)" } },
         { "exit code {0}", new[] { "código de salida {0}", "code de sortie {0}", "Exit-Code {0}" } },
-        { "Made \"SpoolUp Keyboard (your binds)\" for {0}. ", new[] { "Creado \"SpoolUp Keyboard (your binds)\" para {0}. ", "\"SpoolUp Keyboard (your binds)\" créé pour {0}. ", "\"SpoolUp Keyboard (your binds)\" erstellt für {0}. " } },
+        { "Made \"SC-Dashboard Keyboard (your binds)\" for {0}. ", new[] { "Creado \"SC-Dashboard Keyboard (your binds)\" para {0}. ", "\"SC-Dashboard Keyboard (your binds)\" créé pour {0}. ", "\"SC-Dashboard Keyboard (your binds)\" erstellt für {0}. " } },
         { "Now, in Star Citizen: Options > Keybindings > Control Profiles, load it. If you change binds in the game before that, install again first. ", new[] { "Ahora, en Star Citizen: Opciones > Asignación de teclas > Perfiles de control, cárgalo. Si antes cambias asignaciones en el juego, vuelve a instalarlo primero. ", "Ensuite, dans Star Citizen : Options > Raccourcis > Profils de contrôle, chargez-le. Si vous changez des raccourcis dans le jeu avant, réinstallez-le d'abord. ", "Jetzt in Star Citizen: Optionen > Tastenbelegung > Steuerungsprofile, das Profil laden. Änderst du vorher Belegungen im Spiel, installiere es zuerst neu. " } },
         { "Your binds use some of the deck's usual keys, so free ones were picked: reload the deck on the tablet after loading the profile. ", new[] { "Tus asignaciones usan algunas teclas habituales del panel, así que se eligieron otras libres: recarga el panel en la tablet tras cargar el perfil. ", "Vos raccourcis utilisent certaines touches habituelles du panneau, d'autres touches libres ont donc été choisies : rechargez le panneau sur la tablette après avoir chargé le profil. ", "Deine Belegungen nutzen einige übliche Deck-Tasten, daher wurden freie gewählt: Lade das Deck auf dem Tablet neu, nachdem du das Profil geladen hast. " } },
         { "Pick the StarCitizen folder (the one with LIVE in it).", new[] { "Elige la carpeta StarCitizen (la que contiene LIVE).", "Choisissez le dossier StarCitizen (celui qui contient LIVE).", "Wähle den Ordner StarCitizen (der mit LIVE darin)." } },
@@ -320,18 +343,18 @@ static class Lang
         { "Added. Tick the copies of the game to install the profile into, then click Install.", new[] { "Añadido. Marca las copias del juego donde instalar el perfil y pulsa Instalar.", "Ajouté. Cochez les copies du jeu où installer le profil, puis cliquez sur Installer.", "Hinzugefügt. Hake die Spielkopien an, in die das Profil soll, und klicke auf Installieren." } },
         { "Nothing ticked. Tick the copies of the game to install the profile into.", new[] { "No hay nada marcado. Marca las copias del juego donde instalar el perfil.", "Rien n'est coché. Cochez les copies du jeu où installer le profil.", "Nichts angehakt. Hake die Spielkopien an, in die das Profil soll." } },
         { "Installed into {0}. ", new[] { "Instalado en {0}. ", "Installé dans {0}. ", "Installiert in {0}. " } },
-        { "Now, in Star Citizen: Options > Keybindings > Control Profiles, load \"SpoolUp Keyboard\". ", new[] { "Ahora, en Star Citizen: Opciones > Asignación de teclas > Perfiles de control, carga \"SpoolUp Keyboard\". ", "Ensuite, dans Star Citizen : Options > Raccourcis > Profils de contrôle, chargez \"SpoolUp Keyboard\". ", "Jetzt in Star Citizen: Optionen > Tastenbelegung > Steuerungsprofile, \"SpoolUp Keyboard\" laden. " } },
+        { "Now, in Star Citizen: Options > Keybindings > Control Profiles, load \"SC-Dashboard Keyboard\". ", new[] { "Ahora, en Star Citizen: Opciones > Asignación de teclas > Perfiles de control, carga \"SC-Dashboard Keyboard\". ", "Ensuite, dans Star Citizen : Options > Raccourcis > Profils de contrôle, chargez \"SC-Dashboard Keyboard\". ", "Jetzt in Star Citizen: Optionen > Tastenbelegung > Steuerungsprofile, \"SC-Dashboard Keyboard\" laden. " } },
         { "This replaces your current custom binds, so note any you want to keep and set them again afterwards.", new[] { "Esto sustituye tus asignaciones personalizadas actuales, así que apunta las que quieras conservar y vuelve a ponerlas después.", "Cela remplace vos raccourcis personnalisés actuels : notez ceux que vous voulez garder et refaites-les ensuite.", "Das ersetzt deine aktuellen eigenen Belegungen. Notiere dir, was du behalten willst, und stelle es danach wieder ein." } },
-        { "Couldn't copy into {0}. Try running SpoolUp as administrator, or copy {1} by hand.", new[] { "No se pudo copiar en {0}. Prueba a ejecutar SpoolUp como administrador o copia {1} a mano.", "Impossible de copier dans {0}. Essayez de lancer SpoolUp en administrateur, ou copiez {1} à la main.", "Kopieren nach {0} fehlgeschlagen. Starte SpoolUp als Administrator oder kopiere {1} von Hand." } },
+        { "Couldn't copy into {0}. Try running SC-Dashboard as administrator, or copy {1} by hand.", new[] { "No se pudo copiar en {0}. Prueba a ejecutar SC-Dashboard como administrador o copia {1} a mano.", "Impossible de copier dans {0}. Essayez de lancer SC-Dashboard en administrateur, ou copiez {1} à la main.", "Kopieren nach {0} fehlgeschlagen. Starte SC-Dashboard als Administrator oder kopiere {1} von Hand." } },
 
         // ---- Settings window ----
-        { "SpoolUp settings", new[] { "Ajustes de SpoolUp", "Réglages de SpoolUp", "SpoolUp-Einstellungen" } },
+        { "SC-Dashboard settings", new[] { "Ajustes de SC-Dashboard", "Réglages de SC-Dashboard", "SC-Dashboard-Einstellungen" } },
         { "PAIRING", new[] { "EMPAREJAMIENTO", "APPAIRAGE", "KOPPLUNG" } },
         { "Pairing code", new[] { "Código de emparejamiento", "Code d'appairage", "Kopplungscode" } },
         { "New random code", new[] { "Nuevo código", "Nouveau code", "Neuer Code" } },
         { "Letters and numbers. Tablets already paired keep working until they reload; new ones need the new code.", new[] { "Letras y números. Las tablets ya emparejadas funcionan hasta recargar; las nuevas usan el código nuevo.", "Lettres et chiffres. Les tablettes appairées marchent jusqu'à leur rechargement, les nouvelles ont besoin du code.", "Buchstaben und Ziffern. Gekoppelte Tablets laufen bis zum Neuladen weiter; neue brauchen den neuen Code." } },
         { "Port", new[] { "Puerto", "Port", "Port" } },
-        { "Set with --port when SpoolUp was started, so it can't be changed here.", new[] { "Fijado con --port al iniciar SpoolUp; no se puede cambiar aquí.", "Défini avec --port au lancement ; non modifiable ici.", "Beim Start mit --port gesetzt, daher hier nicht änderbar." } },
+        { "Set with --port when SC-Dashboard was started, so it can't be changed here.", new[] { "Fijado con --port al iniciar SC-Dashboard; no se puede cambiar aquí.", "Défini avec --port au lancement ; non modifiable ici.", "Beim Start mit --port gesetzt, daher hier nicht änderbar." } },
         { "Changing it restarts the server. Tablets then need the new address or QR code.", new[] { "Reinicia el servidor. Las tablets necesitarán la nueva dirección o el QR.", "Redémarre le serveur. Les tablettes devront reprendre l'adresse ou le QR.", "Startet den Server neu. Tablets brauchen dann neue Adresse oder QR-Code." } },
         { "KEYS", new[] { "TECLAS", "TOUCHES", "TASTEN" } },
         { "Only press keys while Star Citizen is in front", new[] { "Pulsar teclas solo con Star Citizen en primer plano", "Seulement si Star Citizen est devant", "Tasten nur drücken, wenn Star Citizen vorne ist" } },
@@ -537,39 +560,39 @@ static class Lang
         { "Up to 12 links, please.", "Legfeljebb 12 link lehet." },
         { "The pairing code can only have letters and numbers (up to 32).", "A párosítókód csak betűket és számokat tartalmazhat (legfeljebb 32-t)." },
         { "The voice language should look like en-US.", "A hangparancs nyelve en-US formájú legyen." },
-        { "{0} is missing. Reinstall SpoolUp.", "Hiányzik: {0}. Telepítsd újra a SpoolUpot." },
-        { "SpoolUp (stopped)", "SpoolUp (leállítva)" },
-        { "Windows treats \"{0}\" as a Public network. Set it to Private so tablets on your network can reach SpoolUp.", "A Windows nyilvános hálózatnak tekinti ezt: \"{0}\". Állítsd magánhálózatra, hogy a tabletek elérjék a SpoolUpot." },
-        { "Choose your network, then Private network. SpoolUp checks again every 20 seconds.", "Válaszd ki a hálózatodat, majd a Magánhálózat lehetőséget. A SpoolUp 20 másodpercenként újra ellenőrzi." },
+        { "{0} is missing. Reinstall SC-Dashboard.", "Hiányzik: {0}. Telepítsd újra az SC-Dashboardot." },
+        { "SC-Dashboard (stopped)", "SC-Dashboard (leállítva)" },
+        { "Windows treats \"{0}\" as a Public network. Set it to Private so tablets on your network can reach SC-Dashboard.", "A Windows nyilvános hálózatnak tekinti ezt: \"{0}\". Állítsd magánhálózatra, hogy a tabletek elérjék az SC-Dashboardot." },
+        { "Choose your network, then Private network. SC-Dashboard checks again every 20 seconds.", "Válaszd ki a hálózatodat, majd a Magánhálózat lehetőséget. Az SC-Dashboard 20 másodpercenként újra ellenőrzi." },
         { "Open network settings", "Hálózati beállítások megnyitása" },
-        { "Windows treats \"{0}\" as a Public network. Open SpoolUp to fix it.", "A Windows nyilvános hálózatnak tekinti ezt: \"{0}\". Nyisd meg a SpoolUpot a javításhoz." },
-        { "SpoolUp isn't running", "A SpoolUp nem fut" },
-        { "SpoolUp is still running", "A SpoolUp továbbra is fut" },
-        { "Show SpoolUp", "SpoolUp megjelenítése" },
-        { "Looks for a new version on GitHub when SpoolUp starts and once a day. Click Update now to install it.", "Induláskor és naponta egyszer új verziót keres a GitHubon. A telepítéshez kattints a Frissítés most gombra." },
-        { "SpoolUp is up to date", "A SpoolUp naprakész" },
-        { "SpoolUp {0} is available (you have {1}).", "Elérhető a SpoolUp {0} (neked {1} van)." },
-        { "SpoolUp {0} is available", "Elérhető a SpoolUp {0}" },
-        { "Open SpoolUp and click Update now.", "Nyisd meg a SpoolUpot, és kattints a Frissítés most gombra." },
-        { "Downloading SpoolUp {0}...", "SpoolUp {0} letöltése..." },
-        { "Installing SpoolUp {0}. Allow the Windows prompt to continue.", "SpoolUp {0} telepítése. A folytatáshoz engedélyezd a Windows kérdését." },
+        { "Windows treats \"{0}\" as a Public network. Open SC-Dashboard to fix it.", "A Windows nyilvános hálózatnak tekinti ezt: \"{0}\". Nyisd meg az SC-Dashboardot a javításhoz." },
+        { "SC-Dashboard isn't running", "Az SC-Dashboard nem fut" },
+        { "SC-Dashboard is still running", "Az SC-Dashboard továbbra is fut" },
+        { "Show SC-Dashboard", "SC-Dashboard megjelenítése" },
+        { "Looks for a new version on GitHub when SC-Dashboard starts and once a day. Click Update now to install it.", "Induláskor és naponta egyszer új verziót keres a GitHubon. A telepítéshez kattints a Frissítés most gombra." },
+        { "SC-Dashboard is up to date", "Az SC-Dashboard naprakész" },
+        { "SC-Dashboard {0} is available (you have {1}).", "Elérhető az SC-Dashboard {0} (neked {1} van)." },
+        { "SC-Dashboard {0} is available", "Elérhető az SC-Dashboard {0}" },
+        { "Open SC-Dashboard and click Update now.", "Nyisd meg az SC-Dashboardot, és kattints a Frissítés most gombra." },
+        { "Downloading SC-Dashboard {0}...", "SC-Dashboard {0} letöltése..." },
+        { "Installing SC-Dashboard {0}. Allow the Windows prompt to continue.", "SC-Dashboard {0} telepítése. A folytatáshoz engedélyezd a Windows kérdését." },
         { "the Windows permission prompt was canceled", "a Windows engedélykérését megszakították" },
         { "the installer stopped (code {0}). Was the Windows prompt canceled?", "a telepítő leállt (kód: {0}). Megszakadt a Windows kérdése?" },
-        { "Updated to SpoolUp {0}.", "Frissítve: SpoolUp {0}." },
-        { "Copies the SpoolUp Keyboard profile into Star Citizen, so buttons for actions with no default key work. A copy of the game with binds of your own gets \"SpoolUp Keyboard (your binds)\" instead: all of your binds, plus keys only for the deck's actions you haven't bound. Tick the copies to install it into.", "Bemásolja a SpoolUp Keyboard profilt a Star Citizenbe, így az alapértelmezett billentyű nélküli műveletek gombjai is működnek. Ha a játékban saját kiosztásod van, helyette \"SpoolUp Keyboard (your binds)\" készül: minden saját kiosztásod megmarad, és csak a deck még ki nem osztott műveletei kapnak billentyűt. Jelöld be, melyik példányokba települjön." },
-        { "The profile file is missing ({0}). Reinstall SpoolUp.", "Hiányzik a profilfájl ({0}). Telepítsd újra a SpoolUpot." },
+        { "Updated to SC-Dashboard {0}.", "Frissítve: SC-Dashboard {0}." },
+        { "Copies the SC-Dashboard Keyboard profile into Star Citizen, so buttons for actions with no default key work. A copy of the game with binds of your own gets \"SC-Dashboard Keyboard (your binds)\" instead: all of your binds, plus keys only for the deck's actions you haven't bound. Tick the copies to install it into.", "Bemásolja az SC-Dashboard Keyboard profilt a Star Citizenbe, így az alapértelmezett billentyű nélküli műveletek gombjai is működnek. Ha a játékban saját kiosztásod van, helyette \"SC-Dashboard Keyboard (your binds)\" készül: minden saját kiosztásod megmarad, és csak a deck még ki nem osztott műveletei kapnak billentyűt. Jelöld be, melyik példányokba települjön." },
+        { "The profile file is missing ({0}). Reinstall SC-Dashboard.", "Hiányzik a profilfájl ({0}). Telepítsd újra az SC-Dashboardot." },
         { "Star Citizen wasn't found. Click \"Choose game folder...\" and pick the StarCitizen folder (the one with LIVE in it).", "A Star Citizen nem található. Kattints a \"Choose game folder...\" gombra, és válaszd ki a StarCitizen mappát (amelyikben a LIVE van)." },
-        { "your binds found, gets SpoolUp Keyboard (your binds)", "saját kiosztás megtalálva, SpoolUp Keyboard (your binds) készül" },
+        { "your binds found, gets SC-Dashboard Keyboard (your binds)", "saját kiosztás megtalálva, SC-Dashboard Keyboard (your binds) készül" },
         { "{0} ({1} keys added)", "{0} ({1} billentyű hozzáadva)" },
         { "{0} (1 key added)", "{0} (1 billentyű hozzáadva)" },
         { "exit code {0}", "kilépési kód: {0}" },
-        { "Made \"SpoolUp Keyboard (your binds)\" for {0}.  ", "Elkészült a \"SpoolUp Keyboard (your binds)\" ehhez: {0}.  " },
+        { "Made \"SC-Dashboard Keyboard (your binds)\" for {0}.  ", "Elkészült a \"SC-Dashboard Keyboard (your binds)\" ehhez: {0}.  " },
         { "Now, in Star Citizen: Options > Keybindings > Control Profiles, load it. If you change binds in the game before that, install again first.  ", "Most a Star Citizenben: Options > Keybindings > Control Profiles, töltsd be. Ha előtte a játékban módosítasz a kiosztáson, előbb telepítsd újra.  " },
         { "Your binds use some of the deck's usual keys, so free ones were picked: reload the deck on the tablet after loading the profile.  ", "A kiosztásod használja a deck néhány szokásos billentyűjét, ezért szabadokat választottam: a profil betöltése után töltsd újra a decket a tableten.  " },
-        { "Now, in Star Citizen: Options > Keybindings > Control Profiles, load \"SpoolUp Keyboard\".  ", "Most a Star Citizenben: Options > Keybindings > Control Profiles, töltsd be a \"SpoolUp Keyboard\" profilt.  " },
-        { "Couldn't copy into {0}. Try running SpoolUp as administrator, or copy {1} by hand.", "Nem sikerült bemásolni ide: {0}. Futtasd a SpoolUpot rendszergazdaként, vagy másold be kézzel ezt: {1}." },
-        { "SpoolUp settings", "SpoolUp beállítások" },
-        { "Set with --port when SpoolUp was started, so it can't be changed here.", "A SpoolUp indításakor a --port kapcsolóval lett megadva, ezért itt nem módosítható." },
+        { "Now, in Star Citizen: Options > Keybindings > Control Profiles, load \"SC-Dashboard Keyboard\".  ", "Most a Star Citizenben: Options > Keybindings > Control Profiles, töltsd be a \"SC-Dashboard Keyboard\" profilt.  " },
+        { "Couldn't copy into {0}. Try running SC-Dashboard as administrator, or copy {1} by hand.", "Nem sikerült bemásolni ide: {0}. Futtasd az SC-Dashboardot rendszergazdaként, vagy másold be kézzel ezt: {1}." },
+        { "SC-Dashboard settings", "SC-Dashboard beállítások" },
+        { "Set with --port when SC-Dashboard was started, so it can't be changed here.", "Az SC-Dashboard indításakor a --port kapcsolóval lett megadva, ezért itt nem módosítható." },
         { "Off: keys go to whichever window is in front.", "Ki: a billentyűk az éppen elöl lévő ablakba mennek." },
         { "NETWORK", "HÁLÓZAT" },
         { "Tablets connect over your home network. Windows has to treat it as a Private network: on a Public one it blocks them.", "A tabletek az otthoni hálózaton csatlakoznak. A Windowsnak magánhálózatként kell kezelnie: nyilvános hálózaton letiltja őket." },
@@ -1575,7 +1598,7 @@ class DeckWindow : Form
     readonly System.Windows.Forms.Timer dailyCheck = new System.Windows.Forms.Timer();
     bool bannerShown;
     Func<string> bannerText = () => "";
-    Func<string> trayText = () => "SpoolUp";
+    Func<string> trayText = () => "SC-Dashboard";
     string whatsNewUrl = "";
     string updateVersion = "", updateSetupUrl = "", updateShaUrl = "", dismissedVersion = "";
     Process installer;
@@ -1591,7 +1614,7 @@ class DeckWindow : Form
         serverArgs = ("--ui " + string.Join(" ", passOn)).Trim();
 
         SuspendLayout();
-        Text = "SpoolUp";
+        Text = "SC-Dashboard";
         Icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath);
         BackColor = Hud.Back;
         ForeColor = Hud.Ink;
@@ -1648,7 +1671,7 @@ class DeckWindow : Form
             SendToServer("set autoUpdate " + (autoUpdate.On ? "on" : "off"));
             if (autoUpdate.On) CheckForUpdates(false);
         };
-        autoUpdate.Tip = "Looks for a new version on GitHub when SpoolUp starts and once a day. Click Update now to install it.";
+        autoUpdate.Tip = "Looks for a new version on GitHub when SC-Dashboard starts and once a day. Click Update now to install it.";
         folderLink = hud.Add(HudView.Kind.Link, "Settings folder", delegate { OpenSettingsFolder(); });
         folderLink.Tip = "Opens the folder with config.json and your own layouts";
         checkLink = hud.Add(HudView.Kind.Link, "Check for updates now", delegate { CheckForUpdates(true); });
@@ -1789,8 +1812,8 @@ class DeckWindow : Form
     }
 
     // The Public-network banner's text, and the height it needs at a width.
-    string NetworkBody() { return Lang.F("Windows treats \"{0}\" as a Public network. Set it to Private so tablets on your network can reach SpoolUp.", publicNetwork); }
-    static string NetworkSteps() { return Lang.T("Choose your network, then Private network. SpoolUp checks again every 20 seconds."); }
+    string NetworkBody() { return Lang.F("Windows treats \"{0}\" as a Public network. Set it to Private so tablets on your network can reach SC-Dashboard.", publicNetwork); }
+    static string NetworkSteps() { return Lang.T("Choose your network, then Private network. SC-Dashboard checks again every 20 seconds."); }
     static float NetworkTextWidth(float width) { return width - 68 - 16 - 232 - 16; }
 
     float NetworkBannerHeight(float width)
@@ -2011,10 +2034,10 @@ class DeckWindow : Form
         voiceText = () => Lang.T("Starting...");
         voiceColor = Hud.Dim;
         tabletCount = 0;
-        string exe = Path.Combine(appDir, "TabletDeckServer.exe");
+        string exe = Path.Combine(appDir, "SC-DashboardServer.exe");
         if (!File.Exists(exe))
         {
-            Stopped(() => Lang.F("{0} is missing. Reinstall SpoolUp.", exe));
+            Stopped(() => Lang.F("{0} is missing. Reinstall SC-Dashboard.", exe));
             return;
         }
         var psi = new ProcessStartInfo(exe, serverArgs)
@@ -2108,7 +2131,7 @@ class DeckWindow : Form
         tabletCount = 0;
         voiceText = () => Lang.T("Off");
         voiceColor = Hud.Dim;
-        ShowTrayText(() => Lang.T("SpoolUp (stopped)"));
+        ShowTrayText(() => Lang.T("SC-Dashboard (stopped)"));
     }
 
     void OnLine(string line, bool error)
@@ -2146,7 +2169,7 @@ class DeckWindow : Form
                 foreach (var r in List(ev, "qr")) rows.Add(Convert.ToString(r, CultureInfo.InvariantCulture));
                 qrRows = rows.ToArray();
                 version = Str(ev, "version");
-                Text = "SpoolUp " + version;
+                Text = "SC-Dashboard " + version;
                 dryRun = Bool(ev, "dryRun");
                 focusCheck = Bool(ev, "focusCheck");
                 // A new pairing code or port restarts nothing, so the uptime keeps counting.
@@ -2155,7 +2178,7 @@ class DeckWindow : Form
                 SetState(dryRun ? "TEST MODE" : "ONLINE", () => Lang.T(running), dryRun ? Hud.Warn : Hud.Good);
                 string trayVersion = version;
                 bool trayTest = dryRun;
-                ShowTrayText(() => "SpoolUp " + trayVersion + (trayTest ? Lang.T(" (test mode)") : ""));
+                ShowTrayText(() => "SC-Dashboard " + trayVersion + (trayTest ? Lang.T(" (test mode)") : ""));
                 ShowStrictness(Num(ev, "voiceConfidence"));
                 autoUpdate.On = Bool(ev, "autoUpdate");
                 if (!checkedAtStart && autoUpdate.On) CheckForUpdates(false);
@@ -2235,7 +2258,7 @@ class DeckWindow : Form
                 {
                     publicNetworkNoticed = true;
                     AppendLog(Lang.F("Windows treats \"{0}\" as a Public network, so tablets can't connect. In Windows: Settings > Network & Internet > {0} > set it to Private.", publicNetwork), Hud.Warn);
-                    if (!Visible) Notify(Lang.T("Tablets can't connect"), Lang.F("Windows treats \"{0}\" as a Public network. Open SpoolUp to fix it.", publicNetwork));
+                    if (!Visible) Notify(Lang.T("Tablets can't connect"), Lang.F("Windows treats \"{0}\" as a Public network. Open SC-Dashboard to fix it.", publicNetwork));
                 }
                 break;
             case "fatal":
@@ -2374,7 +2397,7 @@ class DeckWindow : Form
     static WebClient NewWebClient()
     {
         var web = new WebClient { Encoding = Encoding.UTF8 };
-        web.Headers[HttpRequestHeader.UserAgent] = "SpoolUp/" + CurrentVersion; // GitHub requires one
+        web.Headers[HttpRequestHeader.UserAgent] = "SC-Dashboard/" + CurrentVersion; // GitHub requires one
         return web;
     }
 
@@ -2426,11 +2449,11 @@ class DeckWindow : Form
         Version remote = ParseVersion(latest), local = ParseVersion(CurrentVersion);
         if (remote == null || local == null || remote <= local)
         {
-            if (userAsked) Notify(Lang.T("SpoolUp is up to date"), Lang.F("You have version {0}, the latest.", CurrentVersion));
+            if (userAsked) Notify(Lang.T("SC-Dashboard is up to date"), Lang.F("You have version {0}, the latest.", CurrentVersion));
             return;
         }
         // The installer and its checksum, attached to the release by .github/workflows/release.yml.
-        string setupName = "SpoolUp-Setup-" + latest + ".exe";
+        string setupName = "SC-Dashboard-Setup-" + latest + ".exe";
         string setupUrl = "", shaUrl = "";
         foreach (var a in List(release, "assets"))
         {
@@ -2451,8 +2474,8 @@ class DeckWindow : Form
         updateSetupUrl = setupUrl;
         updateShaUrl = shaUrl;
         whatsNewUrl = Str(release, "html_url") != "" ? Str(release, "html_url") : ReleasesPage;
-        ShowBanner(() => Lang.F("SpoolUp {0} is available (you have {1}).", latest, CurrentVersion), "update");
-        if (!Visible) Notify(Lang.F("SpoolUp {0} is available", latest), Lang.T("Open SpoolUp and click Update now."));
+        ShowBanner(() => Lang.F("SC-Dashboard {0} is available (you have {1}).", latest, CurrentVersion), "update");
+        if (!Visible) Notify(Lang.F("SC-Dashboard {0} is available", latest), Lang.T("Open SC-Dashboard and click Update now."));
     }
 
     void Notify(string title, string text)
@@ -2470,7 +2493,7 @@ class DeckWindow : Form
     {
         var old = tray.ContextMenuStrip;
         var menu = new ContextMenuStrip();
-        menu.Items.Add(Lang.T("Show SpoolUp"), null, delegate { ShowFromTray(); });
+        menu.Items.Add(Lang.T("Show SC-Dashboard"), null, delegate { ShowFromTray(); });
         menu.Items.Add(Lang.T("Copy link"), null, delegate { CopyLink(); });
         menu.Items.Add(Lang.T("Edit layout"), null, delegate { OpenEditor(); });
         menu.Items.Add(Lang.T("Check for updates now"), null, delegate { CheckForUpdates(true); });
@@ -2496,16 +2519,16 @@ class DeckWindow : Form
     {
         if (updateSetupUrl == "") return;
         string downloading = updateVersion;
-        ShowBanner(() => Lang.F("Downloading SpoolUp {0}...", downloading), "busy");
+        ShowBanner(() => Lang.F("Downloading SC-Dashboard {0}...", downloading), "busy");
         string dir = UpdateFolder;
-        string file = Path.Combine(dir, "SpoolUp-Setup-" + updateVersion + ".exe");
+        string file = Path.Combine(dir, "SC-Dashboard-Setup-" + updateVersion + ".exe");
         try { Directory.CreateDirectory(dir); }
         catch (Exception ex) { UpdateFailed(() => ex.Message); return; }
         var web = NewWebClient();
         web.DownloadProgressChanged += (s, e) =>
         {
             int percent = e.ProgressPercentage;
-            SetBannerText(() => Lang.F("Downloading SpoolUp {0}...", downloading) + " " + percent + "%");
+            SetBannerText(() => Lang.F("Downloading SC-Dashboard {0}...", downloading) + " " + percent + "%");
         };
         web.DownloadFileCompleted += (s, e) =>
         {
@@ -2518,7 +2541,7 @@ class DeckWindow : Form
 
     // Checks the download against the release's SHA-256 file, then runs the installer
     // quietly. It asks this window to quit before it replaces the files, and starts
-    // SpoolUp again afterwards. Until then the deck keeps working.
+    // SC-Dashboard again afterwards. Until then the deck keeps working.
     void VerifyAndInstall(string file)
     {
         SetBannerText(() => Lang.T("Checking the download..."));
@@ -2544,7 +2567,7 @@ class DeckWindow : Form
             return;
         }
         string installing = updateVersion;
-        SetBannerText(() => Lang.F("Installing SpoolUp {0}. Allow the Windows prompt to continue.", installing));
+        SetBannerText(() => Lang.F("Installing SC-Dashboard {0}. Allow the Windows prompt to continue.", installing));
         try
         {
             installer = Process.Start(new ProcessStartInfo(file, "/SILENT /SUPPRESSMSGBOXES /NORESTART /RELAUNCH=1") { UseShellExecute = true });
@@ -2580,7 +2603,7 @@ class DeckWindow : Form
 
     // Where Update now saves the installer; emptied when the window next starts. It keeps
     // the old name: an older version updating to this one downloads into it too.
-    static readonly string UpdateFolder = Path.Combine(Path.GetTempPath(), "TabletDeck-Update");
+    static readonly string UpdateFolder = Path.Combine(Path.GetTempPath(), "SC-Dashboard-Update");
 
     // After an update, offers the new version's notes once and removes the used installer.
     void ShowWhatsNewAfterUpdate()
@@ -2595,7 +2618,7 @@ class DeckWindow : Form
                 if (last != null && last != CurrentVersion)
                 {
                     whatsNewUrl = ReleasesPage + "/tag/v" + CurrentVersion;
-                    ShowBanner(() => Lang.F("Updated to SpoolUp {0}.", CurrentVersion), "news");
+                    ShowBanner(() => Lang.F("Updated to SC-Dashboard {0}.", CurrentVersion), "news");
                 }
                 key.SetValue("LastVersion", CurrentVersion);
             }
@@ -2607,7 +2630,7 @@ class DeckWindow : Form
     {
         if (editorUrl == "" || !serverReady)
         {
-            Notify(Lang.T("SpoolUp isn't running"), Lang.T("Start it first; the layout editor is part of the server."));
+            Notify(Lang.T("SC-Dashboard isn't running"), Lang.T("Start it first; the layout editor is part of the server."));
             return;
         }
         Process.Start(editorUrl);
@@ -2618,11 +2641,11 @@ class DeckWindow : Form
     string ConfigFile()
     {
         return settingsPath != "" ? settingsPath
-            : Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "TabletDeck", "config.json");
+            : Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "SC-Dashboard", "config.json");
     }
 
     // The settings dialog. It starts from config.json; changes go to the running server
-    // ("set name value" on stdin), or, while it's stopped, through TabletDeckServer.exe --set.
+    // ("set name value" on stdin), or, while it's stopped, through SC-DashboardServer.exe --set.
     void OpenSettings()
     {
         Dictionary<string, object> current = null;
@@ -2630,7 +2653,7 @@ class DeckWindow : Form
         catch (Exception) { }
         bool running = serverReady && server != null && !server.HasExited;
         using (var dialog = new SettingsWindow(current ?? new Dictionary<string, object>(), serverArgs.Contains("--port"), Icon,
-            Path.Combine(appDir, "keybinds", "TabletDeck-StarCitizen.xml"), publicNetwork, running ? readyGame : null))
+            Path.Combine(appDir, "keybinds", "SC-Dashboard-StarCitizen.xml"), publicNetwork, running ? readyGame : null))
         {
             var result = dialog.ShowDialog(this);
             if (result == DialogResult.OK && dialog.LanguageChanged) ApplyLanguage();
@@ -2651,7 +2674,7 @@ class DeckWindow : Form
             foreach (var change in dialog.Changes) pairs.Add(GameFolder.Quote(change.Key + "=" + change.Value));
             try
             {
-                var psi = new ProcessStartInfo(Path.Combine(appDir, "TabletDeckServer.exe"), "--set " + string.Join(" ", pairs.ToArray()))
+                var psi = new ProcessStartInfo(Path.Combine(appDir, "SC-DashboardServer.exe"), "--set " + string.Join(" ", pairs.ToArray()))
                 {
                     UseShellExecute = false,
                     CreateNoWindow = true,
@@ -2693,7 +2716,7 @@ class DeckWindow : Form
     void OpenSettingsFolder()
     {
         string dir = settingsPath != "" ? Path.GetDirectoryName(settingsPath)
-            : Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "TabletDeck");
+            : Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "SC-Dashboard");
         Directory.CreateDirectory(dir);
         Process.Start("explorer.exe", "\"" + dir + "\"");
     }
@@ -2741,7 +2764,7 @@ class DeckWindow : Form
         if (!trayHintShown)
         {
             trayHintShown = true;
-            tray.ShowBalloonTip(3000, Lang.T("SpoolUp is still running"), Lang.T("Double-click the tray icon to open it, or right-click it to quit."), ToolTipIcon.Info);
+            tray.ShowBalloonTip(3000, Lang.T("SC-Dashboard is still running"), Lang.T("Double-click the tray icon to open it, or right-click it to quit."), ToolTipIcon.Info);
         }
     }
 
@@ -2840,7 +2863,7 @@ class VoiceCommandsWindow : HudDialog
     }
 }
 
-// The Star Citizen folder, as TabletDeckServer.exe --find-game finds it (findInstalls and
+// The Star Citizen folder, as SC-DashboardServer.exe --find-game finds it (findInstalls and
 // gameInUse in server.js), so Settings, the keybind profile and the server use the same copy.
 static class GameFolder
 {
@@ -2929,19 +2952,19 @@ static class GameFolder
     }
 }
 
-// Installs the SpoolUp Keyboard profile into Star Citizen's Controls\Mappings folder, for each
+// Installs the SC-Dashboard Keyboard profile into Star Citizen's Controls\Mappings folder, for each
 // copy of the game (LIVE, PTU and so on) the player ticks. Listed as the server finds them
-// (GameFolder, the folder set in Settings or the usual places), or picked by hand. A copy with the player's own actionmaps.xml gets "SpoolUp Keyboard (your
-// binds)" instead, which TabletDeckServer.exe --merge-profile builds from it: every bind the
+// (GameFolder, the folder set in Settings or the usual places), or picked by hand. A copy with the player's own actionmaps.xml gets "SC-Dashboard Keyboard (your
+// binds)" instead, which SC-DashboardServer.exe --merge-profile builds from it: every bind the
 // player has, plus keys only for the deck's actions they haven't bound. A copy without one
-// gets the plain profile (keybinds\TabletDeck-StarCitizen.xml in the install folder).
+// gets the plain profile (keybinds\SC-Dashboard-StarCitizen.xml in the install folder).
 class KeybindProfileWindow : HudDialog
 {
-    const string ProfileName = "TabletDeck-StarCitizen.xml";
-    const string MergedName = "SpoolUp-YourBinds.xml";
+    const string ProfileName = "SC-Dashboard-StarCitizen.xml";
+    const string MergedName = "SC-Dashboard-YourBinds.xml";
 
     readonly string profile;
-    readonly string server; // TabletDeckServer.exe, which builds the merged profile
+    readonly string server; // SC-DashboardServer.exe, which builds the merged profile
     readonly List<string> games = new List<string>(); // ...\StarCitizen\<channel>, same order as list
     readonly CheckedListBox list = new CheckedListBox();
     readonly Note status;
@@ -2949,14 +2972,14 @@ class KeybindProfileWindow : HudDialog
     public KeybindProfileWindow(string profile, Icon icon) : base("Install keybind profile", icon, 560, 644)
     {
         this.profile = profile;
-        server = Path.Combine(Path.GetDirectoryName(Path.GetDirectoryName(profile)), "TabletDeckServer.exe");
+        server = Path.Combine(Path.GetDirectoryName(Path.GetDirectoryName(profile)), "SC-DashboardServer.exe");
         FormBorderStyle = FormBorderStyle.FixedDialog;
         MaximizeBox = false;
         MinimizeBox = false;
 
         Panel("STAR CITIZEN COPIES", 16, 16, 528, 320);
-        var intro = Hint("Copies the SpoolUp Keyboard profile into Star Citizen, so buttons for actions with no default key work. " +
-            "A copy of the game with binds of your own gets \"SpoolUp Keyboard (your binds)\" instead: all of your binds, plus keys only for the deck's actions you haven't bound. " +
+        var intro = Hint("Copies the SC-Dashboard Keyboard profile into Star Citizen, so buttons for actions with no default key work. " +
+            "A copy of the game with binds of your own gets \"SC-Dashboard Keyboard (your binds)\" instead: all of your binds, plus keys only for the deck's actions you haven't bound. " +
             "Tick the copies to install it into.", 32, 56, 496, 98);
         intro.Color = Hud.Ink;
         Field(list, 32, 160, 496, 120);
@@ -2976,7 +2999,7 @@ class KeybindProfileWindow : HudDialog
 
         if (!File.Exists(profile))
         {
-            ShowStatus(Lang.F("The profile file is missing ({0}). Reinstall SpoolUp.", profile), Hud.Bad);
+            ShowStatus(Lang.F("The profile file is missing ({0}). Reinstall SC-Dashboard.", profile), Hud.Bad);
             install.Enabled = false;
             return;
         }
@@ -3025,7 +3048,7 @@ class KeybindProfileWindow : HudDialog
         string state;
         bool tick;
         string target = Target(game, ProfileName);
-        if (CanMerge(game)) { state = "your binds found, gets SpoolUp Keyboard (your binds)"; tick = true; }
+        if (CanMerge(game)) { state = "your binds found, gets SC-Dashboard Keyboard (your binds)"; tick = true; }
         else if (!File.Exists(target)) { state = "not installed"; tick = true; }
         else if (SameFile(target, profile)) { state = "already up to date"; tick = false; }
         else { state = "older copy, will be replaced"; tick = true; }
@@ -3056,7 +3079,7 @@ class KeybindProfileWindow : HudDialog
         }
     }
 
-    // Runs TabletDeckServer.exe --merge-profile for one copy. Returns its exit code (0 built,
+    // Runs SC-DashboardServer.exe --merge-profile for one copy. Returns its exit code (0 built,
     // 3 no actionmaps.xml after all) and sets added / moved from its first line, "added N moved M",
     // and error to what it printed on failure.
     int Merge(string game, out int added, out int moved, out string error)
@@ -3138,7 +3161,7 @@ class KeybindProfileWindow : HudDialog
         var text = new StringBuilder();
         if (merged.Count > 0)
         {
-            text.Append(Lang.F("Made \"SpoolUp Keyboard (your binds)\" for {0}. ", string.Join(", ", merged.ToArray())));
+            text.Append(Lang.F("Made \"SC-Dashboard Keyboard (your binds)\" for {0}. ", string.Join(", ", merged.ToArray())));
             text.Append(Lang.T("Now, in Star Citizen: Options > Keybindings > Control Profiles, load it. If you change binds in the game before that, install again first. "));
             if (movedTotal > 0)
                 text.Append(Lang.T("Your binds use some of the deck's usual keys, so free ones were picked: reload the deck on the tablet after loading the profile. "));
@@ -3146,11 +3169,11 @@ class KeybindProfileWindow : HudDialog
         if (plain.Count > 0)
         {
             text.Append((text.Length > 0 ? "\n\n" : "") + Lang.F("Installed into {0}. ", string.Join(", ", plain.ToArray())));
-            text.Append(Lang.T("Now, in Star Citizen: Options > Keybindings > Control Profiles, load \"SpoolUp Keyboard\". "));
+            text.Append(Lang.T("Now, in Star Citizen: Options > Keybindings > Control Profiles, load \"SC-Dashboard Keyboard\". "));
             text.Append(Lang.T("This replaces your current custom binds, so note any you want to keep and set them again afterwards."));
         }
         if (failed.Count > 0)
-            text.Append((text.Length > 0 ? "\n\n" : "") + Lang.F("Couldn't copy into {0}. Try running SpoolUp as administrator, or copy {1} by hand.",
+            text.Append((text.Length > 0 ? "\n\n" : "") + Lang.F("Couldn't copy into {0}. Try running SC-Dashboard as administrator, or copy {1} by hand.",
                 string.Join("; ", failed.ToArray()), profile));
         ShowStatus(text.ToString(), failed.Count > 0 ? Hud.Warn : Hud.Good);
         // Refresh the states shown in the list.
@@ -3215,12 +3238,12 @@ class SettingsWindow : HudDialog
             if (name == "" || name.Length > 24 || name.IndexOfAny(new[] { '<', '>', '"' }) >= 0
                 || !System.Text.RegularExpressions.Regex.IsMatch(url, "^https://[^\\s\"<>]{3,300}$"))
             {
-                MessageBox.Show(this, Lang.F("This link isn't right:\n\n{0}\n\nWrite each one as: Name | https://address (names up to 24 characters).", line), "SpoolUp", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(this, Lang.F("This link isn't right:\n\n{0}\n\nWrite each one as: Name | https://address (names up to 24 characters).", line), "SC-Dashboard", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return null;
             }
             list.Add(new Dictionary<string, string> { { "name", name }, { "url", url } });
         }
-        if (list.Count > 12) { MessageBox.Show(this, Lang.T("Up to 12 links, please."), "SpoolUp", MessageBoxButtons.OK, MessageBoxIcon.Warning); return null; }
+        if (list.Count > 12) { MessageBox.Show(this, Lang.T("Up to 12 links, please."), "SC-Dashboard", MessageBoxButtons.OK, MessageBoxIcon.Warning); return null; }
         return new JavaScriptSerializer().Serialize(list);
     }
     readonly HudView.Item pttSound, shortEmotes, pttButton, discoveryOn;
@@ -3278,7 +3301,7 @@ class SettingsWindow : HudDialog
     // 12 between them.
     public SettingsWindow(Dictionary<string, object> current, bool portFromCommandLine, Icon icon, string keybindProfile, string publicNetwork,
         Dictionary<string, object> runningGame)
-        : base("SpoolUp settings", icon, 840, 824)
+        : base("SC-Dashboard settings", icon, 840, 824)
     {
         this.current = current;
         FormBorderStyle = FormBorderStyle.FixedDialog;
@@ -3299,7 +3322,7 @@ class SettingsWindow : HudDialog
         port.Maximum = 65535;
         port.Value = Math.Max(1024, Math.Min(65535, GetNumber("port", 8765)));
         port.Enabled = !portFromCommandLine;
-        Hint(portFromCommandLine ? "Set with --port when SpoolUp was started, so it can't be changed here."
+        Hint(portFromCommandLine ? "Set with --port when SC-Dashboard was started, so it can't be changed here."
             : "Changing it restarts the server. Tablets then need the new address or QR code.", 140, 176, 256, 54);
 
         Panel("KEYS", 16, 252, 396, 154);
@@ -3363,7 +3386,7 @@ class SettingsWindow : HudDialog
         // blocking them now. The button is the main window's banner button.
         Panel("NETWORK", 428, 478, 396, 182);
         var network = Hint(publicNetwork != ""
-            ? Lang.F("Windows treats \"{0}\" as a Public network. Set it to Private so tablets on your network can reach SpoolUp.", publicNetwork)
+            ? Lang.F("Windows treats \"{0}\" as a Public network. Set it to Private so tablets on your network can reach SC-Dashboard.", publicNetwork)
             : Lang.T("Tablets connect over your home network. Windows has to treat it as a Private network: on a Public one it blocks them."),
             444, 518, 364, 56);
         if (publicNetwork != "") network.Mark = Hud.Warn;
@@ -3379,7 +3402,7 @@ class SettingsWindow : HudDialog
         gameNote = Hint("", 32, 712, 420, 44);
         Button("Change...", 464, 712, 128, delegate { ChangeFolder(); }).Tip = "Keybinds, the keybind profile and battle alerts use this copy of the game.";
         resetFolder = Button("Reset to automatic", 604, 712, 204, delegate { ResetFolder(); });
-        serverExe = Path.Combine(Path.GetDirectoryName(Path.GetDirectoryName(keybindProfile)), "TabletDeckServer.exe");
+        serverExe = Path.Combine(Path.GetDirectoryName(Path.GetDirectoryName(keybindProfile)), "SC-DashboardServer.exe");
         object folders;
         savedFolder = current.TryGetValue("gameFolders", out folders) && folders is object[] && ((object[])folders).Length > 0
             ? Convert.ToString(((object[])folders)[0], CultureInfo.InvariantCulture).Trim() : "";
@@ -3456,7 +3479,7 @@ class SettingsWindow : HudDialog
             if (dialog.ShowDialog(this) != DialogResult.OK) return;
             if (GameFolder.ChannelsIn(dialog.SelectedPath).Count == 0)
             {
-                MessageBox.Show(this, Lang.T("That folder doesn't look like Star Citizen. Pick the StarCitizen folder, the one with LIVE in it."), "SpoolUp", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(this, Lang.T("That folder doesn't look like Star Citizen. Pick the StarCitizen folder, the one with LIVE in it."), "SC-Dashboard", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
             gameFolder = dialog.SelectedPath;
@@ -3510,14 +3533,14 @@ class SettingsWindow : HudDialog
         string newCode = code.Text.Trim().ToLowerInvariant();
         if (!System.Text.RegularExpressions.Regex.IsMatch(newCode, "^[a-z0-9]{1,32}$"))
         {
-            MessageBox.Show(this, Lang.T("The pairing code can only have letters and numbers (up to 32)."), "SpoolUp", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            MessageBox.Show(this, Lang.T("The pairing code can only have letters and numbers (up to 32)."), "SC-Dashboard", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             code.Focus();
             return;
         }
         string newLanguage = language.Text.Trim();
         if (!System.Text.RegularExpressions.Regex.IsMatch(newLanguage, "^[a-z]{2}(-[A-Za-z]{2,4})?$"))
         {
-            MessageBox.Show(this, Lang.T("The voice language should look like en-US."), "SpoolUp", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            MessageBox.Show(this, Lang.T("The voice language should look like en-US."), "SC-Dashboard", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             language.Focus();
             return;
         }

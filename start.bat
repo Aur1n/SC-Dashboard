@@ -1,5 +1,5 @@
 @echo off
-title SpoolUp
+title SC-Dashboard
 cd /d "%~dp0"
 node server.js %*
 pause

@@ -1,12 +1,12 @@
 # Agent guidelines
 
 Instructions for AI coding agents (and a quick start for human contributors)
-working on SpoolUp. Read this first, then
+working on SC-Dashboard. Read this first, then
 [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md) for the details it points to.
 
 ## What the project is
 
-SpoolUp turns a tablet or phone into a HUD-style control deck for Star
+SC-Dashboard turns a tablet or phone into a HUD-style control deck for Star
 Citizen. The deck runs in the tablet's browser; every button press travels over
 the home network to a small server on the gaming PC, which presses the real keys
 with Windows' `SendInput`. It's a fan project, not affiliated with Cloud
@@ -19,7 +19,7 @@ Imperium Games.
 | `discovery.js` | answers mDNS for `_spoolup._tcp` so the apps find the PC (name, port, version) |
 | `public/` | the deck, the layout editor (`editor.*`) and the showcase |
 | `layouts/` | built-in layouts; `hud.json` is the source, most others are generated |
-| `keybinds/` | the SpoolUp Keyboard profile (generated) |
+| `keybinds/` | the SC-Dashboard Keyboard profile (generated) |
 | `data/` | Star Citizen 4.10's actions, default keys and action-map contexts, for the profile check and the merged profile |
 | `native/` | C# sources: the app window, the key sender, the voice listener, the sound player |
 | `tools/`, `scripts/` | generators, the installer build, release notes |
@@ -76,7 +76,7 @@ Never edit these by hand; change the source and rerun the tool:
 |---|---|---|
 | `layouts/hud-phone.json` (a hidden copy of the grid layout) | `layouts/hud.json`, `tools/make-phone-layout.js` | `node tools/make-phone-layout.js` |
 | starter and ship layouts and Dashboards (`combat*.json`, `mining-salvage*.json`, `hauling-exploration*.json`, `prospector*.json`, `vulture*.json`, `dashboards.json`) | `hud.json`, `tools/make-starter-layouts.js` | `node tools/make-starter-layouts.js` (after the phone layout) |
-| `keybinds/TabletDeck-StarCitizen.xml` | every button's `scAction` and keys | `node tools/make-profile.js` |
+| `keybinds/SC-Dashboard-StarCitizen.xml` | every button's `scAction` and keys | `node tools/make-profile.js` |
 
 A new `scAction` must be added to `ACTIONMAPS` in `tools/make-profile.js`, and
 exist in that map in `data/sc-actions-4.10.json`, or the profile build stops. `layouts/hud.json` is a grid layout (2.1) and the
@@ -116,7 +116,7 @@ Mac to build at all.
 - **The version** lives in `package.json`. A release is a commit with the new
   version and its `CHANGELOG.md` section, then a `v<version>` tag; the Release
   workflow builds and publishes it. Don't tag or release without the owner.
-- **No Stream Deck downloads.** SpoolUp for Stream Deck is sold on the Elgato
+- **No Stream Deck downloads.** SC-Dashboard for Stream Deck is sold on the Elgato
   Marketplace, whose price-match rule rules out free copies, so releases and
   the website don't ship Stream Deck files. The plugin still talks to
   `server.js`: keep [docs/STREAMDECK-API.md](docs/STREAMDECK-API.md) true, and

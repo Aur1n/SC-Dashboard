@@ -1,11 +1,11 @@
-// The operator-mode dial (SpoolUp 2.1). The modes sit on the maker's own shape (a ring, a
+// The operator-mode dial (SC-Dashboard 2.1). The modes sit on the maker's own shape (a ring, a
 // hex nut, a V, a crescent...), set per theme in makers.css as --dial-shape, and the dial
 // keeps that shape's proportions inside its cell, centered, so it's never squished. The
 // hub in the middle is its own button (SCM/NAV).
 //
 // Tapping a mode presses it as any button does. Dragging on the face aims at a mode and
 // letting go is one tap of that mode (D.tapStep). The needle, or the lit spoke on the
-// polygon shapes, shows the mode last picked on this deck, since SpoolUp can't see the
+// polygon shapes, shows the mode last picked on this deck, since SC-Dashboard can't see the
 // game's.
 //
 // DeckDial.layout() is pure (no DOM), so tools can check the geometry under Node.

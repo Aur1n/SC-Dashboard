@@ -1,6 +1,6 @@
 {
-  "name": "SpoolUp HUD",
-  "notes": "Grid layout (SpoolUp 2.1): every panel is laid out on a grid of cells that follows the screen. Half panels are authored on 6 columns, dashboards on 12; spans are [columns, rows]. Keys follow Star Citizen 4.x defaults plus the SpoolUp Keyboard profile (keybinds/TabletDeck-StarCitizen.xml); buttons marked verify: true use keys worth checking in your keybinding screen.",
+  "name": "SC-Dashboard HUD",
+  "notes": "Grid layout (SC-Dashboard 2.1): every panel is laid out on a grid of cells that follows the screen. Half panels are authored on 6 columns, dashboards on 12; spans are [columns, rows]. Keys follow Star Citizen 4.x defaults plus the SC-Dashboard Keyboard profile (keybinds/SC-Dashboard-StarCitizen.xml); buttons marked verify: true use keys worth checking in your keybinding screen.",
   "grid": {
     "version": 3,
     "density": {

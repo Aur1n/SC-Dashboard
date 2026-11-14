@@ -5,7 +5,7 @@
 //
 // mDNS packets go to 224.0.0.251 on the PC's network adapters (the server leaves out VPN
 // and virtual ones). Questions from addresses outside those networks get no answer. The
-// records carry the PC's name and SpoolUp's version; an app that finds the PC then pairs
+// records carry the PC's name and SC-Dashboard's version; an app that finds the PC then pairs
 // with the code (typed, or from the QR code) like any browser.
 //
 //   const advertiser = discovery.create({ port, version, name, adapters, log });
@@ -185,9 +185,9 @@ function listAdapters(accept) {
 function create(options) {
   const port = options.port;
   const log = options.log || (() => {});
-  const instance = [label(options.name, "SpoolUp PC"), ...SERVICE];
+  const instance = [label(options.name, "SC-Dashboard PC"), ...SERVICE];
   const host = [hostLabel(options.host || os.hostname()), "local"];
-  const txt = txtData([`v=${options.version || ""}`, `name=${label(options.name, "SpoolUp PC")}`]);
+  const txt = txtData([`v=${options.version || ""}`, `name=${label(options.name, "SC-Dashboard PC")}`]);
 
   let socket = null;
   let adapters = [];
