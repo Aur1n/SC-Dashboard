@@ -5,6 +5,13 @@ section becomes the notes of its
 [GitHub release](https://github.com/xattribution/SpoolUp/releases), so add one
 before tagging a release.
 
+## 2.2.1-hu.5 (2026-11-14)
+
+- **Nincs több SpoolUp-utalás a felületen.** Az appablak Hálózat részén a
+  kapcsoló neve „Mobilappok megtalálhatják ezt a PC-t" (eddig „A SpoolUp app
+  ..."), a tablet Deck beállításaiban a Stream Deck kapcsoló leírása pedig
+  semleges. Mindkét funkció ugyanúgy működik, mint eddig, mind az öt nyelven.
+
 ## 2.2.1-hu.4 (2026-11-14)
 
 - **A deck fájljai nem maradnak a böngésző gyorsítótárában.** A szerver minden

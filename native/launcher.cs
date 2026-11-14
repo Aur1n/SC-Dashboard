@@ -378,8 +378,8 @@ static class Lang
         { "LINKS", new[] { "ENLACES", "LIENS", "LINKS" } },
         { "NETWORK", new[] { "RED", "RÉSEAU", "NETZWERK" } },
         { "Tablets connect over your home network. Windows has to treat it as a Private network: on a Public one it blocks them.", new[] { "Las tablets se conectan por tu red doméstica. Windows tiene que tratarla como red privada: en una pública las bloquea.", "Les tablettes se connectent par votre réseau domestique. Windows doit le traiter comme un réseau privé : sur un réseau public, il les bloque.", "Tablets verbinden sich über dein Heimnetzwerk. Windows muss es als privates Netzwerk behandeln: In einem öffentlichen blockiert es sie." } },
-        { "Let the SpoolUp app find this PC", new[] { "Permitir que la app SpoolUp encuentre este PC", "Laisser l'app SpoolUp trouver ce PC", "Die SpoolUp-App diesen PC finden lassen" } },
-        { "Answers the SpoolUp app with this PC's name and address, so it shows up in the app's list.", new[] { "Responde a la app SpoolUp con el nombre y la dirección de este PC, para que aparezca en su lista.", "Répond à l'app SpoolUp avec le nom et l'adresse de ce PC, pour qu'il apparaisse dans sa liste.", "Antwortet der SpoolUp-App mit Name und Adresse dieses PCs, damit er in ihrer Liste erscheint." } },
+        { "Let mobile apps find this PC", new[] { "Permitir que las apps móviles encuentren este PC", "Laisser les apps mobiles trouver ce PC", "Mobile Apps diesen PC finden lassen" } },
+        { "Answers mobile apps on the network with this PC's name and address, so it shows up in their list of PCs.", new[] { "Responde a las apps móviles de la red con el nombre y la dirección de este PC, para que aparezca en su lista.", "Répond aux apps mobiles du réseau avec le nom et l'adresse de ce PC, pour qu'il apparaisse dans leur liste.", "Antwortet mobilen Apps im Netzwerk mit Name und Adresse dieses PCs, damit er in ihrer Liste erscheint." } },
         { "Websites the tablet can open on this PC", new[] { "Webs que la tablet puede abrir en este PC", "Sites que la tablette peut ouvrir", "Websites für das Tablet" } },
         { "One per line: Name | https://address. The tablet shows the names, and this PC opens the addresses.", new[] { "Una por línea: Nombre | https://dirección. La tablet muestra los nombres y este PC abre las direcciones.", "Un par ligne : Nom | https://adresse. La tablette affiche les noms et ce PC ouvre les adresses.", "Eine pro Zeile: Name | https://adresse. Das Tablet zeigt die Namen, dieser PC öffnet die Adressen." } },
         { "STAR CITIZEN", new[] { "STAR CITIZEN", "STAR CITIZEN", "STAR CITIZEN" } },
@@ -596,8 +596,8 @@ static class Lang
         { "Off: keys go to whichever window is in front.", "Ki: a billentyűk az éppen elöl lévő ablakba mennek." },
         { "NETWORK", "HÁLÓZAT" },
         { "Tablets connect over your home network. Windows has to treat it as a Private network: on a Public one it blocks them.", "A tabletek az otthoni hálózaton csatlakoznak. A Windowsnak magánhálózatként kell kezelnie: nyilvános hálózaton letiltja őket." },
-        { "Let the SpoolUp app find this PC", "A SpoolUp app megtalálhatja ezt a PC-t" },
-        { "Answers the SpoolUp app with this PC's name and address, so it shows up in the app's list.", "Válaszol a SpoolUp appnak a PC nevével és címével, így megjelenik az app listájában." },
+        { "Let mobile apps find this PC", "Mobilappok megtalálhatják ezt a PC-t" },
+        { "Answers mobile apps on the network with this PC's name and address, so it shows up in their list of PCs.", "Válaszol a hálózaton lévő mobilappoknak a PC nevével és címével, így megjelenik a listájukban." },
         { "One per line: Name | https://address. The tablet shows the names, and this PC opens the addresses.", "Soronként egy: Név | https://cím. A tablet a neveket mutatja, a PC pedig a címeket nyitja meg." },
         { "Change...", "Módosítás..." },
         { "Reset to automatic", "Vissza automatikusra" },
@@ -3393,8 +3393,8 @@ class SettingsWindow : HudDialog
         var networkButton = Button("Open network settings", 444, 580, 232, delegate { DeckWindow.OpenNetworkSettings(publicNetwork); });
         networkButton.Tip = "Pick your network there and set its network profile to Private";
         // The SpoolUp apps list this PC by itself (mDNS, see discovery.js); off, they need its address.
-        discoveryOn = Switch("Let the SpoolUp app find this PC", GetBool("discovery", true), 444, 624, 364);
-        discoveryOn.Tip = "Answers the SpoolUp app with this PC's name and address, so it shows up in the app's list.";
+        discoveryOn = Switch("Let mobile apps find this PC", GetBool("discovery", true), 444, 624, 364);
+        discoveryOn.Tip = "Answers mobile apps on the network with this PC's name and address, so it shows up in their list of PCs.";
 
         // The Star Citizen folder: found automatically like the server does, or picked here.
         // Keybinds, the keybind profile and Game.log all come from it.
