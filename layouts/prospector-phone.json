@@ -3652,7 +3652,7 @@
           "scAction": "v_mfd_soft_select_mfd_1_short",
           "then": [
             {
-              "keys": "rctrl+f1",
+              "keys": "rctrl+3",
               "scAction": "v_mfd_select_view_resource_network_short"
             }
           ],
@@ -3674,7 +3674,7 @@
           "scAction": "v_mfd_soft_select_mfd_1_short",
           "then": [
             {
-              "keys": "rctrl+f2",
+              "keys": "rctrl+4",
               "scAction": "v_mfd_select_view_self_status_short"
             }
           ],
@@ -3696,7 +3696,7 @@
           "scAction": "v_mfd_soft_select_mfd_1_short",
           "then": [
             {
-              "keys": "rctrl+f3",
+              "keys": "rctrl+5",
               "scAction": "v_mfd_select_view_target_status_short"
             }
           ],
@@ -3723,7 +3723,7 @@
           "scAction": "v_mfd_soft_select_mfd_2_short",
           "then": [
             {
-              "keys": "rctrl+f1",
+              "keys": "rctrl+3",
               "scAction": "v_mfd_select_view_resource_network_short"
             }
           ],
@@ -3745,7 +3745,7 @@
           "scAction": "v_mfd_soft_select_mfd_2_short",
           "then": [
             {
-              "keys": "rctrl+f2",
+              "keys": "rctrl+4",
               "scAction": "v_mfd_select_view_self_status_short"
             }
           ],
@@ -3767,7 +3767,7 @@
           "scAction": "v_mfd_soft_select_mfd_2_short",
           "then": [
             {
-              "keys": "rctrl+f3",
+              "keys": "rctrl+5",
               "scAction": "v_mfd_select_view_target_status_short"
             }
           ],

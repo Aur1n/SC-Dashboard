@@ -304,13 +304,13 @@
  </actionmap>
  <actionmap name="vehicle_mfd">
   <action name="v_mfd_select_view_resource_network_short">
-   <rebind input="kb1_rctrl+f1"/>
+   <rebind input="kb1_rctrl+3"/>
   </action>
   <action name="v_mfd_select_view_self_status_short">
-   <rebind input="kb1_rctrl+f2"/>
+   <rebind input="kb1_rctrl+4"/>
   </action>
   <action name="v_mfd_select_view_target_status_short">
-   <rebind input="kb1_rctrl+f3"/>
+   <rebind input="kb1_rctrl+5"/>
   </action>
   <action name="v_mfd_soft_select_mfd_1_short">
    <rebind input="kb1_rctrl+1"/>

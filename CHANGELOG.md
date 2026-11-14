@@ -5,6 +5,14 @@ section becomes the notes of its
 [GitHub release](https://github.com/xattribution/SpoolUp/releases), so add one
 before tagging a release.
 
+## 2.2.1-hu.9 (2026-11-14)
+
+- **Az MFD-oldalak billentyűi jobb Ctrl+3/4/5 lettek** (eddig jobb Ctrl+F1/F2/F3).
+  Az élő próbán a jobb Ctrl+F2 és F3 a játék helyett az NVIDIA átfedés
+  „Játékszűrők" ablakát nyitotta meg. **A profilt újra kell telepíteni és
+  betölteni.**
+- Az appablak nagy fejléce SC-DASHBOARD (eddig még SPOOLUP volt).
+
 ## 2.2.1-hu.8 (2026-11-14)
 
 - **MFD-oldalak a tabletről (próbaverzió).** Új „MFD" panel a bal fél első
