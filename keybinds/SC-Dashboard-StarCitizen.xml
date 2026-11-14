@@ -219,6 +219,9 @@
   </action>
  </actionmap>
  <actionmap name="spaceship_movement">
+  <action name="v_ifcs_proximity_assist_toggle">
+   <rebind input="kb1_rctrl+z"/>
+  </action>
   <action name="v_ifcs_speed_limiter_decrement">
    <rebind input="kb1_lalt+pgdn"/>
   </action>

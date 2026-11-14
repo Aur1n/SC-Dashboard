@@ -556,6 +556,8 @@
     "Down": ["Abajo", "Bas", "Runter"],
     "Prev tab": ["Pestaña ant.", "Onglet préc.", "Tab zurück"],
     "Next tab": ["Pestaña sig.", "Onglet suiv.", "Tab vor"],
+    "Repair": ["Reparar", "Réparer", "Reparieren"],
+    "Select": ["Elegir", "Choisir", "Wählen"],
   };
 
   // Magyar, T's fourth column, kept apart so upstream changes to T merge without conflicts.
@@ -1003,6 +1005,8 @@
     "Down": "Le",
     "Prev tab": "Előző fül",
     "Next tab": "Köv. fül",
+    "Repair": "Javítás",
+    "Select": "Kiválaszt",
   };
   for (const key in HU) if (T[key]) T[key][COLUMN.hu] = HU[key];
 

@@ -5,6 +5,20 @@ section becomes the notes of its
 [GitHub release](https://github.com/xattribution/SpoolUp/releases), so add one
 before tagging a release.
 
+## 2.2.1-hu.12 (2026-11-14)
+
+- **Az MFD-panel úgy néz ki, mint a játékban.** A kapcsolósor azon az oldalon
+  van, ahol a pilótafülkében: a bal MFD-nél jobbra PWR, WPN, THR, SHLD, CPLD,
+  ESP, LOCK; a jobb MFD-nél balra QTM, PROX, MISL, VTOL, GEAR, GSAF. Középen a
+  nyolc oldal, mellettük a Javítás és a Kiválasztás, alattuk a négyirányú
+  lépkedés, a két alsó sarokban a « és » lapozó, mint a játék MFD-jén.
+- A COOL, RADR és HIT kapcsolóhoz a játék nem ad billentyűt (csak egérrel
+  kattintható a képernyőn), ezért ezek nincsenek a tableten.
+- A PROX (közelségi segéd) új kötést kapott (jobb Ctrl+Z), **a profilt újra
+  kell betölteni**. A LOCK a játék gyári jobb Shift billentyűjét nyomja.
+- A kapcsolósor most a tesztelt hajót követi; más hajóknál a sor oldala és
+  tartalma eltérhet, ezt a későbbi hajóválasztó kezeli majd.
+
 ## 2.2.1-hu.11 (2026-11-14)
 
 - **A Bal MFD és a Jobb MFD elrendezés teljes lett.** A bal fél első lapja az

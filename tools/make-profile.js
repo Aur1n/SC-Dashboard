@@ -200,6 +200,9 @@ const ACTIONMAPS = {
   v_mfd_movement_right_short: ["vehicle_mfd"],
   v_mfd_interact_cycle_forwards_short: ["vehicle_mfd"],
   v_mfd_interact_cycle_backwards_short: ["vehicle_mfd"],
+  // MFD switch columns (layouts/mfd-*.json).
+  v_lock_rotation: ["spaceship_movement"],
+  v_ifcs_proximity_assist_toggle: ["spaceship_movement"],
 };
 
 // Buttons that send Star Citizen 4.10's own default keys (Data/Libs/Config/defaultProfile.xml).
@@ -290,6 +293,7 @@ const DEFAULTS = {
   v_weapon_reset_max_missiles: "lalt+g",
   v_mfd_interact_cycle_forwards_short: "lalt+e",
   v_mfd_interact_cycle_backwards_short: "lalt+q",
+  v_lock_rotation: "rshift",
 };
 
 // Maps that are active together (data/sc-contexts.json, shared with the merged profile in
