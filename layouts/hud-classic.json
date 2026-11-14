@@ -669,11 +669,23 @@
           "style": "tile",
           "icon": "power",
           "id": "qt-pwr",
+          "state": {
+            "group": "power",
+            "with": {
+              "on": {
+                "weapons-power": true,
+                "shield-power": true,
+                "thruster-power": true
+              },
+              "off": {
+                "weapons-power": false,
+                "shield-power": false,
+                "thruster-power": false
+              }
+            }
+          },
           "anim": "ripple",
           "label": "PWR",
-          "state": {
-            "group": "power"
-          },
           "voice": [
             "power",
             "power on",
@@ -774,11 +786,25 @@
           "type": "button",
           "style": "hero",
           "id": "qt-flight-ready",
+          "state": {
+            "group": "flight-ready",
+            "with": {
+              "on": {
+                "power": true,
+                "weapons-power": true,
+                "shield-power": true,
+                "thruster-power": true
+              },
+              "off": {
+                "power": false,
+                "weapons-power": false,
+                "shield-power": false,
+                "thruster-power": false
+              }
+            }
+          },
           "anim": "ripple",
           "label": "Toggle Flight Ready",
-          "state": {
-            "group": "flight-ready"
-          },
           "voice": [
             "flight ready",
             "ready for flight"
@@ -802,6 +828,21 @@
           "h": 250,
           "hub": {
             "id": "qt-scm-nav",
+            "state": {
+              "group": "nav-mode",
+              "on": "NAV",
+              "off": "SCM",
+              "with": {
+                "on": {
+                  "weapons-power": false,
+                  "shield-power": false
+                },
+                "off": {
+                  "weapons-power": true,
+                  "shield-power": true
+                }
+              }
+            },
             "anim": "streak",
             "label": "SCM/NAV",
             "voice": [
@@ -978,6 +1019,16 @@
           "buttons": [
             {
               "id": "fa-scm",
+              "state": {
+                "group": "nav-mode",
+                "set": false,
+                "with": {
+                  "off": {
+                    "weapons-power": true,
+                    "shield-power": true
+                  }
+                }
+              },
               "icon": "speed",
               "label": "Master: SCM",
               "voice": [
@@ -991,6 +1042,17 @@
             },
             {
               "id": "fa-nav",
+              "state": {
+                "group": "nav-mode",
+                "set": true,
+                "on": "NAV",
+                "with": {
+                  "on": {
+                    "weapons-power": false,
+                    "shield-power": false
+                  }
+                }
+              },
               "anim": "streak",
               "icon": "quantum-mode",
               "label": "Master: NAV",
