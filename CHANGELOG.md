@@ -5,6 +5,13 @@ section becomes the notes of its
 [GitHub release](https://github.com/xattribution/SpoolUp/releases), so add one
 before tagging a release.
 
+## 2.2.1-hu.19 (2026-11-18)
+
+- **Scanning:** a Scan angle gombok neve Focus + / Focus − lett, ahogy a
+  játékban: a Focus + szűkíti a szkennelési kúpot (90° → 45° → 22°), a
+  Focus − tágítja. Kicsit hosszabban nyomnak (200 ms), mert a rövid
+  koppintást a játék néha elszalasztotta. Élő próbán minden nyomás átment.
+
 ## 2.2.1-hu.18 (2026-11-14)
 
 - **Shields oldal:** a kapcsolóoszlop kikerült, a pajzsvezérlő nagyobb. A

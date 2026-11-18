@@ -2994,12 +2994,13 @@
           "type": "button",
           "id": "left-mfd-9-4",
           "icon": "chev-up",
-          "label": "SCAN ANGLE +",
+          "label": "FOCUS +",
           "voice": false,
           "keys": "rctrl+equals",
           "scAction": "v_inc_scan_focus_level",
-          "mode": "tap",
+          "mode": "timed",
           "labels": "show",
+          "ms": 200,
           "span": [
             2,
             1
@@ -3009,12 +3010,13 @@
           "type": "button",
           "id": "left-mfd-9-5",
           "icon": "chev-down",
-          "label": "SCAN ANGLE −",
+          "label": "FOCUS −",
           "voice": false,
           "keys": "rctrl+semicolon",
           "scAction": "v_dec_scan_focus_level",
-          "mode": "tap",
+          "mode": "timed",
           "labels": "show",
+          "ms": 200,
           "span": [
             2,
             1

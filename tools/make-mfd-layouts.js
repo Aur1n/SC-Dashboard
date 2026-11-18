@@ -54,8 +54,10 @@ const OWN = {
   v_toggle_scan_mode: ["Scan mode", "target", "v", { color: "amber", state: { group: "scan-mode" } }],
   // The game takes the scan only while held (activation mode "hold").
   v_scanning_trigger_scan: ["Scan", "target", "rctrl+np_divide", { color: "amber", mode: "hold" }],
-  v_inc_scan_focus_level: ["Scan angle +", "chev-up", "rctrl+equals", {}],
-  v_dec_scan_focus_level: ["Scan angle −", "chev-down", "rctrl+semicolon", {}],
+  // Focus + narrows the scan cone (90° → 45° ...), as the game's "Focus +/-". A 60 ms tap was
+  // missed now and then in a live test, so these press a little longer.
+  v_inc_scan_focus_level: ["Focus +", "chev-up", "rctrl+equals", { mode: "timed", ms: 200 }],
+  v_dec_scan_focus_level: ["Focus −", "chev-down", "rctrl+semicolon", { mode: "timed", ms: 200 }],
   v_ifcs_proximity_assist_toggle: ["Proximity assist", "target", "rctrl+z", { state: { group: "proximity-assist" } }],
 };
 
