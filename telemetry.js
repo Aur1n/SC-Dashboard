@@ -19,6 +19,9 @@ const http2 = require("http2");
 const PATH = "/sc.game.telemetry.v1.GameTelemetryService/TelemetryStream";
 const AGAIN_MS = 5000;   // try again this long after the stream can't be reached or ends
 const STALE_MS = 2000;   // no frame for this long: the deck goes back to its own guesses
+// is_landed flickers off for a moment while a ship settles on a pad (a live test, also on a
+// moving carrier), so "landed" ends only once it has been off this long.
+const LANDED_HOLD_MS = 3000;
 
 // ---------- protobuf ----------
 
@@ -91,6 +94,7 @@ function readFrame(buf) {
   const flight = msg(v, 8);  // VehicleFlight
   const state = flight && msg(flight, 1);
   if (state) {
+    groups.landed = bool(state, 1);             // is_landed
     if (state[2]) groups.gear = DEPLOYED.has(num(state, 2));
     if (state[3]) groups.vtol = DEPLOYED.has(num(state, 3));
   }
@@ -139,7 +143,7 @@ function shipName(v) {
 // after the stream stops, but no longer live).
 function create({ ports = [2942, 50051], onUpdate = () => {}, log = () => {} } = {}) {
   let session = null, timer = null, staleTimer = null, stopped = true;
-  let portIndex = 0, reported = "";
+  let portIndex = 0, reported = "", landedAt = 0;
   let st = { live: false, vehicle: false, ship: "", groups: {} };
 
   const set = (next) => {
@@ -197,6 +201,8 @@ function create({ ports = [2942, 50051], onUpdate = () => {}, log = () => {} } =
           clearTimeout(staleTimer);
           staleTimer = setTimeout(() => set({ ...st, live: false }), STALE_MS);
           staleTimer.unref();
+          if (frame && frame.groups.landed) landedAt = Date.now();
+          else if (frame && frame.groups.landed === false && Date.now() - landedAt < LANDED_HOLD_MS) frame.groups.landed = true;
           if (frame) set({ live: true, vehicle: frame.vehicle, ship: frame.ship, groups: frame.vehicle ? frame.groups : st.groups });
           else if (!st.live) set({ ...st, live: true });
         }

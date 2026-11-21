@@ -911,7 +911,7 @@
     window.DeckSound.play("press", btn.color);
     send({ t: "tap", id: btn.id });
     deckCanvas?.pressed?.(btn.id); // controls following it update (a cluster's Reset)
-    if (DEMO && btn.state && typeof btn.state.group === "string") demoState(btn);
+    if (DEMO && btn.state && typeof btn.state.group === "string" && btn.state.display !== "label") demoState(btn);
     return true;
   }
   // A state group's lit state as buttons show it: off with Button lights off.
@@ -950,7 +950,9 @@
     if (btn.state && typeof btn.state.group === "string") {
       el.dataset.stateGroup = btn.state.group;
       el._showState = fx.show;
-      fx.show(lightsOn() && Boolean(states[btn.state.group]), false);
+      // A state shown only in the label isn't a light, so Button lights off doesn't hide it.
+      if (btn.state.display === "label") el._rawState = true;
+      fx.show((el._rawState || lightsOn()) && Boolean(states[btn.state.group]), false);
     }
     let pointer = null;
     let waiting = null; // a press held back in case the touch turns into a swipe

@@ -245,7 +245,10 @@ function rightPanels(side) {
       el("pl-group", 0, 2, 6, 3),
       el("qt-quantum", 0, 5, 4, 2),
       { type: "button", id: `${side}-fl-qt-mode`, icon: "quantum-mode", label: "Quantum Mode", keys: OWN.v_toggle_quantum_mode[2], scAction: "v_toggle_quantum_mode", mode: "tap", state: { group: "quantum-mode" }, at: [4, 5], span: [2, 1] },
-      { type: "button", id: `${side}-fl-atc`, icon: atc.icon || "comms", label: "Request Landing", keys: atc.keys, scAction: atc.scAction, mode: "tap", at: [4, 6], span: [2, 1] },
+      // The game's one ATC request asks for landing in flight and for takeoff on a pad; with
+      // the game's telemetry the label follows (the "landed" group), without it it stays as is.
+      { type: "button", id: `${side}-fl-atc`, icon: atc.icon || "comms", label: "Request Landing", keys: atc.keys, scAction: atc.scAction, mode: "tap",
+        state: { group: "landed", display: "label", label: { on: "Request Takeoff", off: "Request Landing" } }, at: [4, 6], span: [2, 1] },
       el("fa-range", 0, 7, 4, 1), el("fa-exit", 4, 7, 2, 1),
     ]],
     ["combat", "Combat", [

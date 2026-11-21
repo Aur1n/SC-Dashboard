@@ -26,6 +26,14 @@
   // words). Buttons that only switch off ("set": false) never stay lit.
   function showPlain(t, on, def) {
     const s = def.state;
+    // "display": "label": the state picks the button's label (s.label.on / .off) and never
+    // lights it, e.g. Request Takeoff while landed, Request Landing in flight.
+    if (s.display === "label") {
+      const lbl = t.querySelector(".hud-lbl");
+      const text = s.label && (on ? s.label.on : s.label.off);
+      if (lbl && text) lbl.textContent = window.DeckI18n ? window.DeckI18n.t(text) : text;
+      return;
+    }
     if (s.set === false) return;
     t.classList.toggle("fx-on", on);
     setState(t, on ? s.on || "ON" : s.set === true ? "" : s.off || "OFF");

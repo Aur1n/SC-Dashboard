@@ -478,7 +478,8 @@ reads it when it's on, and then the lights show what the game says rather
 than what SC-Dashboard pressed: power, weapons, thrusters, shields, life
 support, coolers, gear, VTOL, flight assists, lights, doors and NAV / Quantum mode, even
 when you switch them with the mouse or a joystick. The status line on the deck
-shows the ship you sit in. The stream is unofficial and read only: SC-Dashboard
+shows the ship you sit in, and the MFD tablets' ATC button reads **Request
+Takeoff** while you're landed and **Request Landing** in flight. The stream is unofficial and read only: SC-Dashboard
 sends the game nothing through it, and when it's off or a patch changes it,
 the deck works as before.
 

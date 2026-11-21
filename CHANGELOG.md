@@ -7,6 +7,10 @@ before tagging a release.
 
 ## Következő kiadás
 
+- **Felszállás kérése / Leszállás kérése:** az MFD-tabletek Repülés paneljén
+  az ATC-gomb felirata a játék telemetriája szerint vált: leszállva „Felszállás
+  kérése”, repülés közben „Leszállás kérése” (a játékban ugyanaz az egy
+  parancs, bal Alt+N). Telemetria nélkül marad a mostani felirat.
 - **Telemetria bekapcsolása parancssor nélkül:** a telepítőben új, alapból
   üres jelölőnégyzet kapcsolja be a játék telemetriáját, az SC-Dashboard
   ablakában pedig a Settings → Star Citizen alatt a **Game telemetry**

@@ -110,7 +110,7 @@ node server.js --dry-run --port 8790 --game-log sample-Game.log
 file). It never sends the game anything. While frames arrive from a vehicle,
 the groups a frame tells (power, weapons, thrusters, shields, life support,
 coolers, gear, VTOL, decoupled, ESP, G-safety, speed limiter, proximity assist,
-lights, light amplification, doors, door lock, NAV and Quantum mode) are set from it with
+lights, light amplification, doors, door lock, NAV and Quantum mode, and `landed`, which stays on for 3 s after the game's is_landed flickers off) are set from it with
 `setGroup()`, and presses leave those groups alone; anything else, and
 everything once the stream stops for 2 s, works from presses as before. Paired
 tablets get `{ t: "telemetry", live, ship }` (not Stream Decks), and the deck
@@ -361,7 +361,7 @@ Button fields:
 | `scAction` | Star Citizen action name; if a keybind file in `actionmaps` binds it, that key wins (modifiers are pressed first, whatever order the file writes them in); if the player cleared it there, the button presses nothing and shows a BIND badge |
 | `then` | more taps after the button's own keys, one after another: `[{ "keys": "rctrl+f1", "scAction": "v_mfd_select_view_resource_network_short" }]` (an MFD select, then its page). Each step follows the player's keybinds like `keys`, and binds its `scAction` in the profile |
 | `whenOn` | `{ "keys": "u", "scAction": "v_power_toggle" }`: pressed instead of `keys` while the button's `state` group is on (Flight Ready, once lit, powers the ship down) |
-| `state` | makes the button light up while something is on: `{ "group": "doors" }` flips the group on each press, `"set": true` / `false` turns it on or off (Open/Close Doors), `"on"` / `"off"` replace the words shown while lit or not (default `ON` / `OFF`), and `"with": { "on": { "shield-power": true }, "off": {...} }` sets other groups once this one turns on or off (PWR takes weapons and shields with it). Buttons in the same group share the state; the server keeps it (see "Lit buttons" in the README) |
+| `state` | makes the button light up while something is on: `{ "group": "doors" }` flips the group on each press, `"set": true` / `false` turns it on or off (Open/Close Doors), `"on"` / `"off"` replace the words shown while lit or not (default `ON` / `OFF`), and `"with": { "on": { "shield-power": true }, "off": {...} }` sets other groups once this one turns on or off (PWR takes weapons and shields with it). `"display": "label"` with `"label": { "on": "Request Takeoff", "off": "Request Landing" }` shows the group only as the button's label: it never lights, and presses don't change the group (the game's telemetry sets it, here `landed`). Buttons in the same group share the state; the server keeps it (see "Lit buttons" in the README) |
 
 A panel's `pager`: `{ "prev": {button}, "next": {button} }` makes its half's bottom arrows page the game with the deck: the half moves on, and the game follows with the next panel's `enter` button when it has one (a direct page select) or else `prev` / `next` (« »). Two-finger swipes page the deck alone.
 

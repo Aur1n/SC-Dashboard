@@ -922,6 +922,9 @@ function setGroup(group, on) {
 function applyState(btn) {
   const s = btn.state;
   if (!s || typeof s.group !== "string") return;
+  // A state the button only shows in its label (Request Landing / Takeoff): the game tells
+  // it, a press doesn't change it.
+  if (s.display === "label") return;
   const on = typeof s.set === "boolean" ? s.set : !buttonStates.get(s.group);
   if (!telemetry.owns(s.group)) setGroup(s.group, on);
   const linked = s.with && s.with[on ? "on" : "off"];

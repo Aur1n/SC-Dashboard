@@ -2618,6 +2618,14 @@
           "keys": "lalt+n",
           "scAction": "v_atc_request",
           "mode": "tap",
+          "state": {
+            "group": "landed",
+            "display": "label",
+            "label": {
+              "on": "Request Takeoff",
+              "off": "Request Landing"
+            }
+          },
           "at": [
             4,
             6
