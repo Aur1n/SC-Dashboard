@@ -5,7 +5,7 @@ section becomes the notes of its
 [GitHub release](https://github.com/xattribution/SpoolUp/releases), so add one
 before tagging a release.
 
-## Következő kiadás
+## 2.2.1-hu.21 (2026-11-21)
 
 - **Felszállás kérése / Leszállás kérése:** az MFD-tabletek Repülés paneljén
   az ATC-gomb felirata a játék telemetriája szerint vált: leszállva „Felszállás
