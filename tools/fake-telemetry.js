@@ -41,8 +41,9 @@ function frame(n) {
   const settings = message([[1, avail(!on(6))], [2, avail(true)], [4, avail(on(7))], [7, avail(false)], [8, avail(on(3, 0.5))], [19, on(8)]]);
   const flight = message([[1, state], [2, settings]]);
   const doors = message([[1, on(5) ? 1 : 2], [2, on(10) ? 2 : 1]]);
-  const master = message([[1, on(6, 0.5) ? 1 : 2]]);
-  const vehicle = message([[1, SHIP], [2, "ANVL_Arrow"], [3, "Anvil Aerospace"], [4, 1], [5, on(2, 0.5)], [6, doors], [8, flight], [9, power], [12, master]]);
+  // 4.10 sends no master mode; its QDRV annunciator is NOMINAL (1) in NAV / Quantum mode, else OFF (2).
+  const annunciators = message([[1, 1], [6, on(6, 0.5) ? 1 : 2]]);
+  const vehicle = message([[1, `${SHIP.replace(/ /g, "_")}_942761479621`], [2, SHIP.replace(/ /g, "_")], [4, 1], [5, on(2, 0.5)], [6, doors], [7, annunciators], [8, flight], [9, power]]);
   return message([[3, message([[2, vehicle]])]]);
 }
 

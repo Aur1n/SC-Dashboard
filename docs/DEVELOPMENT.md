@@ -110,7 +110,7 @@ node server.js --dry-run --port 8790 --game-log sample-Game.log
 file). It never sends the game anything. While frames arrive from a vehicle,
 the groups a frame tells (power, weapons, thrusters, shields, life support,
 coolers, gear, VTOL, decoupled, ESP, G-safety, speed limiter, proximity assist,
-lights, light amplification, doors, door lock, NAV) are set from it with
+lights, light amplification, doors, door lock, NAV and Quantum mode) are set from it with
 `setGroup()`, and presses leave those groups alone; anything else, and
 everything once the stream stops for 2 s, works from presses as before. Paired
 tablets get `{ t: "telemetry", live, ship }` (not Stream Decks), and the deck

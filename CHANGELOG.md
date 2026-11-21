@@ -24,8 +24,11 @@ before tagging a release.
   telemetriája be van kapcsolva (`setx GRPC_CLIENT_SERVER_ENABLED true`, utána
   a launcher és a játék újraindítása), a szerver olvassa, és a lámpák azt
   mutatják, amit a játék mond: energia, fegyver, hajtómű, pajzs, életfenntartás,
-  hűtés, futómű, VTOL, repülési segédek, fények, ajtók, NAV mód. Akkor is, ha
-  egérrel vagy joystickkal kapcsolsz. A felső sáv kiírja a hajó nevét. Csak
+  hűtés, futómű, VTOL, repülési segédek, fények, ajtók, NAV és Quantum mód.
+  Akkor is, ha egérrel vagy joystickkal kapcsolsz. A felső sáv kiírja a hajó
+  nevét (pl. ANVL Asgard). A LIVE 4.10-en élőben kipróbálva. A Flight Ready
+  lámpa továbbra is a gombnyomás szerint működik, mert arról a játék nem küld
+  adatot. Csak
   olvas, a játéknak semmit nem küld. Ha nincs bekapcsolva, minden úgy működik,
   mint eddig.
 

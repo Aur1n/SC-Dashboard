@@ -66,6 +66,7 @@ const active = (f, no) => { const a = msg(f, no); return a ? bool(a, 2) : false;
 const DEPLOYED = new Set([2, 3]); // VehicleComponentDeploymentState DEPLOYING, DEPLOYED
 const NAVIGATION = 1;             // VehicleMasterMode
 const OPENED = 1, LOCKED = 2;     // VehicleDoorState
+const ANNUNCIATOR_OFF = 2;        // AnnunciatorState (0 unspecified, 1 nominal, 3-6 minor/major)
 
 // One TelemetryStreamResponse: { vehicle, ship, groups } with the deck's state groups (layouts' "state":
 // { "group" }) the frame can tell, or null when it carries no vehicle frame (weapons, actor and
@@ -109,12 +110,24 @@ function readFrame(buf) {
     if (doors[1]) groups.doors = num(doors, 1) === OPENED;
     if (doors[2]) groups["door-lock"] = num(doors, 2) === LOCKED;
   }
+  // NAV and Quantum mode: 4.10 sends no master mode (field 12), but in a live test its QDRV
+  // annunciator went from OFF to NOMINAL each time the ship went to NAV / Quantum mode (and
+  // shields went down with it), and back on SCM. A master mode, where a version sends one, wins.
+  const ann = msg(v, 7);     // VehicleAnnunciator
+  if (ann && num(ann, 6)) groups["nav-mode"] = groups["quantum-mode"] = num(ann, 6) !== ANNUNCIATOR_OFF;
   const master = msg(v, 12); // VehicleMasterModeState
-  if (master && master[1]) groups["nav-mode"] = num(master, 1) === NAVIGATION;
-  // Quantum mode and Flight Ready have no field of their own; until a live test shows which
-  // annunciator or mode tells them, the deck keeps guessing those from its presses.
-  const name = str(v, 1) || [str(v, 3), str(v, 2)].filter(Boolean).join(" ");
-  return { vehicle: true, ship: name || "Ship", groups };
+  if (master && master[1]) groups["nav-mode"] = groups["quantum-mode"] = num(master, 1) === NAVIGATION;
+  // Flight Ready has no field of its own (nothing in the frame changed with it in a live
+  // test), so the deck keeps guessing that one from its presses.
+  return { vehicle: true, ship: shipName(v), groups };
+}
+
+// 4.10 sends the entity as the name ("ANVL_Asgard_942761479621") and the class
+// ("ANVL_Asgard") without a manufacturer, so the deck shows the class made readable
+// ("ANVL Asgard"), else the name without its entity number.
+function shipName(v) {
+  const readable = (s) => s.replace(/_\d{6,}$/, "").replace(/_/g, " ").trim();
+  return readable(str(v, 2)) || readable(str(v, 1)) || "Ship";
 }
 
 // ---------- the stream ----------
