@@ -5,7 +5,7 @@ section becomes the notes of its
 [GitHub release](https://github.com/xattribution/SpoolUp/releases), so add one
 before tagging a release.
 
-## Következő kiadás
+## 2.2.1-hu.20 (2026-11-21)
 
 - **Kapcsolódási hangok kikapcsolhatók:** a Deck beállítások → Hangok alatt
   új kapcsoló némítja a csatlakozáskor szóló csilingelést és a kapcsolat
