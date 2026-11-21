@@ -16,6 +16,7 @@ const { spawn, spawnSync, execFile, execFileSync } = require("child_process");
 const qr = require("./qr");
 const gameLog = require("./gamelog");
 const discovery = require("./discovery");
+const gameTelemetry = require("./telemetry");
 
 // node:sea is missing before Node 20; that's never the installed app.
 const sea = (() => { try { return require("node:sea"); } catch { return null; } })();
@@ -911,6 +912,8 @@ function report(btn, kind, extra = {}) {
 // this is only what SC-Dashboard pressed: it starts all off, and tablets can reset it.
 // "with": { "on": { group: true|false }, "off": {...} } sets other groups too, once this
 // one turned on or off (power off takes weapons, shields and thrusters down with it).
+// While the game's telemetry is read (telemetry.js), the groups it tells follow the game
+// instead, and presses leave them alone.
 const buttonStates = new Map(); // group -> true while on
 function setGroup(group, on) {
   if (on) buttonStates.set(group, true); else buttonStates.delete(group);
@@ -920,10 +923,10 @@ function applyState(btn) {
   const s = btn.state;
   if (!s || typeof s.group !== "string") return;
   const on = typeof s.set === "boolean" ? s.set : !buttonStates.get(s.group);
-  setGroup(s.group, on);
+  if (!telemetry.owns(s.group)) setGroup(s.group, on);
   const linked = s.with && s.with[on ? "on" : "off"];
   if (linked && typeof linked === "object") {
-    for (const [group, value] of Object.entries(linked)) if (typeof value === "boolean") setGroup(group, value);
+    for (const [group, value] of Object.entries(linked)) if (typeof value === "boolean" && !telemetry.owns(group)) setGroup(group, value);
   }
 }
 
@@ -1571,6 +1574,7 @@ server.on("upgrade", (req, socket) => {
   tablets.add(client);
   client.send({ t: "hello", version: VERSION, voice: Boolean(config.voice), voiceStatus: tabletVoice, states: Object.fromEntries(buttonStates), soundStatus: soundState, tapMs: config.tapMs, game: gameInUse() });
   sendBattle(client);
+  sendTelemetry(client);
 
   const held = new Map(); // button id -> { sc } currently pressed by this tablet
   // Its button sounds playing on the PC: its id -> { id: the player's id, ends }, and when
@@ -1687,6 +1691,7 @@ server.on("upgrade", (req, socket) => {
     if (msg.t === "reset-states") {
       buttonStates.clear();
       for (const c of tablets) c.send({ t: "states", states: {} });
+      followTelemetry(telemetry.status()); // what the game tells stays
       return;
     }
     const btn = buttons.get(msg.id);
@@ -1771,6 +1776,38 @@ function sendBattle(client) {
   if (client.device !== "streamdeck" && config.gameLog !== false) client.send({ t: "battle", event: "sync", state: battle.state() });
 }
 if (config.gameLog !== false) battle.start();
+
+// ---------- ship state from the game's telemetry ----------
+
+// telemetry.js reads the game's local telemetry stream, when the player turned it on in
+// Windows (GRPC_CLIENT_SERVER_ENABLED=true): the lights then show the game's power, flight
+// assists, gear, doors and lights, and the decks show the ship's name. Without it, or when the
+// game isn't running, nothing changes. "telemetry": false in config.json turns it off,
+// "telemetryPorts" picks the ports; --telemetry-port <n> reads that port instead (a test
+// stream from tools/fake-telemetry.js next to a dry run).
+const telemetryPortArg = process.argv.indexOf("--telemetry-port");
+const telemetry = gameTelemetry.create({
+  ports: telemetryPortArg > -1 ? [Number(process.argv[telemetryPortArg + 1]) || 2942]
+    : Array.isArray(config.telemetryPorts) && config.telemetryPorts.length ? config.telemetryPorts : [2942, 50051],
+  onUpdate: followTelemetry,
+  log: (text) => console.log(text),
+});
+let telemetryShown = "";
+function followTelemetry(st) {
+  if (st.live && st.vehicle) for (const [group, on] of Object.entries(st.groups)) if (Boolean(buttonStates.get(group)) !== on) setGroup(group, on);
+  const shown = JSON.stringify({ live: st.live, ship: st.vehicle ? st.ship : "" });
+  if (shown === telemetryShown) return;
+  telemetryShown = shown;
+  if (DRY_RUN) console.log(`Telemetry: ${st.live ? (st.vehicle ? st.ship : "live, no vehicle") : "not live"}`);
+  for (const c of tablets) sendTelemetry(c);
+}
+// Stream Decks don't get it (it isn't in docs/STREAMDECK-API.md); their lights follow the states.
+function sendTelemetry(client) {
+  if (client.device === "streamdeck" || config.telemetry === false) return;
+  const st = telemetry.status();
+  client.send({ t: "telemetry", live: st.live, ship: st.live && st.vehicle ? st.ship : "" });
+}
+if (config.telemetry !== false) telemetry.start();
 
 // ---------- start ----------
 

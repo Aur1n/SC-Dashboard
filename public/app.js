@@ -674,9 +674,13 @@
     if (!on && window.DeckBattle) window.DeckBattle.offline(); // battle alerts may be out of date
     refreshStatus();
   }
+  // While the PC reads the game's telemetry it adds the ship you sit in ("Connected · 8 ms ·
+  // Anvil Arrow"), or "Telemetry" when you aren't in one, so you can see the lights are the game's.
+  let telemetry = { live: false, ship: "" };
   function refreshStatus() {
     const shown = online.on && rtt !== null;
-    const text = tr(online.text) + (shown ? ` · ${Math.max(1, Math.round(rtt))} ms` : "");
+    const tlm = online.on && telemetry.live ? ` · ${telemetry.ship || tr("Telemetry")}` : "";
+    const text = tr(online.text) + (shown ? ` · ${Math.max(1, Math.round(rtt))} ms` : "") + tlm;
     document.body.classList.toggle("offline", !online.on);
     for (const d of document.querySelectorAll("#dot, .js-dot")) {
       d.classList.toggle("on", online.on);
@@ -775,6 +779,7 @@
       else if (msg.t === "opened") toast(tr(msg.dryRun ? "{0}: test mode, not opened" : "Opened {0} on the PC", msg.name));
       // Battle alerts from Star Citizen's Game.log (battle.js); they press nothing.
       else if (msg.t === "battle") { if (window.DeckBattle) window.DeckBattle.update(msg); }
+      else if (msg.t === "telemetry") { telemetry = { live: Boolean(msg.live), ship: String(msg.ship || "") }; refreshStatus(); }
     };
   }
 

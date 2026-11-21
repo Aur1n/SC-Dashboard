@@ -8,7 +8,7 @@
 // 2. Makes the app icon from public/icon-512.png.
 // 3. Compiles the app window (native/launcher.cs -> SC-Dashboard.exe), the key sender, the
 //    voice listener and the sound player, with version info.
-// 4. Packs server.js, qr.js, gamelog.js, discovery.js, public/, layouts/, keybinds/ and data/ into SC-DashboardServer.exe, a
+// 4. Packs server.js, qr.js, gamelog.js, discovery.js, telemetry.js, public/, layouts/, keybinds/ and data/ into SC-DashboardServer.exe, a
 //    Node single executable application made from the node.exe running this script, and
 //    writes THIRD-PARTY-NOTICES.txt with that Node.js's license.
 // 5. Signs the .exe files, if SIGN_CMD is set (see below).
@@ -160,6 +160,12 @@ async function buildApp() {
   const discoverySource = fs.readFileSync(path.join(ROOT, "discovery.js"), "utf8");
   bundle = bundle.replace(discoveryRequire, () =>
     `const discovery = (() => { const module = { exports: {} };\n${discoverySource}\nreturn module.exports; })();`);
+  // telemetry.js (the game's local telemetry stream) the same way.
+  const telemetryRequire = 'const gameTelemetry = require("./telemetry");';
+  if (!bundle.includes(telemetryRequire)) throw new Error(`server.js no longer contains ${telemetryRequire}; update scripts/build.js.`);
+  const telemetrySource = fs.readFileSync(path.join(ROOT, "telemetry.js"), "utf8");
+  bundle = bundle.replace(telemetryRequire, () =>
+    `const gameTelemetry = (() => { const module = { exports: {} };\n${telemetrySource}\nreturn module.exports; })();`);
   fs.writeFileSync(path.join(BUILD, "bundle.js"), bundle);
 
   // Files server.js reads with readBundled(), under their repo paths.

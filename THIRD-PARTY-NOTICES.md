@@ -36,6 +36,15 @@ labels and default keys, as the game's own `defaultProfile.xml` and
 `global.ini` give them; they belong to Cloud Imperium Games. SC-Dashboard uses them
 only to check and place its own keybinds, and never shows them to players.
 
+### Star Citizen telemetry schema
+
+`telemetry.js` reads Star Citizen's local telemetry stream by the field numbers
+of the protocol description in
+[zolij/sc-telemetry-gateway](https://github.com/zolij/sc-telemetry-gateway)
+(`proto/sc/game/telemetry/v1/api.proto` and `types.proto`), licensed under the
+[Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0). The `.proto`
+files themselves aren't included. The stream belongs to Cloud Imperium Games.
+
 ## Used, but not shipped
 
 - **Theme fonts:** Black Ops One, Chakra Petch, Cinzel, Comfortaa, Exo 2,

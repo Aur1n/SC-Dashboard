@@ -16,6 +16,7 @@ Imperium Games.
 |---|---|
 | `server.js` | the server: serves the deck, pairs tablets, sends keys, runs voice, the layout editor's API |
 | `gamelog.js` | follows the game's `Game.log` for the deck's battle alerts |
+| `telemetry.js` | reads the game's local telemetry stream (read only) for the deck's lights and the ship's name |
 | `discovery.js` | answers mDNS for `_spoolup._tcp` so the apps find the PC (name, port, version) |
 | `public/` | the deck, the layout editor (`editor.*`) and the showcase |
 | `layouts/` | built-in layouts; `hud.json` is the source, most others are generated |

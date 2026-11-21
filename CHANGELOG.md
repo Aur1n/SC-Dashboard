@@ -20,6 +20,14 @@ before tagging a release.
 - **A jobb fél 13 helyett 6 panel:** Repülés, Harc, Hajó, Ipar,
   Gyalog/Kommunikáció és Gesztusok. A Shields és a Power csak a bal félen van.
   A sima HUD és a többi elrendezés nem változott.
+- **A játék valódi állapota a lámpákon (telemetria):** ha a Star Citizen helyi
+  telemetriája be van kapcsolva (`setx GRPC_CLIENT_SERVER_ENABLED true`, utána
+  a launcher és a játék újraindítása), a szerver olvassa, és a lámpák azt
+  mutatják, amit a játék mond: energia, fegyver, hajtómű, pajzs, életfenntartás,
+  hűtés, futómű, VTOL, repülési segédek, fények, ajtók, NAV mód. Akkor is, ha
+  egérrel vagy joystickkal kapcsolsz. A felső sáv kiírja a hajó nevét. Csak
+  olvas, a játéknak semmit nem küld. Ha nincs bekapcsolva, minden úgy működik,
+  mint eddig.
 
 ## 2.2.1-hu.19 (2026-11-18)
 

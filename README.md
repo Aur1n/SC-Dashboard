@@ -471,6 +471,29 @@ Star Citizen folder as your keybinds (see [Star Citizen folder](#star-citizen-fo
 Turn it off with **Battle alerts** in Deck
 settings (on each device) or with `"gameLog": false` in `config.json`.
 
+### The game's own state (telemetry)
+
+Star Citizen can stream its ship state to programs on the same PC. SC-Dashboard
+reads it when it's on, and then the lights show what the game says rather
+than what SC-Dashboard pressed: power, weapons, thrusters, shields, life
+support, coolers, gear, VTOL, flight assists, lights, doors and NAV mode, even
+when you switch them with the mouse or a joystick. The status line on the deck
+shows the ship you sit in. The stream is unofficial and read only: SC-Dashboard
+sends the game nothing through it, and when it's off or a patch changes it,
+the deck works as before.
+
+To turn it on, run this once in PowerShell, then quit the RSI Launcher and the
+game completely and start them again:
+
+```
+setx GRPC_CLIENT_SERVER_ENABLED true
+```
+
+Once your character is in the world, Game.log has a line with
+`<GameTelemetry> Local services server is running`. `setx
+GRPC_CLIENT_SERVER_ENABLED false` turns it off again. `"telemetry": false` in
+`config.json` stops SC-Dashboard reading it.
+
 ### Lit buttons
 
 Buttons that switch something on stay lit until you switch it off: **Open
@@ -482,6 +505,8 @@ voice commands count too, and a press the focus check skips changes nothing.
 The lights follow what SC-Dashboard pressed. If you use the keyboard, the game changes something by itself, or you
 respawn, they can be wrong: **Reset button lights** under **Display** in Deck
 settings turns them all off. They also start off whenever SC-Dashboard starts.
+With the game's telemetry on (see [The game's own state](#the-games-own-state-telemetry)),
+the lights it covers follow the game instead and can't drift.
 
 ### Open websites on the PC
 
@@ -688,6 +713,8 @@ Uninstalling keeps them unless you choose to delete them.
 | `actionmaps` | keybind files to read, in order (later files win); `"auto"` is your `actionmaps.xml`, from the running game's channel, else LIVE | `["keybinds/SC-Dashboard-StarCitizen.xml", "auto"]` |
 | `gameFolders` | the Star Citizen folder to use instead of finding it automatically: a `StarCitizen` folder, the folder holding it, or one channel's folder (`D:\Games\StarCitizen\PTU`); set with Settings → Star Citizen → **Change...** | `[]` (automatic) |
 | `gameLog` | `false` stops reading Star Citizen's Game.log for battle alerts | on |
+| `telemetry` | `false` stops reading Star Citizen's local telemetry stream (see [The game's own state](#the-games-own-state-telemetry)) | on |
+| `telemetryPorts` | the ports to look for that stream on | `[2942, 50051]` |
 | `discovery` | answers the SpoolUp apps on your local network so they can list this PC (mDNS, `_spoolup._tcp`, UDP 5353), with its name, port and version; `false` turns it off (Settings → Network → Let the SpoolUp app find this PC) | on |
 | `tapMs` | how long a tap holds the key, in milliseconds (20 to 200: Star Citizen takes a longer press for a hold) | `60` |
 | `onlyWhenGameFocused` | only press keys while Star Citizen is in front; `false` sends them to whatever window is in front | `true` |

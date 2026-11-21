@@ -49,6 +49,7 @@ Options (they work with `start.bat`, `node server.js` and the installed
 | `--find-game` | print the Star Citizen folder as JSON and exit (see [The Star Citizen folder](#the-star-citizen-folder)) |
 | `--merge-profile <out.xml> [actionmaps.xml]` | write the merged keybind profile and exit (see [Your binds kept](#your-binds-kept)) |
 | `--game-log <file>` | follow that file for battle alerts instead of the game's `Game.log` (see [Battle alerts](#battle-alerts)) |
+| `--telemetry-port <n>` | read the telemetry stream on that port instead of the game's (see [Game telemetry](#game-telemetry)) |
 
 ## Test without the game
 
@@ -99,6 +100,29 @@ line formats are in `gamelog.js`); the dry run logs each event:
 node server.js --dry-run --port 8790 --game-log sample-Game.log
 ```
 
+### Game telemetry
+
+`telemetry.js` reads the gRPC stream Star Citizen serves on 127.0.0.1 once
+`GRPC_CLIENT_SERVER_ENABLED=true` is set in Windows (port 2942, else 50051;
+`telemetryPorts` in `config.json`), calling
+`sc.game.telemetry.v1.GameTelemetryService/TelemetryStream` over Node's own
+`http2` and decoding only the fields it needs (the schema's source is in the
+file). It never sends the game anything. While frames arrive from a vehicle,
+the groups a frame tells (power, weapons, thrusters, shields, life support,
+coolers, gear, VTOL, decoupled, ESP, G-safety, speed limiter, proximity assist,
+lights, light amplification, doors, door lock, NAV) are set from it with
+`setGroup()`, and presses leave those groups alone; anything else, and
+everything once the stream stops for 2 s, works from presses as before. Paired
+tablets get `{ t: "telemetry", live, ship }` (not Stream Decks), and the deck
+adds the ship's name to its status line. `"telemetry": false` turns it off.
+
+To try it without the game, run the stand-in stream and point a dry run at it:
+
+```
+node tools/fake-telemetry.js --port 2943
+node server.js --dry-run --port 8790 --telemetry-port 2943
+```
+
 ### The apps' discovery
 
 `discovery.js` answers DNS-SD over multicast DNS (224.0.0.251, UDP 5353) for
@@ -126,6 +150,7 @@ layout from `layouts/`, and presses only play their animations. The website's
 | `server.js` | the server: serves the deck, pairs tablets, sends keys, runs voice, the layout editor's API |
 | `qr.js` | QR code generator for the console and the app window |
 | `gamelog.js` | follows Star Citizen's `Game.log` for battle alerts |
+| `telemetry.js` | reads Star Citizen's local telemetry stream for the lights and the ship's name |
 | `discovery.js` | the mDNS answers the SpoolUp apps find the PC by |
 | `public/` | the deck (`index.html`, `app.js`, `canvas.js`, `grid.js`, the widgets in `dial.js`, `clusters.js`, `emotes.js` and `battle.js`, `i18n.js`, themes, icons, animations, `sound.js`), the layout editor (`editor.*`) and the showcase |
 | `layouts/` | built-in layouts; `hud.json` is the source, `hud-phone.json` and the starter layouts are generated, `hud-classic*.json` keep the 2.0 HUD as it was |
@@ -517,7 +542,7 @@ and Node.js 20 or newer. `scripts/build.js`:
 2. makes the icon from `public/icon-512.png`;
 3. compiles the app window (`native/launcher.cs` → `SC-Dashboard.exe`), the key
    sender, the voice listener and the sound player, with version info;
-4. packs `server.js`, `qr.js`, `gamelog.js`, `discovery.js`, `public/`, `layouts/`, `keybinds/` and `data/` into
+4. packs `server.js`, `qr.js`, `gamelog.js`, `discovery.js`, `telemetry.js`, `public/`, `layouts/`, `keybinds/` and `data/` into
    `SC-DashboardServer.exe` with Node's
    [single executable application](https://nodejs.org/api/single-executable-applications.html)
    feature, and writes `THIRD-PARTY-NOTICES.txt` with that Node.js's license (see
