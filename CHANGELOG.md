@@ -5,7 +5,7 @@ section becomes the notes of its
 [GitHub release](https://github.com/xattribution/SpoolUp/releases), so add one
 before tagging a release.
 
-## Következő kiadás
+## 2.2.1-hu.22 (2026-11-21)
 
 - **Tűzfal: a tabletek nem zárulnak ki.** Ha a Windows rákérdezett, hogy
   engedje-e a szervert egy nyilvános hálózaton (VPN, WSL vagy Hyper-V
