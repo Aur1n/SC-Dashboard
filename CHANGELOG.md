@@ -5,6 +5,14 @@ section becomes the notes of its
 [GitHub release](https://github.com/xattribution/SpoolUp/releases), so add one
 before tagging a release.
 
+## Következő kiadás
+
+- **Telemetria bekapcsolása parancssor nélkül:** a telepítőben új, alapból
+  üres jelölőnégyzet kapcsolja be a játék telemetriáját, az SC-Dashboard
+  ablakában pedig a Settings → Star Citizen alatt a **Game telemetry**
+  kapcsolóval később is ki- és bekapcsolható. Mellette egy sor mutatja, él-e
+  (és melyik hajót olvassa), vagy újra kell indítani az RSI Launchert.
+
 ## 2.2.1-hu.20 (2026-11-21)
 
 - **Kapcsolódási hangok kikapcsolhatók:** a Deck beállítások → Hangok alatt

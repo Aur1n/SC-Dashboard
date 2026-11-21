@@ -482,16 +482,20 @@ shows the ship you sit in. The stream is unofficial and read only: SC-Dashboard
 sends the game nothing through it, and when it's off or a patch changes it,
 the deck works as before.
 
-To turn it on, run this once in PowerShell, then quit the RSI Launcher and the
-game completely and start them again:
+To turn it on, tick **Turn on the game's telemetry** in the installer, or switch
+on **Game telemetry** under **Settings → Star Citizen** in the SC-Dashboard window,
+or run this once in PowerShell. Then quit the RSI Launcher and the game
+completely and start them again:
 
 ```
 setx GRPC_CLIENT_SERVER_ENABLED true
 ```
 
 Once your character is in the world, Game.log has a line with
-`<GameTelemetry> Local services server is running`. `setx
-GRPC_CLIENT_SERVER_ENABLED false` turns it off again. `"telemetry": false` in
+`<GameTelemetry> Local services server is running`, and the setting's line in
+the window says it's live with your ship's name. Switching it off there (or
+`setx GRPC_CLIENT_SERVER_ENABLED false`) turns it off again from the game's
+next start. `"telemetry": false` in
 `config.json` stops SC-Dashboard reading it.
 
 ### Lit buttons

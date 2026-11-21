@@ -62,6 +62,8 @@ WelcomeLabel2=This will install [name/ver] on your computer.%n%nSC-Dashboard tur
 [Tasks]
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 Name: "scprofile"; Description: "Install the Star Citizen keybind profile (SC-Dashboard Keyboard)"; GroupDescription: "Star Citizen:"
+; Off unless chosen: the game's local telemetry is unofficial. The app's Settings turn it on or off later.
+Name: "telemetry"; Description: "Turn on the game's telemetry, so the lights show what the game says (read only; restart the RSI Launcher afterwards)"; GroupDescription: "Star Citizen:"; Flags: unchecked
 
 [Files]
 Source: "{#BuildDir}\app\{#AppExe}"; DestDir: "{app}"; Flags: ignoreversion
@@ -96,6 +98,10 @@ Filename: "{sys}\netsh.exe"; Parameters: "advfirewall firewall delete rule name=
 Filename: "{sys}\netsh.exe"; Parameters: "advfirewall firewall delete rule name=""{#FirewallRule}"""; Flags: runhidden
 Filename: "{sys}\netsh.exe"; Parameters: "advfirewall firewall add rule name=""{#FirewallRule}"" dir=in action=allow program=""{app}\{#ServerExe}"" enable=yes profile=private"; Flags: runhidden; StatusMsg: "Allowing SC-Dashboard through Windows Firewall on private networks..."
 Filename: "{app}\{#AppExe}"; Description: "{cm:LaunchProgram,{#AppName}}"; Flags: postinstall nowait skipifsilent runasoriginaluser
+; Star Citizen serves its local telemetry (telemetry.js) only with this variable set for the
+; player, so it's set as the user who started the setup, not the elevated one. It stays on
+; uninstall; the app's Settings remove it.
+Filename: "{sys}\setx.exe"; Parameters: "GRPC_CLIENT_SERVER_ENABLED true"; Flags: runhidden runasoriginaluser; Tasks: telemetry; StatusMsg: "Turning on the game's telemetry..."
 ; An update started from the app's Update now button runs quietly with /RELAUNCH=1: start it again.
 Filename: "{app}\{#AppExe}"; Flags: nowait runasoriginaluser; Check: UpdatingFromApp
 

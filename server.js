@@ -1798,6 +1798,7 @@ function followTelemetry(st) {
   const shown = JSON.stringify({ live: st.live, ship: st.vehicle ? st.ship : "" });
   if (shown === telemetryShown) return;
   telemetryShown = shown;
+  ui({ t: "telemetry", live: st.live, ship: st.live && st.vehicle ? st.ship : "" }); // the app window's settings
   if (DRY_RUN) console.log(`Telemetry: ${st.live ? (st.vehicle ? st.ship : "live, no vehicle") : "not live"}`);
   for (const c of tablets) sendTelemetry(c);
 }

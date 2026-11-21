@@ -393,6 +393,15 @@ static class Lang
         { "Picked {0}. Click Save to use it.", new[] { "Elegiste {0}. Pulsa Guardar para usarla.", "Dossier choisi : {0}. Cliquez sur Enregistrer pour l'utiliser.", "{0} gewählt. Klicke auf Speichern, um ihn zu nutzen." } },
         { "Back to automatic. Click Save to use it.", new[] { "De vuelta a automático. Pulsa Guardar para usarlo.", "Retour en automatique. Cliquez sur Enregistrer pour l'appliquer.", "Wieder automatisch. Klicke auf Speichern, um es zu nutzen." } },
         { "Keybinds, the keybind profile and battle alerts use this copy of the game.", new[] { "Las teclas, el perfil de teclas y las alertas de combate usan esta copia del juego.", "Les touches, le profil de touches et les alertes de combat utilisent cette copie du jeu.", "Tastenbelegung, Tastenprofil und Kampfmeldungen nutzen diese Kopie des Spiels." } },
+        { "Game telemetry (read only)", new[] { "Telemetría del juego (solo lectura)", "Télémétrie du jeu (lecture seule)", "Spieltelemetrie (nur lesen)" } },
+        { "Reads Star Citizen's own telemetry on this PC, so the tablet's lights show what the game says. Unofficial and read only: SC-Dashboard sends the game nothing through it.", new[] { "Lee la telemetría propia de Star Citizen en este PC, para que las luces de la tablet muestren lo que dice el juego. No oficial y de solo lectura: SC-Dashboard no le envía nada al juego por ahí.", "Lit la télémétrie de Star Citizen sur ce PC, pour que les voyants de la tablette montrent ce que dit le jeu. Non officiel et en lecture seule : SC-Dashboard n'envoie rien au jeu par ce biais.", "Liest die eigene Telemetrie von Star Citizen auf diesem PC, damit die Lichter des Tablets zeigen, was das Spiel sagt. Inoffiziell und nur lesend: SC-Dashboard schickt dem Spiel darüber nichts." } },
+        { "Off. Turn it on, then restart the RSI Launcher and the game.", new[] { "Desactivada. Actívala y reinicia el RSI Launcher y el juego.", "Désactivée. Activez-la, puis redémarrez le RSI Launcher et le jeu.", "Aus. Schalte sie ein und starte dann den RSI Launcher und das Spiel neu." } },
+        { "On. If the lights don't follow the game yet, quit the RSI Launcher and the game and start them again.", new[] { "Activada. Si las luces aún no siguen al juego, cierra el RSI Launcher y el juego y vuelve a abrirlos.", "Activée. Si les voyants ne suivent pas encore le jeu, quittez le RSI Launcher et le jeu, puis relancez-les.", "An. Wenn die Lichter dem Spiel noch nicht folgen, beende den RSI Launcher und das Spiel und starte sie neu." } },
+        { "Live: reading {0}.", new[] { "Activa: leyendo {0}.", "Active : lecture de {0}.", "Aktiv: liest {0}." } },
+        { "Live: reading the game (not in a ship).", new[] { "Activa: leyendo el juego (sin nave).", "Active : lecture du jeu (hors vaisseau).", "Aktiv: liest das Spiel (in keinem Schiff)." } },
+        { "Click Save, then quit the RSI Launcher and the game completely and start them again.", new[] { "Pulsa Guardar y luego cierra del todo el RSI Launcher y el juego y vuelve a abrirlos.", "Cliquez sur Enregistrer, puis quittez complètement le RSI Launcher et le jeu et relancez-les.", "Klicke auf Speichern, beende dann den RSI Launcher und das Spiel ganz und starte sie neu." } },
+        { "Click Save. The game stops sharing its state from its next start.", new[] { "Pulsa Guardar. El juego deja de compartir su estado desde su próximo inicio.", "Cliquez sur Enregistrer. Le jeu cessera de partager son état à son prochain démarrage.", "Klicke auf Speichern. Das Spiel teilt seinen Zustand ab dem nächsten Start nicht mehr." } },
+        { "Couldn't change the Windows setting for the game's telemetry:\n\n{0}", new[] { "No se pudo cambiar el ajuste de Windows para la telemetría del juego:\n\n{0}", "Impossible de modifier le réglage Windows de la télémétrie du jeu :\n\n{0}", "Die Windows-Einstellung für die Spieltelemetrie ließ sich nicht ändern:\n\n{0}" } },
         { "Install keybind profile...", new[] { "Instalar perfil de teclas...", "Installer le profil de touches...", "Tastenprofil installieren..." } },
         { "Language", new[] { "Idioma", "Langue", "Sprache" } },
         { "Automatic", new[] { "Automático", "Automatique", "Automatisch" } },
@@ -609,6 +618,15 @@ static class Lang
         { "Picked {0}. Click Save to use it.", "Kiválasztva: {0}. A használatához kattints a Mentés gombra." },
         { "Back to automatic. Click Save to use it.", "Vissza automatikusra. A használatához kattints a Mentés gombra." },
         { "Keybinds, the keybind profile and battle alerts use this copy of the game.", "A billentyűkiosztás, a kiosztási profil és a harci riasztások a játék ezen példányát használják." },
+        { "Game telemetry (read only)", "Játéktelemetria (csak olvasás)" },
+        { "Reads Star Citizen's own telemetry on this PC, so the tablet's lights show what the game says. Unofficial and read only: SC-Dashboard sends the game nothing through it.", "A Star Citizen saját telemetriáját olvassa ezen a PC-n, így a tablet lámpái azt mutatják, amit a játék mond. Nem hivatalos, és csak olvas: az SC-Dashboard ezen át semmit nem küld a játéknak." },
+        { "Off. Turn it on, then restart the RSI Launcher and the game.", "Ki. Kapcsold be, utána indítsd újra az RSI Launchert és a játékot." },
+        { "On. If the lights don't follow the game yet, quit the RSI Launcher and the game and start them again.", "Be. Ha a lámpák még nem követik a játékot, lépj ki az RSI Launcherből és a játékból, és indítsd újra őket." },
+        { "Live: reading {0}.", "Él: {0} olvasása." },
+        { "Live: reading the game (not in a ship).", "Él: a játékot olvassa (nem ülsz hajóban)." },
+        { "Click Save, then quit the RSI Launcher and the game completely and start them again.", "Kattints a Mentés gombra, utána lépj ki teljesen az RSI Launcherből és a játékból, és indítsd újra őket." },
+        { "Click Save. The game stops sharing its state from its next start.", "Kattints a Mentés gombra. A játék a következő indításától nem osztja meg az állapotát." },
+        { "Couldn't change the Windows setting for the game's telemetry:\n\n{0}", "Nem sikerült módosítani a játék telemetriájának Windows-beállítását:\n\n{0}" },
     };
 }
 
@@ -1575,6 +1593,8 @@ class DeckWindow : Form
     string editorUrl = ""; // the layout editor on this PC, set when the server is ready
     bool serverReady; // the server has said "ready" and takes settings on stdin
     Dictionary<string, object> readyGame; // the copy of the game in use, from "ready" (gameInUse in server.js)
+    bool telemetryLive;        // the server reads the game's telemetry ("telemetry" events, telemetry.js)
+    string telemetryShip = ""; // the ship it reads, "" when not in one
     readonly RichTextBox log = new RichTextBox();
     readonly NotifyIcon tray = new NotifyIcon();
     readonly System.Windows.Forms.Timer copiedTimer = new System.Windows.Forms.Timer();
@@ -2187,6 +2207,10 @@ class DeckWindow : Form
             case "voiceConfidence":
                 ShowStrictness(Num(ev, "value"));
                 break;
+            case "telemetry":
+                telemetryLive = Bool(ev, "live");
+                telemetryShip = Str(ev, "ship");
+                break;
             case "voice-commands":
                 voiceCommands.Clear();
                 foreach (var pair in List(ev, "commands"))
@@ -2653,7 +2677,8 @@ class DeckWindow : Form
         catch (Exception) { }
         bool running = serverReady && server != null && !server.HasExited;
         using (var dialog = new SettingsWindow(current ?? new Dictionary<string, object>(), serverArgs.Contains("--port"), Icon,
-            Path.Combine(appDir, "keybinds", "SC-Dashboard-StarCitizen.xml"), publicNetwork, running ? readyGame : null))
+            Path.Combine(appDir, "keybinds", "SC-Dashboard-StarCitizen.xml"), publicNetwork, running ? readyGame : null,
+            running && telemetryLive, telemetryShip))
         {
             var result = dialog.ShowDialog(this);
             if (result == DialogResult.OK && dialog.LanguageChanged) ApplyLanguage();
@@ -3246,7 +3271,12 @@ class SettingsWindow : HudDialog
         if (list.Count > 12) { MessageBox.Show(this, Lang.T("Up to 12 links, please."), "SC-Dashboard", MessageBoxButtons.OK, MessageBoxIcon.Warning); return null; }
         return new JavaScriptSerializer().Serialize(list);
     }
-    readonly HudView.Item pttSound, shortEmotes, pttButton, discoveryOn;
+    readonly HudView.Item pttSound, shortEmotes, pttButton, discoveryOn, telemetryOn;
+    Note telemetryNote;
+    bool telemetryWas;
+    // Star Citizen 4.x serves its local telemetry stream (telemetry.js reads it) only when this
+    // Windows variable is "true" for the user when the RSI Launcher starts.
+    const string TelemetryVariable = "GRPC_CLIENT_SERVER_ENABLED";
     int pttKey;          // Windows virtual-key code, 0 = none
     string pttName = "";
     bool capturing;      // waiting for the player to press the push-to-talk key
@@ -3300,8 +3330,8 @@ class SettingsWindow : HudDialog
     // network on the right, and the buttons along the bottom. 16 pixels inside each panel,
     // 12 between them.
     public SettingsWindow(Dictionary<string, object> current, bool portFromCommandLine, Icon icon, string keybindProfile, string publicNetwork,
-        Dictionary<string, object> runningGame)
-        : base("SC-Dashboard settings", icon, 840, 824)
+        Dictionary<string, object> runningGame, bool telemetryLive, string telemetryShip)
+        : base("SC-Dashboard settings", icon, 840, 896)
     {
         this.current = current;
         FormBorderStyle = FormBorderStyle.FixedDialog;
@@ -3398,7 +3428,7 @@ class SettingsWindow : HudDialog
 
         // The Star Citizen folder: found automatically like the server does, or picked here.
         // Keybinds, the keybind profile and Game.log all come from it.
-        Panel("STAR CITIZEN", 16, 672, 808, 96);
+        Panel("STAR CITIZEN", 16, 672, 808, 168);
         gameNote = Hint("", 32, 712, 420, 44);
         Button("Change...", 464, 712, 128, delegate { ChangeFolder(); }).Tip = "Keybinds, the keybind profile and battle alerts use this copy of the game.";
         resetFolder = Button("Reset to automatic", 604, 712, 204, delegate { ResetFolder(); });
@@ -3408,6 +3438,26 @@ class SettingsWindow : HudDialog
             ? Convert.ToString(((object[])folders)[0], CultureInfo.InvariantCulture).Trim() : "";
         gameFolder = savedFolder;
         resetFolder.Enabled = gameFolder != "";
+        // The game's telemetry: a Windows variable for this user, not a server setting, so it's
+        // set here when saving; the line beside it says whether the server reads the game now.
+        telemetryWas = TelemetryIsOn();
+        telemetryOn = Switch("Game telemetry (read only)", telemetryWas, 32, 772, 420);
+        telemetryOn.Tip = "Reads Star Citizen's own telemetry on this PC, so the tablet's lights show what the game says. Unofficial and read only: SC-Dashboard sends the game nothing through it.";
+        telemetryNote = Hint("", 464, 764, 344, 64);
+        string liveText = telemetryLive ? (telemetryShip != "" ? Lang.F("Live: reading {0}.", telemetryShip) : Lang.T("Live: reading the game (not in a ship).")) : null;
+        MethodInvoker showTelemetry = delegate
+        {
+            telemetryNote.Mark = Color.Empty;
+            telemetryNote.Color = Hud.Dim;
+            if (telemetryOn.On != telemetryWas)
+                telemetryNote.Text = Lang.T(telemetryOn.On ? "Click Save, then quit the RSI Launcher and the game completely and start them again." : "Click Save. The game stops sharing its state from its next start.");
+            else if (!telemetryOn.On) telemetryNote.Text = Lang.T("Off. Turn it on, then restart the RSI Launcher and the game.");
+            else if (liveText != null) { telemetryNote.Text = liveText; telemetryNote.Color = Hud.Good; }
+            else telemetryNote.Text = Lang.T("On. If the lights don't follow the game yet, quit the RSI Launcher and the game and start them again.");
+            Redraw();
+        };
+        telemetryOn.Click = showTelemetry;
+        showTelemetry();
         if (runningGame != null) ShowGame(runningGame);
         else
         {
@@ -3415,13 +3465,13 @@ class SettingsWindow : HudDialog
             Load += delegate { LookForGame(); }; // once the window has a handle to report back to
         }
 
-        Button("Install keybind profile...", 16, 776, 236, delegate
+        Button("Install keybind profile...", 16, 848, 236, delegate
         {
             using (var dialog = new KeybindProfileWindow(keybindProfile, Icon)) dialog.ShowDialog(this);
         });
         // The window's own language; the tablet picks its language in Deck settings.
-        Caption("Language", 268, 785);
-        Field(windowLanguage, 352, 776, 176, 32);
+        Caption("Language", 268, 857);
+        Field(windowLanguage, 352, 848, 176, 32);
         windowLanguage.DropDownStyle = ComboBoxStyle.DropDownList;
         windowLanguage.FlatStyle = FlatStyle.Flat;
         foreach (var choice in Lang.Choices) windowLanguage.Items.Add(choice[0] == "" ? Lang.T(choice[1]) : choice[1]);
@@ -3429,11 +3479,36 @@ class SettingsWindow : HudDialog
         for (int i = 0; i < Lang.Choices.Length; i++) if (Lang.Choices[i][0] == saved) windowLanguage.SelectedIndex = i;
         if (windowLanguage.SelectedIndex < 0) windowLanguage.SelectedIndex = 0;
 
-        Primary("Save", 624, 776, 96, delegate { Save(); });
-        Button("Cancel", 728, 776, 96, delegate { DialogResult = DialogResult.Cancel; });
+        Primary("Save", 624, 848, 96, delegate { Save(); });
+        Button("Cancel", 728, 848, 96, delegate { DialogResult = DialogResult.Cancel; });
         Accept = Save;
         Cancel = delegate { DialogResult = DialogResult.Cancel; };
         ResumeLayout(false);
+    }
+
+    // ---------- the game's telemetry ----------
+
+    static bool TelemetryIsOn()
+    {
+        try { return string.Equals(Environment.GetEnvironmentVariable(TelemetryVariable, EnvironmentVariableTarget.User), "true", StringComparison.OrdinalIgnoreCase); }
+        catch (Exception) { return false; }
+    }
+
+    // Sets or removes the variable for this user; Windows tells running programs, and the RSI
+    // Launcher started after this passes it on to the game.
+    bool SaveTelemetry()
+    {
+        if (telemetryOn.On == telemetryWas) return true;
+        try
+        {
+            Environment.SetEnvironmentVariable(TelemetryVariable, telemetryOn.On ? "true" : null, EnvironmentVariableTarget.User);
+            return true;
+        }
+        catch (Exception e)
+        {
+            MessageBox.Show(this, Lang.F("Couldn't change the Windows setting for the game's telemetry:\n\n{0}", e.Message), "SC-Dashboard", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            return false;
+        }
     }
 
     // ---------- Star Citizen folder ----------
@@ -3566,6 +3641,7 @@ class SettingsWindow : HudDialog
             if (json == null) { Changes.Clear(); NeedsRestart = false; links.Focus(); return; }
             Change("links", "", json, false);
         }
+        if (!SaveTelemetry()) { Changes.Clear(); NeedsRestart = false; return; }
         string chosen = Lang.Choices[Math.Max(0, windowLanguage.SelectedIndex)][0];
         if (chosen != Lang.Saved)
         {
