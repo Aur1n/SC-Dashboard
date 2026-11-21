@@ -659,6 +659,16 @@
   $("lightsBtn").onclick = () => applyLights(!lightsOn(), true);
   applyLights(store.get("lights") !== "off", false);
 
+  // Connection sounds (the chime on connecting, the tone on losing it): on unless turned off
+  // on this device, apart from the other button sounds.
+  const connSounds = () => store.get("conn-sounds") !== "off";
+  function applyConnSounds(on) {
+    $("connSoundBtn").setAttribute("aria-checked", String(on));
+    store.set("conn-sounds", on ? "" : "off");
+  }
+  $("connSoundBtn").onclick = () => applyConnSounds(!connSounds());
+  applyConnSounds(connSounds());
+
   // ---------- connection ----------
 
   // Status shows in the header (grid layouts) and in canvas chrome, so update every copy.
@@ -668,7 +678,7 @@
   let online = { on: false, text: "Connecting…" };
   let rtt = null; // smoothed round trip in ms, from the heartbeats; null until measured
   function setOnline(on, text) {
-    if (on !== online.on && !DEMO) window.DeckSound.play(on ? "online" : "offline");
+    if (on !== online.on && !DEMO && connSounds()) window.DeckSound.play(on ? "online" : "offline");
     online = { on, text };
     if (!on) rtt = null;
     if (!on && window.DeckBattle) window.DeckBattle.offline(); // battle alerts may be out of date

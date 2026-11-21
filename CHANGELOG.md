@@ -7,6 +7,9 @@ before tagging a release.
 
 ## Következő kiadás
 
+- **Kapcsolódási hangok kikapcsolhatók:** a Deck beállítások → Hangok alatt
+  új kapcsoló némítja a csatlakozáskor szóló csilingelést és a kapcsolat
+  megszakadásakor szóló hangot, a többi gombhangtól függetlenül.
 - **MFD-tabletek újratervezve:** a bal fél 9 helyett 5 sűrű oldal: POWER
   (energiakapcsolók, csúszkák, LIFE és új COOL lámpa, pajzsvezérlő), WEAPONS
   (ellenintézkedés, rakéták, fegyvermód, Gimbal, Aim mode), TARGETS (célzás,

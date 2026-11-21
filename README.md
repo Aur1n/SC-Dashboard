@@ -639,7 +639,8 @@ Under **Display**:
   keybinds (so a rebind in-game shows there too). Handy for learning the
   binds, or checking one when a button doesn't do what you expect.
 - **Button lights** can be turned off. Lit buttons follow your taps; if you
-  also use your keyboard or HOTAS, they can drift out of sync. **Reset button lights** clears them while they're on.
+  also use your keyboard or HOTAS, they can drift out of sync, unless the game's
+  telemetry is on (see [The game's own state](#the-games-own-state-telemetry)). **Reset button lights** clears them while they're on.
 
 <p align="center">
   <img src="docs/themes.jpg" alt="The deck in all 12 manufacturer themes" width="100%">
@@ -654,6 +655,8 @@ They're made on the spot from a few tones, not sound files. Change them under
 **Sounds** in **Deck settings**, separately on each tablet and phone:
 
 - **Button sounds** turns them on or off.
+- **Connection sounds** turns off just the chime when the deck connects to the
+  PC and the tone when it loses the connection.
 - **Play on** picks where you hear them: **This device**, or one of the PC's
   outputs, such as your **headset**, so you hear them over the game. The PC
   plays the same sounds there; the list shows each output Windows has, and
