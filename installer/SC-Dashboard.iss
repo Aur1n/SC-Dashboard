@@ -12,6 +12,10 @@
 #define RepoUrl "https://github.com/Aur1n/SC-Dashboard"
 ; The app's old name, so upgrades replace the rule older versions added.
 #define FirewallRule "SC-Dashboard"
+#define FirewallRulePublic "SC-Dashboard (public networks)"
+; What Windows names the rules it makes itself from its "allow access?" question (the
+; server's file description).
+#define FirewallRulePrompted "SC-Dashboard server"
 
 [Setup]
 ; Never change AppId: Windows uses it to recognize upgrades of the same app.
@@ -97,6 +101,13 @@ Type: filesandordirs; Name: "{userappdata}\TabletDeck"; Check: SettingsMoved
 Filename: "{sys}\netsh.exe"; Parameters: "advfirewall firewall delete rule name=""Tablet Deck"""; Flags: runhidden
 Filename: "{sys}\netsh.exe"; Parameters: "advfirewall firewall delete rule name=""{#FirewallRule}"""; Flags: runhidden
 Filename: "{sys}\netsh.exe"; Parameters: "advfirewall firewall add rule name=""{#FirewallRule}"" dir=in action=allow program=""{app}\{#ServerExe}"" enable=yes profile=private"; Flags: runhidden; StatusMsg: "Allowing SC-Dashboard through Windows Firewall on private networks..."
+; Public networks get a rule of their own too, a block. With none, Windows asks about the
+; server the first time it listens on one (a VPN, WSL or Hyper-V adapter counts), and a
+; question that's missed or closed leaves a block rule for private networks as well, which
+; shuts the tablets out at home. The rules such a question made are removed first.
+Filename: "{sys}\netsh.exe"; Parameters: "advfirewall firewall delete rule name=""{#FirewallRulePrompted}"""; Flags: runhidden
+Filename: "{sys}\netsh.exe"; Parameters: "advfirewall firewall delete rule name=""{#FirewallRulePublic}"""; Flags: runhidden
+Filename: "{sys}\netsh.exe"; Parameters: "advfirewall firewall add rule name=""{#FirewallRulePublic}"" dir=in action=block program=""{app}\{#ServerExe}"" enable=yes profile=public"; Flags: runhidden
 Filename: "{app}\{#AppExe}"; Description: "{cm:LaunchProgram,{#AppName}}"; Flags: postinstall nowait skipifsilent runasoriginaluser
 ; Star Citizen serves its local telemetry (telemetry.js) only with this variable set for the
 ; player, so it's set as the user who started the setup, not the elevated one. It stays on
@@ -114,6 +125,8 @@ Root: HKCU; Subkey: "Software\Tablet Deck"; Flags: uninsdeletekey dontcreatekey
 
 [UninstallRun]
 Filename: "{sys}\netsh.exe"; Parameters: "advfirewall firewall delete rule name=""{#FirewallRule}"""; Flags: runhidden; RunOnceId: "RemoveFirewallRule"
+Filename: "{sys}\netsh.exe"; Parameters: "advfirewall firewall delete rule name=""{#FirewallRulePublic}"""; Flags: runhidden; RunOnceId: "RemoveFirewallRulePublic"
+Filename: "{sys}\netsh.exe"; Parameters: "advfirewall firewall delete rule name=""{#FirewallRulePrompted}"""; Flags: runhidden; RunOnceId: "RemoveFirewallRulePrompted"
 
 [Code]
 var

@@ -5,6 +5,15 @@ section becomes the notes of its
 [GitHub release](https://github.com/xattribution/SpoolUp/releases), so add one
 before tagging a release.
 
+## Következő kiadás
+
+- **Tűzfal: a tabletek nem zárulnak ki.** Ha a Windows rákérdezett, hogy
+  engedje-e a szervert egy nyilvános hálózaton (VPN, WSL vagy Hyper-V
+  adapter), és a kérdés elmaradt vagy Mégse lett, a Windows tiltó szabályt
+  tett a magánhálózatra is, és a tabletek nem értek el. A telepítő most
+  törli ezeket, és a nyilvános hálózatokra saját, tiltó szabályt tesz, így a
+  Windows nem kérdez többet; a magánhálózat engedélyezve marad.
+
 ## 2.2.1-hu.21 (2026-11-21)
 
 - **Felszállás kérése / Leszállás kérése:** az MFD-tabletek Repülés paneljén
