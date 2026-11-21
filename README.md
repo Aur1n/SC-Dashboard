@@ -346,6 +346,7 @@ choose under **Layout**. Each tablet and phone remembers its own choice:
 | **Hauling & Exploration** | Power/Landing, Flight Assist and Targeting first; QT/Systems, Crew, On Foot and Emotes first |
 | **Prospector** | A Prospector panel first (laser, modules, flight ready, gear, lights, quantum), then Mining; Operator Modes first |
 | **Vulture** | A Vulture panel first (salvage, flight ready, gear, VTOL, quantum, doors), then Salvage; Operator Modes first |
+| **Left MFD** / **Right MFD** | One tablet per cockpit screen. Left: that MFD in five pages (Power with the shield cluster, Weapons, Targets, Comms, Scan / Config); paging takes the game's screen to the same page. Right: Flight, Combat, Ship, Industry, On Foot/Comms and Emotes |
 | **SC-Dashboard HUD 2.0** | The 2.0 HUD as it was, with its free placement |
 | **Star Citizen** | A simpler tabbed grid of buttons |
 

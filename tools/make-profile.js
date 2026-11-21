@@ -210,6 +210,10 @@ const ACTIONMAPS = {
   v_power_set_thrusters_on: ["spaceship_power"], v_power_set_thrusters_off: ["spaceship_power"],
   v_power_set_shields_on: ["spaceship_power"], v_power_set_shields_off: ["spaceship_power"],
   v_scanning_trigger_scan: ["spaceship_scanning"], v_inc_scan_focus_level: ["spaceship_scanning"], v_dec_scan_focus_level: ["spaceship_scanning"],
+  // MFD Weapons and Targets pages.
+  v_weapon_gimbals_state_toggle: ["spaceship_weapons"], v_weapon_aim_type_cycle: ["spaceship_weapons"],
+  v_target_toggle_lock_index_1: ["spaceship_targeting"], v_target_toggle_lock_index_2: ["spaceship_targeting"], v_target_toggle_lock_index_3: ["spaceship_targeting"],
+  v_target_cycle_subitem_reset: ["spaceship_targeting_advanced"],
 };
 
 // Buttons that send Star Citizen 4.10's own default keys (Data/Libs/Config/defaultProfile.xml).
@@ -302,6 +306,12 @@ const DEFAULTS = {
   v_mfd_interact_cycle_forwards_short: "lalt+e",
   v_mfd_interact_cycle_backwards_short: "lalt+q",
   v_lock_rotation: "rshift",
+  v_weapon_gimbals_state_toggle: "g",
+  v_weapon_aim_type_cycle: "ralt+g",
+  v_target_toggle_lock_index_1: "1",
+  v_target_toggle_lock_index_2: "2",
+  v_target_toggle_lock_index_3: "3",
+  v_target_cycle_subitem_reset: "lalt+r",
 };
 
 // Maps that are active together (data/sc-contexts.json, shared with the merged profile in

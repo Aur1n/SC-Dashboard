@@ -5,6 +5,22 @@ section becomes the notes of its
 [GitHub release](https://github.com/xattribution/SpoolUp/releases), so add one
 before tagging a release.
 
+## Következő kiadás
+
+- **MFD-tabletek újratervezve:** a bal fél 9 helyett 5 sűrű oldal: POWER
+  (energiakapcsolók, csúszkák, LIFE és új COOL lámpa, pajzsvezérlő), WEAPONS
+  (ellenintézkedés, rakéták, fegyvermód, Gimbal, Aim mode), TARGETS (célzás,
+  kitűzés és a kitűzött célpont befogása), COMMS (beszéd, ATC, dokkolás) és
+  SCAN / CONFIG (szkennelés, beállítások, a játék Config, Diag és Self status
+  oldala). Lapozáskor a játék MFD-je minden oldalon a hozzá tartozó oldalra
+  ugrik, a Weapon confighoz a Power management után egy » lépéssel.
+- **Az ismétlődő kapcsolóoszlop kikerült:** minden kapcsoló egyszer, a
+  témája szerinti helyen van, így a bal és a jobb MFD-tablet oldalai azonosak
+  (csak a kiválasztott MFD különbözik).
+- **A jobb fél 13 helyett 6 panel:** Repülés, Harc, Hajó, Ipar,
+  Gyalog/Kommunikáció és Gesztusok. A Shields és a Power csak a bal félen van.
+  A sima HUD és a többi elrendezés nem változott.
+
 ## 2.2.1-hu.19 (2026-11-18)
 
 - **Scanning:** a Scan angle gombok neve Focus + / Focus − lett, ahogy a
